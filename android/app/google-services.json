@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "425408728029",
+    "project_id": "my-tune-admin",
+    "storage_bucket": "my-tune-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425408728029:android:b1a9c6a5c78ae12adfc434",
+        "android_client_info": {
+          "package_name": "com.totalx.mytune"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425408728029-53lcrgahaondf8v8kps2cn5spcokmg3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.totalx.mytune",
+            "certificate_hash": "95b3ac2f0fb960f0e24dcd86266ff10144393ff7"
+          }
+        },
+        {
+          "client_id": "425408728029-h49c9tsvmdi0n0f3vddti0arlshaibol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsaTdyaDuZuc98t_4ggdlVk3l6j1PuJjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425408728029-h49c9tsvmdi0n0f3vddti0arlshaibol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
