@@ -1,81 +1,168 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart';
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
 import 'package:mytune/general/serveices/constants.dart';
+import 'package:provider/provider.dart';
 
 import '../../../general/utils/theam/app_colors.dart';
 import '../../sheared/custom_catched_network_image.dart';
 import '../../sheared/saerch_box.dart';
+import 'widgets/all_songs.dart';
 import 'widgets/app_bar_items.dart';
 import 'widgets/category_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            elevation: 0,
-            snap: false,
-            pinned: true,
-            floating: false,
-            surfaceTintColor: Colors.white,
+      child: Consumer<HomeScreenProvider>(
+        builder: (context, state, _) => CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              elevation: 0,
+              snap: false,
+              pinned: true,
+              floating: false,
+              surfaceTintColor: Colors.white,
 
-            flexibleSpace: AppBarItems(size: size),
+              flexibleSpace: AppBarItems(size: size),
 
-            bottom: PreferredSize(
-              preferredSize: Size(double.infinity, size.height * 0.017),
-              child: SearchBox(size: size),
-            ),
-
-            // flexibleSpace: AppBarItems(size: size), //FlexibleSpaceBar
-            expandedHeight: size.height * 0.24,
-            backgroundColor: Colors.white,
-            shadowColor: Colors.transparent,
-
-            //<Widget>[]
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              // height: size.height * 0.08,
-              child: CustomCorouselSlider(
-                size: size,
+              bottom: PreferredSize(
+                preferredSize: Size(double.infinity, size.height * 0.017),
+                child: SearchBox(size: size),
               ),
+
+              // flexibleSpace: AppBarItems(size: size), //FlexibleSpaceBar
+              expandedHeight: size.height * 0.24,
+              backgroundColor: Colors.white,
+              shadowColor: Colors.transparent,
+
+              //<Widget>[]
             ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-                height: size.height * 0.25, child: CategoryWidget(size: size)),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            sliver: SliverList.separated(
-              itemCount: 1,
-              itemBuilder: (context, index) => SizedBox(
-                // color: Colors.blue,
-                height: size.height * 0.28,
-                // width: size.width - 20,
-                child: TodayReleaseWidget(
-                  size: size,
+            state.banner.isNotEmpty
+                ? SliverToBoxAdapter(
+                    child: SizedBox(
+                      // height: size.height * 0.08,
+                      child: CustomCorouselSlider(
+                        size: size,
+                        banners: state.banner,
+                      ),
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
+            state.categories.isNotEmpty
+                ? SliverToBoxAdapter(
+                    child: SizedBox(
+                        height: size.height * 0.24,
+                        child: CategoryWidget(
+                          size: size,
+                          categories: state.categories,
+                        )),
+                  )
+                : const SliverToBoxAdapter(),
+            state.todayRelease.isNotEmpty
+                ? SliverPadding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    sliver: SliverList.separated(
+                      itemCount: 1,
+                      itemBuilder: (context, index) => SizedBox(
+                        // color: Colors.blue,
+                        height: size.height * 0.28,
+                        // width: size.width - 20,
+                        child: TodayReleaseWidget(
+                          size: size,
+                          todayRelease: state.todayRelease,
+                        ),
+                      ),
+                      separatorBuilder: (context, inddex) => const SizedBox(),
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
+            state.topThreeRelease.isNotEmpty
+                ? SliverToBoxAdapter(
+                    child: SizedBox(
+                        height: size.height * 0.26,
+                        child: TopThreeThisWeek(
+                            size: size,
+                            topThreeRelease: state.topThreeRelease)),
+                  )
+                : const SliverToBoxAdapter(),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, bottom: 5),
+                child: Text(
+                  'All Songs',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Colors.pink,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ),
-              separatorBuilder: (context, inddex) => const SizedBox(),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-                height: size.height * 0.28,
-                child: TopThreeThisWeek(size: size)),
-          ),
-        ],
+            state.allProducts.isNotEmpty
+                ? SliverPadding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    sliver: SliverGrid.builder(
+                      itemCount: state.allProducts.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 3 / 2),
+                      itemBuilder: (context, index) {
+                        final product = state.allProducts[index];
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          // height: size.width * 0.35,
+                          width: size.width * 0.6,
+                          child: SizedBox(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: CustomCachedNetworkImage(
+                                  url: product.imageUrl),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              sliver: SliverToBoxAdapter(
+                child: Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

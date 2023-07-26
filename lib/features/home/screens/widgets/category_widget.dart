@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-
-import '../../../../general/serveices/constants.dart';
+import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/general/serveices/number_converter.dart';
 import '../../../sheared/custom_catched_network_image.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({
     super.key,
     required this.size,
+    required this.categories,
   });
 
   final Size size;
+  final List<CategoryModel> categories;
 
   @override
   Widget build(BuildContext context) {
@@ -30,56 +32,81 @@ class CategoryWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: size.height * 0.21,
+            height: size.height * 0.185,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 4,
+              itemCount: categories.length,
               shrinkWrap: true,
-              itemBuilder: (context, index) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                height: size.width * 0.30,
-                width: size.width * 0.33,
-                child: Stack(children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 35, horizontal: 18),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      child: CustomCachedNetworkImage(
-                          url:
-                              'https://cdn.pixabay.com/photo/2015/11/16/16/28/bird-1045954_1280.jpg'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: InkWell(
-                        onTap: () {},
-                        child: FollowButton(size: size),
-                      ),
-                    ),
-                  ),
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                return Stack(alignment: Alignment.center, children: [
                   Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      'JOHN \n 100K FOLLOWERS',
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12,
-                            color: const Color.fromARGB(255, 119, 119, 111),
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 25, top: 10),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        child: SizedBox(
+                          height: size.width * 0.25,
+                          width: size.width * 0.25,
+                          child: CustomCachedNetworkImage(
+                            url: category.imageUrl,
                           ),
+                        ),
+                      ),
                     ),
                   ),
-                ]),
-              ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: size.width * 0.06,
+                    child: Column(
+                      children: [
+                        Text(
+                          category.categoryName,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: const Color.fromARGB(255, 119, 119, 111),
+                              ),
+                        ),
+                        Text(
+                          '${NumberFormatter.format(value: category.followers)} FOLLOWERS',
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: const Color.fromARGB(255, 119, 119, 111),
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: size.width * 0.03,
+                    right: size.width * 0.02,
+                    child: InkWell(
+                      onTap: () {},
+                      child: FollowButton(size: size),
+                    ),
+                  ),
+                ]);
+              },
             ),
           )
         ],

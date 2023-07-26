@@ -4,6 +4,10 @@ import 'package:injectable/injectable.dart';
 import 'package:mytune/features/app_root.dart';
 import 'package:mytune/features/authentication/provider/country_code_picker_provider.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
+import 'package:mytune/features/home/provider/home_screen_provider.dart';
+import 'package:mytune/features/home/repository/banner_reopsitory.dart';
+import 'package:mytune/features/home/repository/category_repository.dart';
+import 'package:mytune/features/home/repository/today_release_repository.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/utils/theam/app_theam.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +28,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<HomeScreenProvider>(
+          create: (_) => HomeScreenProvider(
+            todayReleaseRepository: locater<TodayReleaseRepository>(),
+            bannerRepository: locater<BannerRepository>(),
+            categoryRepository: locater<CategoryRepository>(),
+          )..getDetails(),
+        ),
         ChangeNotifierProvider<LoginProvider>(
           create: (context) => LoginProvider(
             firebaseLoginServeices: locater<FirebaseLoginServeices>(),
