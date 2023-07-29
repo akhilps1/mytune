@@ -15,20 +15,24 @@ class AppUser {
   final String notificationToken;
   final List hobbies;
   final List keywords;
+  final List followedCategory;
+  final List likedVideos;
   Timestamp timestamp;
   AppUser({
     required this.userName,
-    required this.notificationToken,
     required this.imageUrl,
     required this.mobileNumber,
     required this.email,
     required this.age,
     required this.city,
-    required this.skills,
-    required this.hobbies,
     required this.favorateSinger,
-    required this.timestamp,
+    required this.skills,
+    required this.notificationToken,
+    required this.hobbies,
     required this.keywords,
+    required this.followedCategory,
+    required this.likedVideos,
+    required this.timestamp,
   });
 
   Map<String, dynamic> toMap() {
@@ -45,6 +49,8 @@ class AppUser {
       'timestamp': timestamp,
       'keywords': keywords,
       'notificationToken': notificationToken,
+      'likedVideos': likedVideos,
+      'followedCategory': followedCategory,
     };
   }
 
@@ -63,6 +69,8 @@ class AppUser {
       timestamp: map['timestamp'] as Timestamp,
       keywords: map['keywords'] as List,
       notificationToken: map['notificationToken'] as String,
+      followedCategory: map['followedCategory'] as List,
+      likedVideos: map['likedVideos'] as List,
     );
   }
 
@@ -84,5 +92,39 @@ class AppUser {
       keywords: $keywords, 
       timestamp: $timestamp
     )''';
+  }
+
+  AppUser copyWith({
+    String? userName,
+    String? imageUrl,
+    String? mobileNumber,
+    String? email,
+    String? age,
+    String? city,
+    String? favorateSinger,
+    List? skills,
+    String? notificationToken,
+    List? hobbies,
+    List? keywords,
+    List? followedCategory,
+    List? likedVideos,
+    Timestamp? timestamp,
+  }) {
+    return AppUser(
+      userName: userName ?? this.userName,
+      imageUrl: imageUrl ?? this.imageUrl,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      email: email ?? this.email,
+      age: age ?? this.age,
+      city: city ?? this.city,
+      favorateSinger: favorateSinger ?? this.favorateSinger,
+      skills: skills ?? this.skills,
+      notificationToken: notificationToken ?? this.notificationToken,
+      hobbies: hobbies ?? this.hobbies,
+      keywords: keywords ?? this.keywords,
+      followedCategory: followedCategory ?? this.followedCategory,
+      likedVideos: likedVideos ?? this.likedVideos,
+      timestamp: timestamp ?? this.timestamp,
+    );
   }
 }

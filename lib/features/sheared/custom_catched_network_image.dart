@@ -7,10 +7,12 @@ class CustomCachedNetworkImage extends StatelessWidget {
     Key? key,
     required this.url,
     this.showIcon = false,
+    this.boxFit,
   }) : super(key: key);
 
   final String url;
   final bool showIcon;
+  final BoxFit? boxFit;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,14 @@ class CustomCachedNetworkImage extends StatelessWidget {
       imageUrl: url,
       height: double.infinity,
       width: double.infinity,
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: BoxFit.cover,
+      imageBuilder: (context, imageProvider) => AspectRatio(
+        aspectRatio: 3 / 2,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: boxFit ?? BoxFit.cover,
+            ),
           ),
         ),
       ),

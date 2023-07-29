@@ -2,29 +2,44 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mytune/general/serveices/get_object_id.dart';
 
 import 'category_model.dart';
+part 'product_model.g.dart';
 
-class ProductModel {
+@HiveType(typeId: 1)
+class ProductModel implements ObjectWithId {
+  @HiveField(0)
   final String? id;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String description;
+  @HiveField(3)
   String imageUrl;
+  @HiveField(4)
   final String categoryId;
-
+  @HiveField(5)
   final int likes;
+  @HiveField(6)
   final int views;
-  bool isTodayRelease;
+  @HiveField(7)
   bool isTopThree;
+  @HiveField(8)
   bool visibility;
+  @HiveField(9)
   bool isTrending;
-
+  @HiveField(10)
   Map<String, Map<String, dynamic>> craftAndCrew;
-
+  @HiveField(11)
   List<CategoryModel> categories;
+  @HiveField(12)
   List keywords;
-
+  @HiveField(13)
   final Timestamp timestamp;
+  @HiveField(14)
+  bool isTodayRelease;
   ProductModel({
     this.id,
     this.categories = const [],
@@ -46,6 +61,9 @@ class ProductModel {
   set setCategores(List<CategoryModel> list) {
     categories = list;
   }
+
+  @override
+  String getId() => id!;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

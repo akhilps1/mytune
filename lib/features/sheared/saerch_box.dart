@@ -7,9 +7,11 @@ class SearchBox extends StatelessWidget {
   const SearchBox({
     super.key,
     required this.size,
+    required this.hint,
   });
 
   final Size size;
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class SearchBox extends StatelessWidget {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
                 icon: const Icon(Icons.search),
-                hintText: 'Search for songs',
+                hintText: hint,
                 hintStyle: Theme.of(context).textTheme.titleMedium,
                 border: InputBorder.none,
               ),

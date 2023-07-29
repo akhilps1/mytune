@@ -2,22 +2,28 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/general/failures/main_failure.dart';
 
 @lazySingleton
 class CategoryRepository {
   final FirebaseFirestore firebaseFirestore;
+  final FirebaseAuth firebaseAuth;
 
   QueryDocumentSnapshot<Map<String, dynamic>>? lastDoc;
   CategoryRepository({
     required this.firebaseFirestore,
+    required this.firebaseAuth,
   });
 
   Future<void> searchCategoryByLimit() async {}
 
-  Future<List<CategoryModel>> getCategoriesByLimit() async {
+  Future<Either<MainFailure, List<CategoryModel>>>
+      getCategoriesByLimit() async {
     List<CategoryModel> categories = [];
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
     try {
@@ -42,6 +48,8 @@ class CategoryRepository {
               .limit(4)
               .get();
 
+      lastDoc = refreshedClass.docs.last;
+
       // log('getCategoriesByLimit: ${refreshedClass.docs.toString()}');
 
       categories.addAll(
@@ -50,11 +58,24 @@ class CategoryRepository {
         }),
       );
       // log(categories.toString());
-      return categories;
+      return right(categories);
       // log(users.length.toString());
     } catch (e) {
       log(e.toString());
-      return [];
+      return left(const MainFailure.noElemet(errorMsg: ''));
     }
+  }
+
+  Future<Either<MainFailure, Unit>> followClicked(
+      {required CategoryModel categoryModel}) async {
+    DocumentSnapshot<Map<String, dynamic>> ref;
+
+    final userId = firebaseAuth.currentUser?.uid;
+
+    if (userId != null) {
+      ref = await firebaseFirestore.collection('users').doc(userId).get();
+    }
+
+    return right(unit);
   }
 }

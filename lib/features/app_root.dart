@@ -15,11 +15,9 @@ class _AppRootState extends State<AppRoot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: true,
+      // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-
       body: pages[index],
-
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
         // fixedColor: const Color.fromARGB(155, 50, 173, 234),
@@ -48,7 +46,7 @@ class _AppRootState extends State<AppRoot> {
               Icons.grid_view_outlined,
               // color: Colors.grey,
             ),
-            label: 'Category',
+            label: 'Artists',
           ),
           BottomNavigationBarItem(
             icon: Icon(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mytune/features/account/screens/account_page.dart';
-import 'package:mytune/features/category/screens/category_page.dart';
+import 'package:mytune/features/artists/screens/category_page.dart';
 import 'package:mytune/features/favorate/screens/favorate_page.dart';
 import 'package:mytune/features/home/screens/home_page.dart';
 

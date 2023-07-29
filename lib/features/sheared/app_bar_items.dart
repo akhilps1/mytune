@@ -1,16 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
+import 'package:mytune/features/authentication/screens/login_screen.dart';
 import 'package:mytune/general/utils/theam/app_colors.dart';
+import 'package:provider/provider.dart';
 
-import '../../../sheared/custom_catched_network_image.dart';
+import 'custom_catched_network_image.dart';
 
 class AppBarItems extends StatelessWidget {
   const AppBarItems({
     super.key,
     required this.size,
+    required this.drowerButtonClicked,
+    required this.title,
   });
 
   final Size size;
+  final VoidCallback drowerButtonClicked;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class AppBarItems extends StatelessWidget {
             Positioned(
               top: size.height * 0.06,
               child: IconButton(
-                onPressed: () {},
+                onPressed: drowerButtonClicked,
                 style: const ButtonStyle(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     minimumSize: MaterialStatePropertyAll(
@@ -41,16 +48,35 @@ class AppBarItems extends StatelessWidget {
             Positioned(
               top: size.height * 0.08,
               right: 0,
-              child: const SizedBox(
-                height: 45,
-                width: 45,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  child: CustomCachedNetworkImage(
-                    url:
-                        'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_1280.jpg',
+              child: InkWell(
+                onTap: () {
+                  if (Provider.of<LoginProvider>(
+                        context,
+                        listen: false,
+                      ).isLoggdIn ==
+                      false) {
+                    showModalBottomSheet(
+                      // enableDrag: true,
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) => Padding(
+                        padding: MediaQuery.of(context).viewInsets,
+                        child: const LoginScreen(),
+                      ),
+                    );
+                  }
+                },
+                child: const SizedBox(
+                  height: 45,
+                  width: 45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    child: CustomCachedNetworkImage(
+                      url:
+                          'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_1280.jpg',
+                    ),
                   ),
                 ),
               ),
@@ -59,7 +85,7 @@ class AppBarItems extends StatelessWidget {
               top: size.height * 0.12,
               left: 5,
               child: Text(
-                'Hi,IAMI',
+                title,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.black87,
                     ),

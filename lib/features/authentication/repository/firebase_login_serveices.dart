@@ -66,6 +66,8 @@ class FirebaseLoginServeices {
             keywords: getKeywords(
               phoneNo.replaceAll('+', ''),
             ),
+            followedCategory: [],
+            likedVideos: [],
           );
 
           await firebaseMessaging.subscribeToTopic('admin');
@@ -75,27 +77,35 @@ class FirebaseLoginServeices {
               .set(
                 user.toMap(),
               );
-          print('TOKEN: $token');
+          // print('TOKEN: $token');
         }
       });
     } catch (e) {
       log('OTP VERIFICATION ERROR: $e');
     }
+  }
 
-    Future<void> onResendOtp({required int resendToken}) async {
-      await firebaseAuth.verifyPhoneNumber(
-        verificationCompleted: (PhoneAuthCredential credential) {},
-        verificationFailed: (FirebaseAuthException e) {},
-        codeSent: (String verificationId, int? resendToken) {
-          verificationId = verificationId;
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-        forceResendingToken: resendToken,
-      );
-    }
+  Future<void> onResendOtp({required int resendToken}) async {
+    await firebaseAuth.verifyPhoneNumber(
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {},
+      codeSent: (String verificationId, int? resendToken) {
+        verificationId = verificationId;
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+      forceResendingToken: resendToken,
+    );
   }
 
   Future<void> logout() async {
     await firebaseAuth.signOut();
+  }
+
+  bool checkLoginStatus() {
+    if (firebaseAuth.currentUser?.uid != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

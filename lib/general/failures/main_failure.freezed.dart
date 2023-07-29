@@ -16,37 +16,42 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MainFailure {
+  String get errorMsg => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() authFailure,
+    required TResult Function(String errorMsg) noElemet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? authFailure,
+    TResult? Function(String errorMsg)? noElemet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? authFailure,
+    TResult Function(String errorMsg)? noElemet,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthFailure value) authFailure,
+    required TResult Function(_NoElemet value) noElemet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthFailure value)? authFailure,
+    TResult? Function(_NoElemet value)? noElemet,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthFailure value)? authFailure,
+    TResult Function(_NoElemet value)? noElemet,
     required TResult orElse(),
   }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $MainFailureCopyWith<MainFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -55,6 +60,8 @@ abstract class $MainFailureCopyWith<$Res> {
   factory $MainFailureCopyWith(
           MainFailure value, $Res Function(MainFailure) then) =
       _$MainFailureCopyWithImpl<$Res, MainFailure>;
+  @useResult
+  $Res call({String errorMsg});
 }
 
 /// @nodoc
@@ -66,67 +73,109 @@ class _$MainFailureCopyWithImpl<$Res, $Val extends MainFailure>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? errorMsg = null,
+  }) {
+    return _then(_value.copyWith(
+      errorMsg: null == errorMsg
+          ? _value.errorMsg
+          : errorMsg // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$_AuthFailureCopyWith<$Res> {
-  factory _$$_AuthFailureCopyWith(
-          _$_AuthFailure value, $Res Function(_$_AuthFailure) then) =
-      __$$_AuthFailureCopyWithImpl<$Res>;
+abstract class _$$_NoElemetCopyWith<$Res>
+    implements $MainFailureCopyWith<$Res> {
+  factory _$$_NoElemetCopyWith(
+          _$_NoElemet value, $Res Function(_$_NoElemet) then) =
+      __$$_NoElemetCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String errorMsg});
 }
 
 /// @nodoc
-class __$$_AuthFailureCopyWithImpl<$Res>
-    extends _$MainFailureCopyWithImpl<$Res, _$_AuthFailure>
-    implements _$$_AuthFailureCopyWith<$Res> {
-  __$$_AuthFailureCopyWithImpl(
-      _$_AuthFailure _value, $Res Function(_$_AuthFailure) _then)
+class __$$_NoElemetCopyWithImpl<$Res>
+    extends _$MainFailureCopyWithImpl<$Res, _$_NoElemet>
+    implements _$$_NoElemetCopyWith<$Res> {
+  __$$_NoElemetCopyWithImpl(
+      _$_NoElemet _value, $Res Function(_$_NoElemet) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? errorMsg = null,
+  }) {
+    return _then(_$_NoElemet(
+      errorMsg: null == errorMsg
+          ? _value.errorMsg
+          : errorMsg // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_AuthFailure implements _AuthFailure {
-  const _$_AuthFailure();
+class _$_NoElemet implements _NoElemet {
+  const _$_NoElemet({required this.errorMsg});
+
+  @override
+  final String errorMsg;
 
   @override
   String toString() {
-    return 'MainFailure.authFailure()';
+    return 'MainFailure.noElemet(errorMsg: $errorMsg)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_AuthFailure);
+        (other.runtimeType == runtimeType &&
+            other is _$_NoElemet &&
+            (identical(other.errorMsg, errorMsg) ||
+                other.errorMsg == errorMsg));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, errorMsg);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_NoElemetCopyWith<_$_NoElemet> get copyWith =>
+      __$$_NoElemetCopyWithImpl<_$_NoElemet>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() authFailure,
+    required TResult Function(String errorMsg) noElemet,
   }) {
-    return authFailure();
+    return noElemet(errorMsg);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? authFailure,
+    TResult? Function(String errorMsg)? noElemet,
   }) {
-    return authFailure?.call();
+    return noElemet?.call(errorMsg);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? authFailure,
+    TResult Function(String errorMsg)? noElemet,
     required TResult orElse(),
   }) {
-    if (authFailure != null) {
-      return authFailure();
+    if (noElemet != null) {
+      return noElemet(errorMsg);
     }
     return orElse();
   }
@@ -134,32 +183,39 @@ class _$_AuthFailure implements _AuthFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AuthFailure value) authFailure,
+    required TResult Function(_NoElemet value) noElemet,
   }) {
-    return authFailure(this);
+    return noElemet(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AuthFailure value)? authFailure,
+    TResult? Function(_NoElemet value)? noElemet,
   }) {
-    return authFailure?.call(this);
+    return noElemet?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AuthFailure value)? authFailure,
+    TResult Function(_NoElemet value)? noElemet,
     required TResult orElse(),
   }) {
-    if (authFailure != null) {
-      return authFailure(this);
+    if (noElemet != null) {
+      return noElemet(this);
     }
     return orElse();
   }
 }
 
-abstract class _AuthFailure implements MainFailure {
-  const factory _AuthFailure() = _$_AuthFailure;
+abstract class _NoElemet implements MainFailure {
+  const factory _NoElemet({required final String errorMsg}) = _$_NoElemet;
+
+  @override
+  String get errorMsg;
+  @override
+  @JsonKey(ignore: true)
+  _$$_NoElemetCopyWith<_$_NoElemet> get copyWith =>
+      throw _privateConstructorUsedError;
 }

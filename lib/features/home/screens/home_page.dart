@@ -1,17 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart';
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
-import 'package:mytune/general/serveices/constants.dart';
+
 import 'package:provider/provider.dart';
 
-import '../../../general/utils/theam/app_colors.dart';
 import '../../sheared/custom_catched_network_image.dart';
 import '../../sheared/saerch_box.dart';
-import 'widgets/all_songs.dart';
-import 'widgets/app_bar_items.dart';
+
+import '../../sheared/app_bar_items.dart';
 import 'widgets/category_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,10 +23,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          if (Provider.of<HomeScreenProvider>(context, listen: false)
+                      .isFirebaseLoading ==
+                  false &&
+              Provider.of<HomeScreenProvider>(context, listen: false)
+                      .noMoreData ==
+                  false) {
+            Provider.of<HomeScreenProvider>(context, listen: false)
+                .getAllProductsByLimit();
+          }
+        }
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -34,6 +57,7 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(
       child: Consumer<HomeScreenProvider>(
         builder: (context, state, _) => CustomScrollView(
+          controller: scrollController,
           slivers: [
             SliverAppBar(
               elevation: 0,
@@ -42,11 +66,18 @@ class _HomePageState extends State<HomePage> {
               floating: false,
               surfaceTintColor: Colors.white,
 
-              flexibleSpace: AppBarItems(size: size),
+              flexibleSpace: AppBarItems(
+                size: size,
+                drowerButtonClicked: () {},
+                title: 'HI,IAMI',
+              ),
 
               bottom: PreferredSize(
                 preferredSize: Size(double.infinity, size.height * 0.017),
-                child: SearchBox(size: size),
+                child: SearchBox(
+                  size: size,
+                  hint: 'Search songs',
+                ),
               ),
 
               // flexibleSpace: AppBarItems(size: size), //FlexibleSpaceBar
@@ -70,10 +101,10 @@ class _HomePageState extends State<HomePage> {
             state.categories.isNotEmpty
                 ? SliverToBoxAdapter(
                     child: SizedBox(
-                        height: size.height * 0.24,
+                        height: size.height * 0.26,
                         child: CategoryWidget(
                           size: size,
-                          categories: state.categories,
+                          categories: state.categories.sublist(0, 3),
                         )),
                   )
                 : const SliverToBoxAdapter(),
@@ -139,13 +170,14 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          // height: size.width * 0.35,
+                          height: size.width * 0.35,
                           width: size.width * 0.6,
                           child: SizedBox(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: CustomCachedNetworkImage(
-                                  url: product.imageUrl),
+                                url: product.imageUrl,
+                              ),
                             ),
                           ),
                         );
@@ -153,14 +185,16 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )
                 : const SliverToBoxAdapter(),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               sliver: SliverToBoxAdapter(
                 child: Center(
-                  child: CupertinoActivityIndicator(),
+                  child: state.isLoading && state.isFirebaseLoading == true
+                      ? const CupertinoActivityIndicator()
+                      : const SizedBox(),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

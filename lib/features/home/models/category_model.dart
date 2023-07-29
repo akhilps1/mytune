@@ -3,16 +3,30 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mytune/general/serveices/get_object_id.dart';
 
-class CategoryModel {
+part 'category_model.g.dart';
+
+@HiveType(typeId: 0)
+class CategoryModel implements ObjectWithId {
+  @HiveField(0)
   final String? id;
+  @HiveField(1)
   bool visibility;
+  @HiveField(2)
   String categoryName;
+  @HiveField(3)
   String imageUrl;
-  final num followers;
+  @HiveField(4)
+  final int followers;
+  @HiveField(5)
   final Timestamp timestamp;
+  @HiveField(6)
   final List keywords;
+  @HiveField(7)
   bool isCraft;
+  @HiveField(8)
   bool isTopTen;
   CategoryModel({
     required this.visibility,
@@ -49,7 +63,7 @@ class CategoryModel {
     Map<String, dynamic> map = data.data();
     return CategoryModel(
       id: data.id,
-      followers: map['followers'] as num,
+      followers: map['followers'] as int,
       visibility: map['visibility'] as bool,
       categoryName: map['categoryName'] as String,
       imageUrl: map['imageUrl'] as String,
@@ -61,15 +75,16 @@ class CategoryModel {
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-        id: map['id'] as String,
-        followers: map['followers'] as num,
-        visibility: map['visibility'] as bool,
-        categoryName: map['categoryName'] as String,
-        imageUrl: map['imageUrl'] as String,
-        timestamp: map['timestamp'] as Timestamp,
-        keywords: map['keywords'] as List,
-        isCraft: map['isCraft'] as bool,
-        isTopTen: map['isTopTen'] as bool);
+      id: map['id'] as String,
+      followers: map['followers'] as int,
+      visibility: map['visibility'] as bool,
+      categoryName: map['categoryName'] as String,
+      imageUrl: map['imageUrl'] as String,
+      timestamp: map['timestamp'] as Timestamp,
+      keywords: map['keywords'] as List,
+      isCraft: map['isCraft'] as bool,
+      isTopTen: map['isTopTen'] as bool,
+    );
   }
   String toJson() => json.encode(toMap());
 
@@ -102,7 +117,7 @@ class CategoryModel {
     bool? visibility,
     String? categoryName,
     String? imageUrl,
-    num? followers,
+    int? followers,
     Timestamp? timestamp,
     List? keywords,
     bool? isCraft,
@@ -125,4 +140,14 @@ class CategoryModel {
   String toString() {
     return 'CategoryModel(id: $id, visibility: $visibility, categoryName: $categoryName, imageUrl: $imageUrl, followers: $followers, timestamp: $timestamp, keywords: $keywords, isCraft: $isCraft, isTopTen: $isTopTen)';
   }
+
+  @override
+  String getId() {
+    return id!;
+  }
+
+  // @override
+  // String getId() {
+  //   return id!;
+  // }
 }

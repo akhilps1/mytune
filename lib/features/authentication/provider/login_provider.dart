@@ -26,6 +26,7 @@ class LoginProvider with ChangeNotifier {
   String? phone;
 
   int? token;
+  bool isLoggdIn = false;
 
   Future<void> sendOtpClicked({required String phoneNumber}) async {
     isLoading = true;
@@ -67,5 +68,10 @@ class LoginProvider with ChangeNotifier {
       id: id,
       phone: phone!,
     );
+  }
+
+  void checkLoginStatus() {
+    isLoggdIn = firebaseLoginServeices.checkLoginStatus();
+    notifyListeners();
   }
 }

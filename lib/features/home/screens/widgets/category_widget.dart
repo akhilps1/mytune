@@ -32,7 +32,7 @@ class CategoryWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: size.height * 0.185,
+            height: size.height * 0.2,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
@@ -50,7 +50,7 @@ class CategoryWidget extends StatelessWidget {
                         ),
                         child: SizedBox(
                           height: size.width * 0.25,
-                          width: size.width * 0.25,
+                          width: size.width * 0.255,
                           child: CustomCachedNetworkImage(
                             url: category.imageUrl,
                           ),
@@ -67,7 +67,7 @@ class CategoryWidget extends StatelessWidget {
                         Text(
                           category.categoryName,
                           textAlign: TextAlign.center,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
                           style: Theme.of(context)
@@ -75,7 +75,7 @@ class CategoryWidget extends StatelessWidget {
                               .titleSmall!
                               .copyWith(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 12,
+                                fontSize: 14,
                                 color: const Color.fromARGB(255, 119, 119, 111),
                               ),
                         ),
@@ -97,14 +97,16 @@ class CategoryWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: size.width * 0.03,
-                    right: size.width * 0.02,
-                    child: InkWell(
-                      onTap: () {},
-                      child: FollowButton(size: size),
-                    ),
-                  ),
+                  index == 2
+                      ? const SizedBox()
+                      : Positioned(
+                          top: size.width * 0.03,
+                          right: size.width * 0.02,
+                          child: InkWell(
+                            onTap: () {},
+                            child: FollowButton(size: size),
+                          ),
+                        ),
                 ]);
               },
             ),
@@ -163,7 +165,7 @@ class FollowButton extends StatelessWidget {
       char,
       style: Theme.of(context).textTheme.titleSmall!.copyWith(
             fontWeight: FontWeight.w700,
-            fontSize: 11,
+            fontSize: 10,
             color: const Color.fromARGB(
               255,
               119,

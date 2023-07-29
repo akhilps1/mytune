@@ -61,8 +61,10 @@ Future<_i1.GetIt> init(
       _i10.AllProductsRepo(firebaseFirestore: gh<_i4.FirebaseFirestore>()));
   gh.lazySingleton<_i11.BannerRepository>(() =>
       _i11.BannerRepository(firebaseFirestore: gh<_i4.FirebaseFirestore>()));
-  gh.lazySingleton<_i12.CategoryRepository>(() =>
-      _i12.CategoryRepository(firebaseFirestore: gh<_i4.FirebaseFirestore>()));
+  gh.lazySingleton<_i12.CategoryRepository>(() => _i12.CategoryRepository(
+        firebaseFirestore: gh<_i4.FirebaseFirestore>(),
+        firebaseAuth: gh<_i3.FirebaseAuth>(),
+      ));
   gh.lazySingleton<_i13.FirebaseLoginServeices>(
       () => _i13.FirebaseLoginServeices(
             firebaseFirestore: gh<_i4.FirebaseFirestore>(),

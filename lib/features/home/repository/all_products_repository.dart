@@ -2,7 +2,9 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mytune/general/failures/main_failure.dart';
 
 import '../models/product_model.dart';
 
@@ -14,7 +16,9 @@ class AllProductsRepo {
   });
 
   DocumentSnapshot<Map<String, dynamic>>? lastDoc;
-  Future<List<ProductModel>> getAllProductsByLimit() async {
+
+  Future<Either<MainFailure, List<ProductModel>>>
+      getAllProductsByLimit() async {
     QuerySnapshot<Map<String, dynamic>> refreshedClass;
 
     final List<ProductModel> products = [];
@@ -50,11 +54,13 @@ class AllProductsRepo {
         }),
       );
       // log(categories.toString());
-      return products;
+      return right(products);
       // log(users.length.toString());
     } catch (e) {
       log('All products: ${e.toString()}');
-      return [];
+      return left(
+        const MainFailure.noElemet(errorMsg: 'Nothing to show'),
+      );
     }
   }
 }

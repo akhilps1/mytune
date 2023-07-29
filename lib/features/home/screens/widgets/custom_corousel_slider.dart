@@ -37,17 +37,17 @@ class _CustomCorouselSliderState extends State<CustomCorouselSlider> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
                     decoration: const BoxDecoration(
-                      // color: Colors.blue,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
-                    ),
+                        // color: Colors.blue,
+                        // borderRadius: BorderRadius.all(
+                        //   Radius.circular(15),
+                        // ),
+                        ),
                     // height: 100,
                     width: double.infinity,
 
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
+                        Radius.circular(15),
                       ),
                       child: CustomCachedNetworkImage(
                         url: banner.imageUrl,
@@ -65,7 +65,7 @@ class _CustomCorouselSliderState extends State<CustomCorouselSlider> {
               });
             },
             viewportFraction: 0.9999999,
-            aspectRatio: 12 / 5,
+            aspectRatio: 11 / 6,
             autoPlay: true,
           ),
         ),
@@ -76,6 +76,7 @@ class _CustomCorouselSliderState extends State<CustomCorouselSlider> {
             axisDirection: Axis.horizontal,
             effect: WormEffect(
               activeDotColor: AppColor.redColor,
+              dotColor: Colors.grey.withOpacity(0.5),
               dotWidth: 10,
               dotHeight: 10,
             ),
