@@ -99,7 +99,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ArtistDetails(
-                                  categoryId: artist.id!,
+                                  category: artist,
                                 ),
                               ),
                             );

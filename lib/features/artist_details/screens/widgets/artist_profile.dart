@@ -1,8 +1,17 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
+import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
+import 'package:mytune/general/serveices/number_converter.dart';
 
 class ArtistProfile extends StatelessWidget {
-  const ArtistProfile({super.key});
+  const ArtistProfile({
+    Key? key,
+    required this.category,
+  }) : super(key: key);
+
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +69,7 @@ class ArtistProfile extends StatelessWidget {
                     height: 15,
                   ),
                   Text(
-                    'Laura Sam',
+                    category.categoryName,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w700,
                           color: const Color.fromARGB(255, 69, 68, 65),
@@ -76,7 +85,7 @@ class ArtistProfile extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              '200K',
+                              NumberFormatter.format(value: category.followers),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
@@ -108,7 +117,7 @@ class ArtistProfile extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              '500K',
+                              NumberFormatter.format(value: category.followers),
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
@@ -165,9 +174,7 @@ class ArtistProfile extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: const CustomCachedNetworkImage(
-                        url:
-                            'https://firebasestorage.googleapis.com/v0/b/my-tune-admin.appspot.com/o/categories%2F1690440540905000webp_image.jpeg?alt=media&token=0b859124-16b1-418a-a159-998f4b3cdca8'),
+                    child: CustomCachedNetworkImage(url: category.imageUrl),
                   ),
                 ),
               ),

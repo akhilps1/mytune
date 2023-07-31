@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:mytune/features/app_root.dart';
+import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
 import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/authentication/provider/country_code_picker_provider.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
@@ -12,6 +13,7 @@ import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/repository/banner_reopsitory.dart';
 import 'package:mytune/features/home/repository/category_repository.dart';
 import 'package:mytune/features/home/repository/today_release_repository.dart';
+import 'package:mytune/features/product_details/provider/product_details_rovider.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/utils/theam/app_theam.dart';
 import 'package:provider/provider.dart';
@@ -60,7 +62,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CountryCodePickerProvider>(
           create: (context) => CountryCodePickerProvider(),
         ),
-
         ChangeNotifierProxyProvider<HomeScreenProvider, ArtistScreenProvider>(
           create: (context) => ArtistScreenProvider(
             [],
@@ -73,8 +74,9 @@ class MyApp extends StatelessWidget {
             value.categories,
             value,
           ),
-        )
-        // ChangeNotifierProvider(create: (context) => ArtistScreenProvider())
+        ),
+        ChangeNotifierProvider(create: (context) => ArtistDetailsProvider()),
+        ChangeNotifierProvider(create: (context) => ProductDetailsProvider())
       ],
       child: MaterialApp(
         title: 'My Tune',

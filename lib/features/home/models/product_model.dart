@@ -92,7 +92,7 @@ class ProductModel implements ObjectWithId {
       list.add(
         CategoryModel.fromMap(
           value,
-        ),
+        ).copyWith(id: key),
       );
     });
 

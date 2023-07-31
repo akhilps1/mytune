@@ -6,6 +6,7 @@ import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart';
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
+import 'package:mytune/features/product_details/screens/product_details_page.dart';
 
 import 'package:provider/provider.dart';
 
@@ -105,6 +106,8 @@ class _HomePageState extends State<HomePage> {
                         child: CategoryWidget(
                           size: size,
                           categories: state.categories.sublist(0, 3),
+                          name: 'Singers',
+                          color: Colors.pink,
                         )),
                   )
                 : const SliverToBoxAdapter(),
@@ -132,10 +135,12 @@ class _HomePageState extends State<HomePage> {
             state.topThreeRelease.isNotEmpty
                 ? SliverToBoxAdapter(
                     child: SizedBox(
-                        height: size.height * 0.26,
-                        child: TopThreeThisWeek(
-                            size: size,
-                            topThreeRelease: state.topThreeRelease)),
+                      height: size.height * 0.26,
+                      child: TopThreeThisWeek(
+                        size: size,
+                        topThreeRelease: state.topThreeRelease,
+                      ),
+                    ),
                   )
                 : const SliverToBoxAdapter(),
             SliverToBoxAdapter(
@@ -166,17 +171,30 @@ class _HomePageState extends State<HomePage> {
                               childAspectRatio: 3 / 2),
                       itemBuilder: (context, index) {
                         final product = state.allProducts[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          height: size.width * 0.35,
-                          width: size.width * 0.6,
-                          child: SizedBox(
-                            child: ClipRRect(
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailsPage(
+                                  product: product,
+                                  title: '',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              child: CustomCachedNetworkImage(
-                                url: product.imageUrl,
+                            ),
+                            height: size.width * 0.35,
+                            width: size.width * 0.6,
+                            child: SizedBox(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: CustomCachedNetworkImage(
+                                  url: product.imageUrl,
+                                ),
                               ),
                             ),
                           ),
