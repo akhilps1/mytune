@@ -47,7 +47,7 @@ class ArtistGridItem extends StatelessWidget {
               ),
               Positioned(
                 bottom: size.height * 0.025,
-                left: size.height * 0.018,
+                left: size.height * 0.03,
                 child: SizedBox(
                   width: size.width * 0.28,
                   child: Text(
@@ -65,7 +65,7 @@ class ArtistGridItem extends StatelessWidget {
               ),
               Positioned(
                 bottom: size.height * 0.005,
-                left: size.height * 0.018,
+                left: size.height * 0.03,
                 child: SizedBox(
                   width: size.width * 0.28,
                   child: Text(
@@ -85,7 +85,7 @@ class ArtistGridItem extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.all(5),
-            height: size.width * 0.042,
+            height: size.width * 0.052,
             width: size.width * 0.3,
             decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 197, 184, 254),

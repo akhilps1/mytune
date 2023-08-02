@@ -10,6 +10,8 @@ import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../product_details/screens/product_details_page.dart';
+
 class ArtistDetails extends StatefulWidget {
   const ArtistDetails({
     super.key,
@@ -63,7 +65,7 @@ class _ArtistDetailsState extends State<ArtistDetails> {
         controller: scrollController,
         slivers: [
           SliverAppBar(
-            expandedHeight: size.height * 0.44,
+            expandedHeight: size.height * 0.5,
             surfaceTintColor: Colors.white,
             backgroundColor: Colors.white,
             elevation: 0,
@@ -123,7 +125,19 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                   return Container(
                     height: 200,
                     color: Colors.grey[200],
-                    child: CustomCachedNetworkImage(url: product.imageUrl),
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetailsPage(
+                                product: product,
+                                title: '',
+                              ),
+                            ),
+                          );
+                        },
+                        child: CustomCachedNetworkImage(url: product.imageUrl)),
                   );
                 },
                 separatorBuilder: (context, index) => const SizedBox(

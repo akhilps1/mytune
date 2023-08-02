@@ -2,14 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart';
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
 import 'package:mytune/features/product_details/screens/product_details_page.dart';
+import 'package:mytune/general/utils/enum/enums.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../authentication/provider/login_provider.dart';
+import '../../search/screen/search_screen.dart';
 import '../../sheared/custom_catched_network_image.dart';
 import '../../sheared/saerch_box.dart';
 
@@ -28,7 +32,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
-
+    Provider.of<LoginProvider>(
+      context,
+      listen: false,
+    ).checkLoginStatus();
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
@@ -45,11 +52,6 @@ class _HomePageState extends State<HomePage> {
       }
     });
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -75,9 +77,25 @@ class _HomePageState extends State<HomePage> {
 
               bottom: PreferredSize(
                 preferredSize: Size(double.infinity, size.height * 0.017),
-                child: SearchBox(
-                  size: size,
-                  hint: 'Search songs',
+                child: InkWell(
+                  splashFactory: NoSplash.splashFactory,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen<ProductModel>(
+                          hintText: 'Search songs',
+                          searchState: SearchState.video,
+                        ),
+                      ),
+                    );
+                  },
+                  child: SearchBox(
+                    size: size,
+                    hint: 'Search songs',
+                    enabled: false,
+                  ),
                 ),
               ),
 

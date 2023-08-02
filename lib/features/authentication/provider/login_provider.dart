@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mytune/features/authentication/models/user_model.dart';
 
 import 'package:mytune/features/authentication/repository/firebase_login_serveices.dart';
 import 'package:mytune/general/failures/main_failure.dart';
@@ -28,10 +29,13 @@ class LoginProvider with ChangeNotifier {
   int? token;
   bool isLoggdIn = false;
 
+  AppUser? appUser;
+
   Future<void> sendOtpClicked({required String phoneNumber}) async {
     isLoading = true;
     notifyListeners();
     phone = phoneNumber;
+    log('sendOtpClicked: ------------------> $phoneNumber');
 
     try {
       await firebaseAuth.verifyPhoneNumber(
@@ -40,7 +44,7 @@ class LoginProvider with ChangeNotifier {
         verificationFailed: (FirebaseAuthException e) {
           isLoading = false;
           notifyListeners();
-          // print('FIREBASE LOGIN ERROR: ${e.toString()} ');
+          log('FIREBASE LOGIN ERROR: ${e.toString()} ');
           CustomToast.errorToast('Otp send faild');
         },
         codeSent: (String verificationId, int? resendToken) {
@@ -55,23 +59,73 @@ class LoginProvider with ChangeNotifier {
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
+      log(e.toString());
       isLoading = false;
       notifyListeners();
     }
-
-    log('sendOtpClicked: ------------------> $phoneNumber');
   }
 
   Future<void> veryfyOtpClicked({required String otp}) async {
-    await firebaseLoginServeices.verifyOtp(
+    isLoading = true;
+    notifyListeners();
+    final falureOrSuccess = await firebaseLoginServeices.verifyOtp(
       otp: otp,
       id: id,
       phone: phone!,
     );
+    falureOrSuccess.fold(
+      (failure) {
+        CustomToast.errorToast('Otp verification faild');
+        isLoading = false;
+        notifyListeners();
+      },
+      (phoneAuthCredential) async {
+        final falureOrSuccess = await firebaseLoginServeices
+            .loginWithCredential(phoneAuthCredential);
+
+        falureOrSuccess.fold(
+          (failure) {
+            CustomToast.errorToast('Login faild');
+            isLoading = false;
+            notifyListeners();
+          },
+          (userCredential) async {
+            appUser = await firebaseLoginServeices.createUser(
+                userCredential: userCredential, phoneNo: phone!);
+            isLoading = false;
+
+            notifyListeners();
+            CustomToast.successToast('Login successful');
+
+            log(appUser.toString());
+          },
+        );
+      },
+    );
   }
 
-  void checkLoginStatus() {
-    isLoggdIn = firebaseLoginServeices.checkLoginStatus();
+  Future<void> checkLoginStatus() async {
+    final successOrFailure = await firebaseLoginServeices.getSignedInUser();
+
+    successOrFailure.fold(
+      (l) {
+        log(l.toString());
+        isLoggdIn = false;
+        notifyListeners();
+      },
+      (r) {
+        log(r.toString());
+        isLoggdIn = true;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> logOut() async {
+    otpSent = false;
+    phone = null;
+    await firebaseLoginServeices.logout();
+    await checkLoginStatus();
     notifyListeners();
   }
 }

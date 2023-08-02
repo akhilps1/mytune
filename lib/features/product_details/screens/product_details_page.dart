@@ -10,8 +10,6 @@ import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
 import 'package:provider/provider.dart';
 
-import '../../artist_details/provider/artist_details_provider.dart';
-import '../../home/screens/widgets/category_widget.dart';
 import '../provider/product_details_rovider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -98,19 +96,21 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Stack(
                   children: [
-                    Positioned(
-                      top: size.height * 0.12,
-                      child: Text(
-                        'Today Release',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium!.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black87,
-                              fontSize: 17,
+                    widget.title != null
+                        ? Positioned(
+                            top: size.height * 0.12,
+                            child: Text(
+                              widget.title ?? widget.product.title,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.titleMedium!.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black87,
+                                    fontSize: 17,
+                                  ),
                             ),
-                      ),
-                    ),
+                          )
+                        : const SizedBox(),
                     Positioned(
                       top: size.height * 0.165,
                       child: SizedBox(
@@ -131,22 +131,43 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     ),
                     Positioned(
                       top: size.height * 0.26,
-                      child: Container(
-                        padding: const EdgeInsets.all(3.5),
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 0.2,
-                              spreadRadius: 0.25),
-                        ]),
-                        height: size.height * 0.28,
-                        width: size.width - 40,
-                        child: CustomCachedNetworkImage(
-                            url: widget.product.imageUrl),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 0.2,
+                                  spreadRadius: 0.25),
+                            ]),
+                            height: size.height * 0.28,
+                            width: size.width - 40,
+                            child: CustomCachedNetworkImage(
+                                url: widget.product.imageUrl),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: IconButton(
+                                padding: EdgeInsets.zero,
+                                style: const ButtonStyle(
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    backgroundColor:
+                                        MaterialStatePropertyAll(Colors.white)),
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.play_circle_fill,
+                                  size: 40,
+                                  color: Colors.black87,
+                                )),
+                          ),
+                        ],
                       ),
                     ),
                     Positioned(
-                      top: size.height * 0.54,
+                      top: size.height * 0.55,
                       child: SizedBox(
                         width: size.width - 40,
                         child: Row(
@@ -216,7 +237,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         height: size.height * 0.07,
                         width: size.width - 50,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Row(
                               children: [
@@ -328,7 +349,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               ),
                               SliverToBoxAdapter(
                                 child: SizedBox(
-                                  height: size.height * 0.20,
+                                  height: size.height * 0.22,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: state.craft.length,
@@ -363,7 +384,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               state.crew.isNotEmpty
                                   ? SliverToBoxAdapter(
                                       child: SizedBox(
-                                        height: size.height * 0.20,
+                                        height: size.height * 0.22,
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
                                           itemCount: state.crew.length,

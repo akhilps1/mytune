@@ -1,28 +1,24 @@
-import 'dart:developer';
-
-import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_picker_dialog.dart';
-import 'package:country_pickers/country_picker_dropdown.dart';
-import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_country_code_picker/flutter_country_code_picker.dart';
+
 import 'package:mytune/features/authentication/provider/country_code_picker_provider.dart';
 
 import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/authentication/screens/widgets/contry_picker.dart';
 import 'package:mytune/features/sheared/app_privacy_policy.dart';
+import 'package:mytune/features/user_details/screen/user_details_screen.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/serveices/constants.dart';
-import 'package:pinput/pinput.dart';
+
 import 'package:provider/provider.dart';
 
-import '../../../general/utils/theam/app_theam.dart';
 import '../../sheared/custom_button_widget.dart';
 import 'widgets/otp_widget.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, required this.ctx});
+
+  final BuildContext ctx;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -31,6 +27,37 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    final appUser = Provider.of<LoginProvider>(context).appUser;
+    if (appUser != null) {
+      if (appUser.age.isEmpty ||
+          appUser.email.isEmpty ||
+          appUser.city.isEmpty ||
+          appUser.userName.isEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserDetailsScreen(
+                  // appUser: appUser,
+                  ),
+            ),
+          );
+        });
+        controller.clear();
+        phoneController.clear();
+
+        Navigator.pop(widget.ctx);
+      } else {
+        // Navigator.pop(widget.ctx);
+      }
+    }
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -193,14 +220,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               otp: controller.text,
                             );
                           },
-                          child: Text(
-                            'Verify Otp',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleMedium!.copyWith(
-                                  color: Colors.white,
-                                ),
-                          ),
+                          child: state.isLoading == false
+                              ? Text(
+                                  'Verify Otp',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium!.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                )
+                              : const CupertinoActivityIndicator(),
                         ),
                       ),
                     ],

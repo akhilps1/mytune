@@ -16,42 +16,55 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MainFailure {
-  String get errorMsg => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $MainFailureCopyWith<MainFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,8 +73,6 @@ abstract class $MainFailureCopyWith<$Res> {
   factory $MainFailureCopyWith(
           MainFailure value, $Res Function(MainFailure) then) =
       _$MainFailureCopyWithImpl<$Res, MainFailure>;
-  @useResult
-  $Res call({String errorMsg});
 }
 
 /// @nodoc
@@ -73,28 +84,13 @@ class _$MainFailureCopyWithImpl<$Res, $Val extends MainFailure>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? errorMsg = null,
-  }) {
-    return _then(_value.copyWith(
-      errorMsg: null == errorMsg
-          ? _value.errorMsg
-          : errorMsg // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$_NoElemetCopyWith<$Res>
-    implements $MainFailureCopyWith<$Res> {
+abstract class _$$_NoElemetCopyWith<$Res> {
   factory _$$_NoElemetCopyWith(
           _$_NoElemet value, $Res Function(_$_NoElemet) then) =
       __$$_NoElemetCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String errorMsg});
 }
@@ -156,6 +152,9 @@ class _$_NoElemet implements _NoElemet {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
   }) {
     return noElemet(errorMsg);
   }
@@ -164,6 +163,9 @@ class _$_NoElemet implements _NoElemet {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
   }) {
     return noElemet?.call(errorMsg);
   }
@@ -172,6 +174,9 @@ class _$_NoElemet implements _NoElemet {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
     required TResult orElse(),
   }) {
     if (noElemet != null) {
@@ -184,6 +189,9 @@ class _$_NoElemet implements _NoElemet {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
   }) {
     return noElemet(this);
   }
@@ -192,6 +200,9 @@ class _$_NoElemet implements _NoElemet {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
   }) {
     return noElemet?.call(this);
   }
@@ -200,6 +211,9 @@ class _$_NoElemet implements _NoElemet {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
     required TResult orElse(),
   }) {
     if (noElemet != null) {
@@ -212,10 +226,350 @@ class _$_NoElemet implements _NoElemet {
 abstract class _NoElemet implements MainFailure {
   const factory _NoElemet({required final String errorMsg}) = _$_NoElemet;
 
-  @override
   String get errorMsg;
-  @override
   @JsonKey(ignore: true)
   _$$_NoElemetCopyWith<_$_NoElemet> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_UserNotSignedInCopyWith<$Res> {
+  factory _$$_UserNotSignedInCopyWith(
+          _$_UserNotSignedIn value, $Res Function(_$_UserNotSignedIn) then) =
+      __$$_UserNotSignedInCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_UserNotSignedInCopyWithImpl<$Res>
+    extends _$MainFailureCopyWithImpl<$Res, _$_UserNotSignedIn>
+    implements _$$_UserNotSignedInCopyWith<$Res> {
+  __$$_UserNotSignedInCopyWithImpl(
+      _$_UserNotSignedIn _value, $Res Function(_$_UserNotSignedIn) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_UserNotSignedIn implements _UserNotSignedIn {
+  const _$_UserNotSignedIn();
+
+  @override
+  String toString() {
+    return 'MainFailure.userNotSignedIn()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_UserNotSignedIn);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
+  }) {
+    return userNotSignedIn();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
+  }) {
+    return userNotSignedIn?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
+    required TResult orElse(),
+  }) {
+    if (userNotSignedIn != null) {
+      return userNotSignedIn();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
+  }) {
+    return userNotSignedIn(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
+  }) {
+    return userNotSignedIn?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
+    required TResult orElse(),
+  }) {
+    if (userNotSignedIn != null) {
+      return userNotSignedIn(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UserNotSignedIn implements MainFailure {
+  const factory _UserNotSignedIn() = _$_UserNotSignedIn;
+}
+
+/// @nodoc
+abstract class _$$_OtpVerificationFaildCopyWith<$Res> {
+  factory _$$_OtpVerificationFaildCopyWith(_$_OtpVerificationFaild value,
+          $Res Function(_$_OtpVerificationFaild) then) =
+      __$$_OtpVerificationFaildCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_OtpVerificationFaildCopyWithImpl<$Res>
+    extends _$MainFailureCopyWithImpl<$Res, _$_OtpVerificationFaild>
+    implements _$$_OtpVerificationFaildCopyWith<$Res> {
+  __$$_OtpVerificationFaildCopyWithImpl(_$_OtpVerificationFaild _value,
+      $Res Function(_$_OtpVerificationFaild) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_OtpVerificationFaild implements _OtpVerificationFaild {
+  const _$_OtpVerificationFaild();
+
+  @override
+  String toString() {
+    return 'MainFailure.otpVerificationFaild()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_OtpVerificationFaild);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
+  }) {
+    return otpVerificationFaild();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
+  }) {
+    return otpVerificationFaild?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
+    required TResult orElse(),
+  }) {
+    if (otpVerificationFaild != null) {
+      return otpVerificationFaild();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
+  }) {
+    return otpVerificationFaild(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
+  }) {
+    return otpVerificationFaild?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
+    required TResult orElse(),
+  }) {
+    if (otpVerificationFaild != null) {
+      return otpVerificationFaild(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _OtpVerificationFaild implements MainFailure {
+  const factory _OtpVerificationFaild() = _$_OtpVerificationFaild;
+}
+
+/// @nodoc
+abstract class _$$_LogedInFailedCopyWith<$Res> {
+  factory _$$_LogedInFailedCopyWith(
+          _$_LogedInFailed value, $Res Function(_$_LogedInFailed) then) =
+      __$$_LogedInFailedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_LogedInFailedCopyWithImpl<$Res>
+    extends _$MainFailureCopyWithImpl<$Res, _$_LogedInFailed>
+    implements _$$_LogedInFailedCopyWith<$Res> {
+  __$$_LogedInFailedCopyWithImpl(
+      _$_LogedInFailed _value, $Res Function(_$_LogedInFailed) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_LogedInFailed implements _LogedInFailed {
+  const _$_LogedInFailed();
+
+  @override
+  String toString() {
+    return 'MainFailure.logedInFailed()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_LogedInFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
+  }) {
+    return logedInFailed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
+  }) {
+    return logedInFailed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
+    required TResult orElse(),
+  }) {
+    if (logedInFailed != null) {
+      return logedInFailed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
+  }) {
+    return logedInFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
+  }) {
+    return logedInFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
+    required TResult orElse(),
+  }) {
+    if (logedInFailed != null) {
+      return logedInFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LogedInFailed implements MainFailure {
+  const factory _LogedInFailed() = _$_LogedInFailed;
 }

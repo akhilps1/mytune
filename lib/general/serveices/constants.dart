@@ -15,6 +15,12 @@ const kSizedBoxH5 = SizedBox(
 const kSizedBoxH20 = SizedBox(
   height: 20,
 );
+const kSizedBoxH15 = SizedBox(
+  height: 15,
+);
+const kSizedBoxH40 = SizedBox(
+  height: 40,
+);
 
 const pages = [
   HomePage(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 import 'package:mytune/features/authentication/screens/login_screen.dart';
 import 'package:mytune/features/authentication/screens/widgets/otp_widget.dart';
 import 'package:mytune/general/serveices/constants.dart';
@@ -18,51 +19,64 @@ class _AppRootState extends State<AppRoot> {
       // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: pages[index],
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10,
-        // fixedColor: const Color.fromARGB(155, 50, 173, 234),
-        // backgroundColor: Color.fromARGB(155, 236, 249, 255),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        selectedItemColor: const Color.fromARGB(155, 55, 188, 255),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            blurRadius: 3,
+            spreadRadius: 0.2,
+            offset: const Offset(0.1, 0.1),
+          )
+        ]),
+        child: BottomNavigationBar(
+          elevation: 20,
+          // fixedColor: const Color.fromARGB(155, 50, 173, 234),
+          // backgroundColor: Color.fromARGB(155, 236, 249, 255),
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          selectedItemColor: Colors.red,
+          useLegacyColorScheme: false,
+          currentIndex: index,
+          selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w500,
+          ),
 
-        currentIndex: index,
-
-        onTap: (newIndex) {
-          setState(() {
-            index = newIndex;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              // color: Colors.grey,
+          onTap: (newIndex) {
+            setState(() {
+              index = newIndex;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                IconlyLight.home,
+                // color: Colors.grey,
+              ),
+              label: 'Home',
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.grid_view_outlined,
-              // color: Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                IconlyLight.category,
+                // color: Colors.grey,
+              ),
+              label: 'Artists',
             ),
-            label: 'Artists',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite_outline,
-              // color: Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.favorite_outline,
+                // color: Colors.grey,
+              ),
+              label: 'Favorite',
             ),
-            label: 'Favorite',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_2_outlined,
-              // color: Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                IconlyLight.profile,
+                // color: Colors.grey,
+              ),
+              label: 'Account',
             ),
-            label: 'Accounts',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

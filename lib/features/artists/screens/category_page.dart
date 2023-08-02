@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mytune/features/artist_details/screens/artist_details.dart';
 import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/artists/screens/widgets/artist_grid_item.dart';
+import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/features/search/screen/search_screen.dart';
+import 'package:mytune/general/utils/enum/enums.dart';
 
 import 'package:provider/provider.dart';
 
@@ -65,9 +68,25 @@ class _CategoryPageState extends State<CategoryPage> {
 
             bottom: PreferredSize(
               preferredSize: Size(double.infinity, size.height * 0.017),
-              child: SearchBox(
-                size: size,
-                hint: 'Search artist',
+              child: InkWell(
+                splashFactory: NoSplash.splashFactory,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen<CategoryModel>(
+                        hintText: 'Search Artist',
+                        searchState: SearchState.artist,
+                      ),
+                    ),
+                  );
+                },
+                child: SearchBox(
+                  size: size,
+                  hint: 'Search artist',
+                  enabled: false,
+                ),
               ),
             ),
 
@@ -80,10 +99,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           state.artists.isNotEmpty
               ? SliverPadding(
-                  padding: EdgeInsets.only(
-                      left: size.width * 0.07,
-                      right: size.width * 0.07,
-                      top: 15),
+                  padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
                   sliver: SliverGrid.builder(
                     itemCount: state.artists.length,
                     gridDelegate:

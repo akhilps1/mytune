@@ -6,4 +6,8 @@ class MainFailure with _$MainFailure {
   // const factory MainFailure.authFailure() = _AuthFailure;
 
   const factory MainFailure.noElemet({required String errorMsg}) = _NoElemet;
+  const factory MainFailure.userNotSignedIn() = _UserNotSignedIn;
+
+  const factory MainFailure.otpVerificationFaild() = _OtpVerificationFaild;
+  const factory MainFailure.logedInFailed() = _LogedInFailed;
 }

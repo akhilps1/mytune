@@ -5,18 +5,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
   final String userName;
-  final String imageUrl;
+  String imageUrl;
   final String mobileNumber;
   final String email;
-  final String age;
-  final String city;
-  final String favorateSinger;
-  final List skills;
+  String age;
+  String city;
+  String favorateSinger;
+  List skills;
   final String notificationToken;
-  final List hobbies;
+  List hobbies;
   final List keywords;
-  final List followedCategory;
-  final List likedVideos;
+  List followedCategory;
+  List likedVideos;
+  List favoriteVideos;
+
   Timestamp timestamp;
   AppUser({
     required this.userName,
@@ -33,6 +35,7 @@ class AppUser {
     required this.followedCategory,
     required this.likedVideos,
     required this.timestamp,
+    required this.favoriteVideos,
   });
 
   Map<String, dynamic> toMap() {
@@ -51,6 +54,7 @@ class AppUser {
       'notificationToken': notificationToken,
       'likedVideos': likedVideos,
       'followedCategory': followedCategory,
+      'favoriteVideos': favoriteVideos,
     };
   }
 
@@ -71,10 +75,9 @@ class AppUser {
       notificationToken: map['notificationToken'] as String,
       followedCategory: map['followedCategory'] as List,
       likedVideos: map['likedVideos'] as List,
+      favoriteVideos: map['favoriteVideos'] as List,
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   @override
   String toString() {
@@ -108,6 +111,7 @@ class AppUser {
     List? keywords,
     List? followedCategory,
     List? likedVideos,
+    List? favoriteVideos,
     Timestamp? timestamp,
   }) {
     return AppUser(
@@ -124,6 +128,7 @@ class AppUser {
       keywords: keywords ?? this.keywords,
       followedCategory: followedCategory ?? this.followedCategory,
       likedVideos: likedVideos ?? this.likedVideos,
+      favoriteVideos: favoriteVideos ?? this.favoriteVideos,
       timestamp: timestamp ?? this.timestamp,
     );
   }

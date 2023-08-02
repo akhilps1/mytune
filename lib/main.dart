@@ -14,6 +14,7 @@ import 'package:mytune/features/home/repository/banner_reopsitory.dart';
 import 'package:mytune/features/home/repository/category_repository.dart';
 import 'package:mytune/features/home/repository/today_release_repository.dart';
 import 'package:mytune/features/product_details/provider/product_details_rovider.dart';
+import 'package:mytune/features/search/provider/saerch_provider.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/utils/theam/app_theam.dart';
 import 'package:provider/provider.dart';
@@ -38,10 +39,43 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // This widget is the root of your application.
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.resumed:
+        break;
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -76,7 +110,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(create: (context) => ArtistDetailsProvider()),
-        ChangeNotifierProvider(create: (context) => ProductDetailsProvider())
+        ChangeNotifierProvider(create: (context) => ProductDetailsProvider()),
+        ChangeNotifierProvider(create: (context) => SearchProvider())
       ],
       child: MaterialApp(
         title: 'My Tune',

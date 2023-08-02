@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/authentication/screens/login_screen.dart';
-import 'package:mytune/general/utils/theam/app_colors.dart';
+
 import 'package:provider/provider.dart';
 
+import '../user_details/screen/user_details_screen.dart';
 import 'custom_catched_network_image.dart';
 
-class AppBarItems extends StatelessWidget {
+class AppBarItems extends StatefulWidget {
   const AppBarItems({
     super.key,
     required this.size,
@@ -20,6 +21,30 @@ class AppBarItems extends StatelessWidget {
   final String title;
 
   @override
+  State<AppBarItems> createState() => _AppBarItemsState();
+}
+
+class _AppBarItemsState extends State<AppBarItems> {
+  bool? isLoggdIn;
+  @override
+  void initState() {
+    isLoggdIn = Provider.of<LoginProvider>(
+      context,
+      listen: false,
+    ).isLoggdIn;
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    isLoggdIn = Provider.of<LoginProvider>(
+      context,
+    ).isLoggdIn;
+
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FlexibleSpaceBar(
       centerTitle: false,
@@ -28,9 +53,9 @@ class AppBarItems extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: size.height * 0.06,
+              top: widget.size.height * 0.06,
               child: IconButton(
-                onPressed: drowerButtonClicked,
+                onPressed: widget.drowerButtonClicked,
                 style: const ButtonStyle(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     minimumSize: MaterialStatePropertyAll(
@@ -46,25 +71,31 @@ class AppBarItems extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: size.height * 0.08,
+              top: widget.size.height * 0.08,
               right: 0,
               child: InkWell(
                 onTap: () {
-                  if (Provider.of<LoginProvider>(
-                        context,
-                        listen: false,
-                      ).isLoggdIn ==
-                      false) {
-                    showModalBottomSheet(
-                      // enableDrag: true,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) => Padding(
-                        padding: MediaQuery.of(context).viewInsets,
-                        child: const LoginScreen(),
-                      ),
-                    );
-                  }
+                  // if (isLoggdIn == false) {
+                  //   showModalBottomSheet(
+                  //     // enableDrag: true,
+                  //     isScrollControlled: true,
+                  //     context: context,
+                  //     builder: (ctx) => Padding(
+                  //       padding: MediaQuery.of(ctx).viewInsets,
+                  //       child: LoginScreen(
+                  //         ctx: ctx,
+                  //       ),
+                  //     ),
+                  //   );
+                  // }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UserDetailsScreen(
+                          // appUser: appUser,
+                          ),
+                    ),
+                  );
                 },
                 child: const SizedBox(
                   height: 45,
@@ -82,81 +113,15 @@ class AppBarItems extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: size.height * 0.12,
+              top: widget.size.height * 0.12,
               left: 5,
               child: Text(
-                title,
+                widget.title,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.black87,
                     ),
               ),
             ),
-            // Align(
-            //   alignment: Alignment.bottomCenter,
-            //   child: SizedBox(
-            //     width: size.width - 20,
-            //     child: Padding(
-            //       padding: const EdgeInsets.only(bottom: 10),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //         children: [
-            //           Container(
-            //             // height: 45,
-            //             width: size.width - 95,
-            //             padding: const EdgeInsets.symmetric(horizontal: 15),
-            //             decoration: const BoxDecoration(
-            //               borderRadius: BorderRadius.all(
-            //                 Radius.circular(
-            //                   14,
-            //                 ),
-            //               ),
-            //               gradient: RadialGradient(
-            //                   stops: [
-            //                     -1,
-            //                     2,
-            //                   ],
-            //                   focalRadius: 1,
-            //                   radius: 25,
-            //                   colors: [
-            //                     Colors.white,
-            //                     Colors.blue,
-            //                   ]),
-            //             ),
-            //             child: TextFormField(
-            //               decoration: InputDecoration(
-            //                 contentPadding: EdgeInsets.zero,
-            //                 icon: const Icon(Icons.search),
-            //                 hintText: 'Search for songs',
-            //                 hintStyle: Theme.of(context).textTheme.titleMedium,
-            //                 border: InputBorder.none,
-            //               ),
-            //             ),
-            //           ),
-            //           Padding(
-            //             padding: const EdgeInsets.only(left: 5),
-            //             child: Container(
-            //               height: 45,
-            //               width: 43,
-            //               decoration: BoxDecoration(
-            //                 color: AppColor.redColor,
-            //                 borderRadius: const BorderRadius.all(
-            //                   Radius.circular(10),
-            //                 ),
-            //               ),
-            //               child: IconButton(
-            //                 onPressed: () {},
-            //                 icon: const Icon(
-            //                   Icons.keyboard_voice_outlined,
-            //                   color: Colors.white,
-            //                 ),
-            //               ),
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),

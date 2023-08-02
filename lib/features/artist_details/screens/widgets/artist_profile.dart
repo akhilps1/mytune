@@ -17,18 +17,18 @@ class ArtistProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.47,
+      // height: size.height * 0.47,
       color: const Color.fromARGB(255, 247, 252, 255),
       padding: const EdgeInsets.only(bottom: 15),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Positioned(
-            bottom: 190,
-            right: 180,
+            bottom: size.width * 0.45,
+            right: size.width * 0.4,
             child: Container(
-              height: 250,
-              width: 250,
+              height: size.width * 0.65,
+              width: size.width * 0.65,
               decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 137, 156, 224),
                   borderRadius: BorderRadius.all(Radius.circular(100))),
@@ -37,17 +37,17 @@ class ArtistProfile extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: Container(
-              height: 240,
-              width: 200,
-              color: const Color.fromARGB(255, 255, 175, 162),
+              height: size.width * 0.48,
+              width: size.width * 0.4,
+              color: const Color.fromARGB(255, 255, 209, 126),
             ),
           ),
           Positioned(
-            bottom: 200,
-            left: 178,
+            bottom: size.height * 0.3,
+            left: size.width * 0.47,
             child: Container(
-              height: 200,
-              width: 200,
+              height: size.width * 0.55,
+              width: size.width * 0.55,
               decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 175, 162),
                   borderRadius: BorderRadius.all(Radius.circular(100))),
@@ -55,7 +55,7 @@ class ArtistProfile extends StatelessWidget {
           ),
           SizedBox(
             width: size.width * 0.9,
-            height: size.height * 0.3,
+            height: size.height * 0.35,
             child: Card(
               elevation: 1,
               surfaceTintColor: Colors.white,
@@ -159,7 +159,7 @@ class ArtistProfile extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: size.height * 0.093,
+            top: size.height * 0.1,
             child: SizedBox(
               width: size.width * 0.25,
               height: size.width * 0.25,

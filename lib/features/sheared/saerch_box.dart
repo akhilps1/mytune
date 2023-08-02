@@ -8,10 +8,12 @@ class SearchBox extends StatelessWidget {
     super.key,
     required this.size,
     required this.hint,
+    required this.enabled,
   });
 
   final Size size;
   final String hint;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class SearchBox extends StatelessWidget {
                   ]),
             ),
             child: TextFormField(
+              enabled: enabled,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
                 icon: const Icon(Icons.search),
@@ -65,15 +68,12 @@ class SearchBox extends StatelessWidget {
                   Radius.circular(10),
                 ),
               ),
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.keyboard_voice_outlined,
-                  color: Colors.white,
-                ),
+              child: const Icon(
+                Icons.keyboard_voice_outlined,
+                color: Colors.white,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
