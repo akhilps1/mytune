@@ -10,4 +10,5 @@ class MainFailure with _$MainFailure {
 
   const factory MainFailure.otpVerificationFaild() = _OtpVerificationFaild;
   const factory MainFailure.logedInFailed() = _LogedInFailed;
+  const factory MainFailure.serverFailure() = _ServerFailure;
 }

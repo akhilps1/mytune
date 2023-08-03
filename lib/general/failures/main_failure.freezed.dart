@@ -22,6 +22,7 @@ mixin _$MainFailure {
     required TResult Function() userNotSignedIn,
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$MainFailure {
     TResult? Function()? userNotSignedIn,
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$MainFailure {
     TResult Function()? userNotSignedIn,
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +50,7 @@ mixin _$MainFailure {
     required TResult Function(_UserNotSignedIn value) userNotSignedIn,
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$MainFailure {
     TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$MainFailure {
     TResult Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -155,6 +161,7 @@ class _$_NoElemet implements _NoElemet {
     required TResult Function() userNotSignedIn,
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
   }) {
     return noElemet(errorMsg);
   }
@@ -166,6 +173,7 @@ class _$_NoElemet implements _NoElemet {
     TResult? Function()? userNotSignedIn,
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
   }) {
     return noElemet?.call(errorMsg);
   }
@@ -177,6 +185,7 @@ class _$_NoElemet implements _NoElemet {
     TResult Function()? userNotSignedIn,
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
     required TResult orElse(),
   }) {
     if (noElemet != null) {
@@ -192,6 +201,7 @@ class _$_NoElemet implements _NoElemet {
     required TResult Function(_UserNotSignedIn value) userNotSignedIn,
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
   }) {
     return noElemet(this);
   }
@@ -203,6 +213,7 @@ class _$_NoElemet implements _NoElemet {
     TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
   }) {
     return noElemet?.call(this);
   }
@@ -214,6 +225,7 @@ class _$_NoElemet implements _NoElemet {
     TResult Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
     required TResult orElse(),
   }) {
     if (noElemet != null) {
@@ -274,6 +286,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     required TResult Function() userNotSignedIn,
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
   }) {
     return userNotSignedIn();
   }
@@ -285,6 +298,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult? Function()? userNotSignedIn,
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
   }) {
     return userNotSignedIn?.call();
   }
@@ -296,6 +310,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult Function()? userNotSignedIn,
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
     required TResult orElse(),
   }) {
     if (userNotSignedIn != null) {
@@ -311,6 +326,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     required TResult Function(_UserNotSignedIn value) userNotSignedIn,
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
   }) {
     return userNotSignedIn(this);
   }
@@ -322,6 +338,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
   }) {
     return userNotSignedIn?.call(this);
   }
@@ -333,6 +350,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
     required TResult orElse(),
   }) {
     if (userNotSignedIn != null) {
@@ -388,6 +406,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     required TResult Function() userNotSignedIn,
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
   }) {
     return otpVerificationFaild();
   }
@@ -399,6 +418,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult? Function()? userNotSignedIn,
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
   }) {
     return otpVerificationFaild?.call();
   }
@@ -410,6 +430,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult Function()? userNotSignedIn,
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
     required TResult orElse(),
   }) {
     if (otpVerificationFaild != null) {
@@ -425,6 +446,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     required TResult Function(_UserNotSignedIn value) userNotSignedIn,
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
   }) {
     return otpVerificationFaild(this);
   }
@@ -436,6 +458,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
   }) {
     return otpVerificationFaild?.call(this);
   }
@@ -447,6 +470,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
     required TResult orElse(),
   }) {
     if (otpVerificationFaild != null) {
@@ -502,6 +526,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     required TResult Function() userNotSignedIn,
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
   }) {
     return logedInFailed();
   }
@@ -513,6 +538,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult? Function()? userNotSignedIn,
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
   }) {
     return logedInFailed?.call();
   }
@@ -524,6 +550,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult Function()? userNotSignedIn,
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
     required TResult orElse(),
   }) {
     if (logedInFailed != null) {
@@ -539,6 +566,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     required TResult Function(_UserNotSignedIn value) userNotSignedIn,
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
   }) {
     return logedInFailed(this);
   }
@@ -550,6 +578,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
   }) {
     return logedInFailed?.call(this);
   }
@@ -561,6 +590,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult Function(_UserNotSignedIn value)? userNotSignedIn,
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
     required TResult orElse(),
   }) {
     if (logedInFailed != null) {
@@ -572,4 +602,124 @@ class _$_LogedInFailed implements _LogedInFailed {
 
 abstract class _LogedInFailed implements MainFailure {
   const factory _LogedInFailed() = _$_LogedInFailed;
+}
+
+/// @nodoc
+abstract class _$$_ServerFailureCopyWith<$Res> {
+  factory _$$_ServerFailureCopyWith(
+          _$_ServerFailure value, $Res Function(_$_ServerFailure) then) =
+      __$$_ServerFailureCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_ServerFailureCopyWithImpl<$Res>
+    extends _$MainFailureCopyWithImpl<$Res, _$_ServerFailure>
+    implements _$$_ServerFailureCopyWith<$Res> {
+  __$$_ServerFailureCopyWithImpl(
+      _$_ServerFailure _value, $Res Function(_$_ServerFailure) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_ServerFailure implements _ServerFailure {
+  const _$_ServerFailure();
+
+  @override
+  String toString() {
+    return 'MainFailure.serverFailure()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_ServerFailure);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
+  }) {
+    return serverFailure();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
+  }) {
+    return serverFailure?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
+    required TResult orElse(),
+  }) {
+    if (serverFailure != null) {
+      return serverFailure();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
+  }) {
+    return serverFailure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
+  }) {
+    return serverFailure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
+    required TResult orElse(),
+  }) {
+    if (serverFailure != null) {
+      return serverFailure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ServerFailure implements MainFailure {
+  const factory _ServerFailure() = _$_ServerFailure;
 }

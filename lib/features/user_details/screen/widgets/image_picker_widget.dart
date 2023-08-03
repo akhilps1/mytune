@@ -1,135 +1,82 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:user/application/home/home_bloc.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 
-// Future selectImage(BuildContext context) {
-//   String? selectedImagePath;
-//   return showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(20.0)), //this right here
-//           child: Container(
-//             height: 200,
-//             child: Padding(
-//               padding: const EdgeInsets.all(12.0),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   const Text(
-//                     'Select Image From !',
-//                     style:
-//                         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-//                   ),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: [
-//                       GestureDetector(
-//                         onTap: () async {
-//                           selectedImagePath = await selectImageFromGallery();
+import 'package:mytune/general/serveices/custom_toast.dart';
+import 'package:mytune/general/serveices/imag_picker_serveice.dart';
 
-//                           if (selectedImagePath != '' &&
-//                               selectedImagePath != 'assets/images/person.png') {
-//                             // ignore: use_build_context_synchronously
-//                             BlocProvider.of<HomeBloc>(context).add(
-//                                 GalleryImageSelected(path: selectedImagePath!));
-//                             // ignore: use_build_context_synchronously
-//                             BlocProvider.of<HomeBloc>(context)
-//                                 .add(ImageSelectrd(path: selectedImagePath!));
-//                             // ignore: use_build_context_synchronously
-//                             Navigator.pop(context);
-//                           } else {
-//                             // ignore: use_build_context_synchronously
-//                             ScaffoldMessenger.of(context)
-//                                 .showSnackBar(const SnackBar(
-//                               content: Text("No Image Selected !"),
-//                             ));
-//                           }
-//                         },
-//                         child: Card(
-//                             elevation: 5,
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(8.0),
-//                               child: Column(
-//                                 children: [
-//                                   Image.asset(
-//                                     'assets/images/gallery.png',
-//                                     height: 60,
-//                                     width: 60,
-//                                   ),
-//                                   const Text('Gallery'),
-//                                 ],
-//                               ),
-//                             )),
-//                       ),
-//                       GestureDetector(
-//                         onTap: () async {
-//                           selectedImagePath = await selectImageFromCamera();
+class ImagePickerWidet extends StatelessWidget {
+  const ImagePickerWidet({
+    Key? key,
+    required this.onCameraClicked,
+    required this.onGalleryClicked,
+  }) : super(key: key);
 
-//                           if (selectedImagePath != '' &&
-//                               selectedImagePath != 'assets/images/person.png') {
-//                             // ignore: use_build_context_synchronously
+  final VoidCallback onCameraClicked;
+  final VoidCallback onGalleryClicked;
 
-//                             BlocProvider.of<HomeBloc>(context).add(
-//                                 CameraImageSelected(path: selectedImagePath!));
-//                             // ignore: use_build_context_synchronously
-//                             Navigator.pop(context);
-//                             // ignore: use_build_context_synchronously
-//                             BlocProvider.of<HomeBloc>(context)
-//                                 .add(ImageSelectrd(path: selectedImagePath!));
-//                           } else {
-//                             // ignore: use_build_context_synchronously
-//                             ScaffoldMessenger.of(context)
-//                                 .showSnackBar(const SnackBar(
-//                               content: Text("No Image Captured !"),
-//                             ));
-//                           }
-//                         },
-//                         child: Card(
-//                             elevation: 5,
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(8.0),
-//                               child: Column(
-//                                 children: [
-//                                   Image.asset(
-//                                     'assets/images/camera.png',
-//                                     height: 60,
-//                                     width: 60,
-//                                   ),
-//                                   const Text('Camera'),
-//                                 ],
-//                               ),
-//                             )),
-//                       ),
-//                     ],
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ),
-//         );
-//       });
-// }
-
-// selectImageFromGallery() async {
-//   XFile? file = await ImagePicker()
-//       .pickImage(source: ImageSource.gallery, imageQuality: 10);
-//   if (file != null) {
-//     return file.path;
-//   } else {
-//     return '';
-//   }
-// }
-
-// //
-// selectImageFromCamera() async {
-//   XFile? file = await ImagePicker()
-//       .pickImage(source: ImageSource.camera, imageQuality: 10);
-//   if (file != null) {
-//     return file.path;
-//   } else {
-//     return '';
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    String? selectedImagePath;
+    return SizedBox(
+      height: 180,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Select Image From !',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 20,
+                    color: Colors.black87,
+                  ),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: onGalleryClicked,
+                  child: const SizedBox(
+                    height: 70,
+                    width: 100,
+                    child: Card(
+                        elevation: 3,
+                        surfaceTintColor: Colors.white,
+                        child: Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Icon(
+                              IconlyBold.image_2,
+                              color: Color.fromARGB(255, 81, 81, 81),
+                              size: 40,
+                            ))),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: onCameraClicked,
+                  child: const SizedBox(
+                    height: 70,
+                    width: 100,
+                    child: Card(
+                      elevation: 3,
+                      surfaceTintColor: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.camera,
+                          color: Color.fromARGB(255, 81, 81, 81),
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

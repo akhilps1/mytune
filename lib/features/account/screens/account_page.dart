@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../general/serveices/custom_pop_up.dart';
 import '../../authentication/provider/login_provider.dart';
+import '../../authentication/screens/login_screen.dart';
 import 'widgets/profile_item.dart';
 
 class AccountsPage extends StatefulWidget {
@@ -99,41 +100,64 @@ class _AccountsPageState extends State<AccountsPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                shape: MaterialStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {},
-                              child: Text(
-                                'Sign up',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(
-                                      color: Colors.white,
+                        child: Consumer<LoginProvider>(
+                          builder: (context, state, _) => state.isLoggdIn ==
+                                  false
+                              ? Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        shape: MaterialStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        if (state.isLoggdIn == false) {
+                                          showModalBottomSheet(
+                                            // enableDrag: true,
+                                            isScrollControlled: true,
+                                            context: context,
+                                            builder: (ctx) => Padding(
+                                              padding:
+                                                  MediaQuery.of(ctx).viewInsets,
+                                              child: LoginScreen(
+                                                ctx: ctx,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: Text(
+                                        'Sign up',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ),
+                                      ),
                                     ),
-                              ),
-                            ),
-                            kSizedBoxH5,
-                            Text(
-                              'View and update your profile details',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                    color: Colors.black54,
-                                    fontSize: 10,
-                                  ),
-                            )
-                          ],
+                                    kSizedBoxH5,
+                                    Text(
+                                      'View and update your profile details',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                            color: Colors.black54,
+                                            fontSize: 10,
+                                          ),
+                                    )
+                                  ],
+                                )
+                              : const Row(
+                                  children: [],
+                                ),
                         ),
                       ),
                     ],

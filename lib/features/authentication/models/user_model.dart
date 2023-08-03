@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
+  final String? id;
   final String userName;
   String imageUrl;
   final String mobileNumber;
@@ -36,6 +37,7 @@ class AppUser {
     required this.likedVideos,
     required this.timestamp,
     required this.favoriteVideos,
+    this.id,
   });
 
   Map<String, dynamic> toMap() {
@@ -55,12 +57,14 @@ class AppUser {
       'likedVideos': likedVideos,
       'followedCategory': followedCategory,
       'favoriteVideos': favoriteVideos,
+      'id': id,
     };
   }
 
   factory AppUser.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snap) {
     final map = snap.data()!;
     return AppUser(
+      id: snap.id,
       userName: map['userName'] as String,
       imageUrl: map['imageUrl'] as String,
       mobileNumber: map['mobileNumber'] as String,
@@ -82,6 +86,7 @@ class AppUser {
   @override
   String toString() {
     return '''AppUser(
+      id: $id,
       userName: $userName, 
       imageUrl: $imageUrl, 
       mobileNumber: $mobileNumber,
@@ -98,6 +103,7 @@ class AppUser {
   }
 
   AppUser copyWith({
+    String? id,
     String? userName,
     String? imageUrl,
     String? mobileNumber,
@@ -115,6 +121,7 @@ class AppUser {
     Timestamp? timestamp,
   }) {
     return AppUser(
+      id: id ?? this.id,
       userName: userName ?? this.userName,
       imageUrl: imageUrl ?? this.imageUrl,
       mobileNumber: mobileNumber ?? this.mobileNumber,

@@ -75,27 +75,27 @@ class _AppBarItemsState extends State<AppBarItems> {
               right: 0,
               child: InkWell(
                 onTap: () {
-                  // if (isLoggdIn == false) {
-                  //   showModalBottomSheet(
-                  //     // enableDrag: true,
-                  //     isScrollControlled: true,
-                  //     context: context,
-                  //     builder: (ctx) => Padding(
-                  //       padding: MediaQuery.of(ctx).viewInsets,
-                  //       child: LoginScreen(
-                  //         ctx: ctx,
-                  //       ),
-                  //     ),
-                  //   );
-                  // }
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UserDetailsScreen(
-                          // appUser: appUser,
-                          ),
-                    ),
-                  );
+                  if (isLoggdIn == false) {
+                    showModalBottomSheet(
+                      // enableDrag: true,
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (ctx) => Padding(
+                        padding: MediaQuery.of(ctx).viewInsets,
+                        child: LoginScreen(
+                          ctx: ctx,
+                        ),
+                      ),
+                    );
+                  }
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => UserDetailsScreen(
+                  //         // appUser: appUser,
+                  //         ),
+                  //   ),
+                  // );
                 },
                 child: const SizedBox(
                   height: 45,

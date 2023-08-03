@@ -30,6 +30,7 @@ class LoginProvider with ChangeNotifier {
   bool isLoggdIn = false;
 
   AppUser? appUser;
+  User? user;
 
   Future<void> sendOtpClicked({required String phoneNumber}) async {
     isLoading = true;
@@ -87,13 +88,14 @@ class LoginProvider with ChangeNotifier {
           (failure) {
             CustomToast.errorToast('Login faild');
             isLoading = false;
+
             notifyListeners();
           },
           (userCredential) async {
             appUser = await firebaseLoginServeices.createUser(
                 userCredential: userCredential, phoneNo: phone!);
             isLoading = false;
-
+            isLoggdIn = true;
             notifyListeners();
             CustomToast.successToast('Login successful');
 
@@ -104,21 +106,26 @@ class LoginProvider with ChangeNotifier {
     );
   }
 
-  Future<void> checkLoginStatus() async {
-    final successOrFailure = await firebaseLoginServeices.getSignedInUser();
+  User? checkLoginStatus() {
+    User? data;
+    final successOrFailure = firebaseLoginServeices.getSignedInUser();
 
     successOrFailure.fold(
       (l) {
         log(l.toString());
         isLoggdIn = false;
+        user = null;
         notifyListeners();
       },
       (r) {
         log(r.toString());
+        user = r;
         isLoggdIn = true;
+        data = r;
         notifyListeners();
       },
     );
+    return data;
   }
 
   Future<void> logOut() async {

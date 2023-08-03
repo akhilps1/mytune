@@ -8,6 +8,7 @@ import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
 import 'package:mytune/features/product_details/screens/product_details_page.dart';
+import 'package:mytune/features/user_details/provider/user_details_provider.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
 
 import 'package:provider/provider.dart';
@@ -32,10 +33,16 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
-    Provider.of<LoginProvider>(
+    final user = Provider.of<LoginProvider>(
       context,
       listen: false,
-    ).checkLoginStatus();
+    ).user;
+    if (user != null) {
+      Provider.of<UserDetailsProvider>(
+        context,
+        listen: false,
+      ).getUserDetails(userId: user.uid);
+    }
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {

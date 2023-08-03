@@ -15,6 +15,7 @@ import 'package:mytune/features/home/repository/category_repository.dart';
 import 'package:mytune/features/home/repository/today_release_repository.dart';
 import 'package:mytune/features/product_details/provider/product_details_rovider.dart';
 import 'package:mytune/features/search/provider/saerch_provider.dart';
+import 'package:mytune/features/user_details/provider/user_details_provider.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/utils/theam/app_theam.dart';
 import 'package:provider/provider.dart';
@@ -62,24 +63,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.detached:
-        break;
-      case AppLifecycleState.inactive:
-        break;
-      case AppLifecycleState.paused:
-        break;
-      case AppLifecycleState.resumed:
-        break;
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => UserDetailsProvider()),
         ChangeNotifierProvider<HomeScreenProvider>(
           create: (_) => HomeScreenProvider(
             todayReleaseRepository: locater<TodayReleaseRepository>(),

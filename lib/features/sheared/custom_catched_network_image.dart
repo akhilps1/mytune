@@ -17,6 +17,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
+      useOldImageOnUrlChange: true,
       imageUrl: url,
       height: double.infinity,
       width: double.infinity,

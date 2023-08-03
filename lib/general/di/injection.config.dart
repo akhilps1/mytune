@@ -19,27 +19,30 @@ import 'package:injectable/injectable.dart' as _i2;
 import '../../features/artist_details/provider/artist_details_provider.dart'
     as _i3;
 import '../../features/artist_details/repository/artist_details_repo.dart'
-    as _i16;
-import '../../features/authentication/provider/login_provider.dart' as _i24;
+    as _i18;
+import '../../features/authentication/provider/login_provider.dart' as _i26;
 import '../../features/authentication/repository/firebase_login_serveices.dart'
-    as _i22;
-import '../../features/home/provider/home_screen_provider.dart' as _i23;
-import '../../features/home/repository/all_products_repository.dart' as _i15;
-import '../../features/home/repository/banner_reopsitory.dart' as _i17;
-import '../../features/home/repository/category_repository.dart' as _i18;
+    as _i24;
+import '../../features/home/provider/home_screen_provider.dart' as _i25;
+import '../../features/home/repository/all_products_repository.dart' as _i17;
+import '../../features/home/repository/banner_reopsitory.dart' as _i19;
+import '../../features/home/repository/category_repository.dart' as _i20;
 import '../../features/home/repository/today_release_repository.dart' as _i13;
 import '../../features/home/repository/top_3_repository.dart' as _i14;
 import '../../features/product_details/provider/product_details_rovider.dart'
     as _i9;
 import '../../features/product_details/repository/craft_details_repo.dart'
-    as _i20;
+    as _i22;
 import '../../features/product_details/repository/crew_detail_repo.dart'
-    as _i21;
+    as _i23;
 import '../../features/product_details/repository/product_details_repo.dart'
     as _i10;
 import '../../features/search/provider/saerch_provider.dart' as _i12;
-import '../../features/search/repository/category_search_repo.dart' as _i19;
+import '../../features/search/repository/category_search_repo.dart' as _i21;
 import '../../features/search/repository/product_search_repo.dart' as _i11;
+import '../../features/user_details/provider/user_details_provider.dart'
+    as _i15;
+import '../../features/user_details/repository/user_details_repo.dart' as _i16;
 import 'firebase_injectable_module.dart' as _i7;
 
 // ignore_for_file: unnecessary_lambdas
@@ -80,35 +83,40 @@ Future<_i1.GetIt> init(
           firebaseFirestore: gh<_i5.FirebaseFirestore>()));
   gh.lazySingleton<_i14.TopThreeReleaseRepo>(() =>
       _i14.TopThreeReleaseRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i15.AllProductsRepo>(() =>
-      _i15.AllProductsRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i16.ArtistDetailsRepo>(() =>
-      _i16.ArtistDetailsRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i17.BannerRepository>(() =>
-      _i17.BannerRepository(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i18.CategoryRepository>(() => _i18.CategoryRepository(
+  gh.factory<_i15.UserDetailsProvider>(() => _i15.UserDetailsProvider());
+  gh.lazySingleton<_i16.UserDetailsRepo>(() => _i16.UserDetailsRepo(
+        firebaseFirestore: gh<_i5.FirebaseFirestore>(),
+        firebaseStorage: gh<_i8.FirebaseStorage>(),
+      ));
+  gh.lazySingleton<_i17.AllProductsRepo>(() =>
+      _i17.AllProductsRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
+  gh.lazySingleton<_i18.ArtistDetailsRepo>(() =>
+      _i18.ArtistDetailsRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
+  gh.lazySingleton<_i19.BannerRepository>(() =>
+      _i19.BannerRepository(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
+  gh.lazySingleton<_i20.CategoryRepository>(() => _i20.CategoryRepository(
         firebaseFirestore: gh<_i5.FirebaseFirestore>(),
         firebaseAuth: gh<_i4.FirebaseAuth>(),
       ));
-  gh.lazySingleton<_i19.CategorySearchRepo>(() =>
-      _i19.CategorySearchRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i20.CraftDetailRepo>(() =>
-      _i20.CraftDetailRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i21.CrewDetailRepo>(() =>
-      _i21.CrewDetailRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
-  gh.lazySingleton<_i22.FirebaseLoginServeices>(
-      () => _i22.FirebaseLoginServeices(
+  gh.lazySingleton<_i21.CategorySearchRepo>(() =>
+      _i21.CategorySearchRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
+  gh.lazySingleton<_i22.CraftDetailRepo>(() =>
+      _i22.CraftDetailRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
+  gh.lazySingleton<_i23.CrewDetailRepo>(() =>
+      _i23.CrewDetailRepo(firebaseFirestore: gh<_i5.FirebaseFirestore>()));
+  gh.lazySingleton<_i24.FirebaseLoginServeices>(
+      () => _i24.FirebaseLoginServeices(
             firebaseFirestore: gh<_i5.FirebaseFirestore>(),
             firebaseMessaging: gh<_i6.FirebaseMessaging>(),
             firebaseAuth: gh<_i4.FirebaseAuth>(),
           ));
-  gh.factory<_i23.HomeScreenProvider>(() => _i23.HomeScreenProvider(
-        bannerRepository: gh<_i17.BannerRepository>(),
-        categoryRepository: gh<_i18.CategoryRepository>(),
+  gh.factory<_i25.HomeScreenProvider>(() => _i25.HomeScreenProvider(
+        bannerRepository: gh<_i19.BannerRepository>(),
+        categoryRepository: gh<_i20.CategoryRepository>(),
         todayReleaseRepository: gh<_i13.TodayReleaseRepository>(),
       ));
-  gh.factory<_i24.LoginProvider>(() => _i24.LoginProvider(
-        firebaseLoginServeices: gh<_i22.FirebaseLoginServeices>(),
+  gh.factory<_i26.LoginProvider>(() => _i26.LoginProvider(
+        firebaseLoginServeices: gh<_i24.FirebaseLoginServeices>(),
         firebaseAuth: gh<_i4.FirebaseAuth>(),
       ));
   return getIt;

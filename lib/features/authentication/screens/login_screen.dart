@@ -41,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => UserDetailsScreen(
-                  // appUser: appUser,
-                  ),
+                appUser: appUser,
+              ),
             ),
           );
         });
@@ -50,9 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         phoneController.clear();
 
         Navigator.pop(widget.ctx);
-      } else {
-        // Navigator.pop(widget.ctx);
-      }
+      } else {}
     }
 
     super.didChangeDependencies();
@@ -229,7 +227,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Colors.white,
                                       ),
                                 )
-                              : const CupertinoActivityIndicator(),
+                              : const CupertinoActivityIndicator(
+                                  color: Colors.white,
+                                ),
                         ),
                       ),
                     ],

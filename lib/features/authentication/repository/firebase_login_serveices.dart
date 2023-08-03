@@ -55,10 +55,12 @@ class FirebaseLoginServeices {
   Future<AppUser> createUser(
       {required UserCredential userCredential, required String phoneNo}) async {
     late DocumentSnapshot<Map<String, dynamic>> userdetails;
-    String? token = await firebaseMessaging.getToken();
-    await firebaseMessaging.subscribeToTopic('admin');
+    String? token;
 
     try {
+      token = await firebaseMessaging.getToken();
+      await firebaseMessaging.subscribeToTopic('admin');
+
       userdetails = await firebaseFirestore
           .collection("users")
           .doc(userCredential.user!.uid)
@@ -104,7 +106,8 @@ class FirebaseLoginServeices {
           );
       // print('TOKEN: $token');
 
-      return user.copyWith(mobileNumber: phoneNo);
+      return user.copyWith(
+          mobileNumber: phoneNo, id: firebaseAuth.currentUser?.uid);
     }
   }
 
@@ -124,7 +127,7 @@ class FirebaseLoginServeices {
     await firebaseAuth.signOut();
   }
 
-  Future<Either<MainFailure, User>> getSignedInUser() async {
+  Either<MainFailure, User> getSignedInUser() {
     final User? user = firebaseAuth.currentUser;
 
     if (user == null) {

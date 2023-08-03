@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/models/product_model.dart';
 
@@ -27,6 +28,8 @@ class HomeScreenProvider with ChangeNotifier {
   final TodayReleaseRepository todayReleaseRepository;
   final TopThreeReleaseRepo topThreeReleaseRepo =
       locater<TopThreeReleaseRepo>();
+
+  final LoginProvider _loginProvider = locater<LoginProvider>();
 
   final AllProductsRepo allProductsRepo = locater<AllProductsRepo>();
   HomeScreenProvider({
@@ -50,6 +53,8 @@ class HomeScreenProvider with ChangeNotifier {
     Either<MainFailure, List<CategoryModel>> failureOrSuccessArtist;
     isLoading = true;
     notifyListeners();
+    _loginProvider.checkLoginStatus();
+
     await Future.wait(
       [
         bannerRepository.getDetialsFromFirebase(),
