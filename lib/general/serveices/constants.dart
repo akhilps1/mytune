@@ -3,6 +3,7 @@ import 'package:mytune/features/account/screens/account_page.dart';
 import 'package:mytune/features/artists/screens/category_page.dart';
 import 'package:mytune/features/favorate/screens/favorate_page.dart';
 import 'package:mytune/features/home/screens/home_page.dart';
+import 'package:mytune/features/trending/screens/trending_page.dart';
 
 const kSizedBoxW5 = SizedBox(
   width: 5,
@@ -25,6 +26,7 @@ const kSizedBoxH40 = SizedBox(
 const pages = [
   HomePage(),
   CategoryPage(),
+  TrendingPage(),
   FavoratePage(),
   AccountsPage(),
 ];

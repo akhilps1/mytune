@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mytune/features/authentication/screens/login_screen.dart';
 import 'package:mytune/features/authentication/screens/widgets/otp_widget.dart';
 import 'package:mytune/general/serveices/constants.dart';
@@ -37,9 +38,15 @@ class _AppRootState extends State<AppRoot> {
           selectedItemColor: Colors.red,
           useLegacyColorScheme: false,
           currentIndex: index,
-          selectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.w500,
-          ),
+          selectedLabelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                color: Colors.red,
+              ),
+          unselectedLabelStyle:
+              Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontSize: 12,
+                  ),
 
           onTap: (newIndex) {
             setState(() {
@@ -60,6 +67,10 @@ class _AppRootState extends State<AppRoot> {
                 // color: Colors.grey,
               ),
               label: 'Artists',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_fire_department),
+              label: 'Trending',
             ),
             BottomNavigationBarItem(
               icon: Icon(

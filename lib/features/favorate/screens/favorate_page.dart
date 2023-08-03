@@ -13,10 +13,13 @@ class FavoratePage extends StatelessWidget {
           title: const Text('Favorate'),
           pinned: true,
           elevation: 2,
-          backgroundColor: Colors.grey[200],
+          forceElevated: true,
+          shadowColor: Colors.black.withOpacity(0.3),
+          surfaceTintColor: Colors.white,
+          backgroundColor: Colors.white,
         ),
         SliverPadding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(12),
           sliver: SliverList.separated(
             itemCount: 10,
             itemBuilder: (context, index) {
@@ -25,9 +28,26 @@ class FavoratePage extends StatelessWidget {
                 child: Container(
                   height: 200,
                   color: Colors.grey[200],
-                  child: const CustomCachedNetworkImage(
-                      url:
-                          'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_1280.jpg'),
+                  child: Stack(children: [
+                    const CustomCachedNetworkImage(
+                        url:
+                            'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_1280.jpg'),
+                    Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                          padding: EdgeInsets.zero,
+                          style: const ButtonStyle(
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.white)),
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.play_circle_fill,
+                            size: 40,
+                            color: Colors.black87,
+                          )),
+                    ),
+                  ]),
                 ),
               );
             },
