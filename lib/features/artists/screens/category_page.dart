@@ -75,9 +75,10 @@ class _CategoryPageState extends State<CategoryPage> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const SearchScreen<CategoryModel>(
+                      builder: (context) => const SearchScreen(
                         hintText: 'Search Artist',
                         searchState: SearchState.artist,
+                        searchMode: SearchState.voice,
                       ),
                     ),
                   );
@@ -129,7 +130,7 @@ class _CategoryPageState extends State<CategoryPage> {
             padding: const EdgeInsets.symmetric(vertical: 10),
             sliver: SliverToBoxAdapter(
               child: Center(
-                child: state.isLoading && state.isLoading == true
+                child: state.isLoading == true
                     ? const CupertinoActivityIndicator()
                     : const SizedBox(),
               ),

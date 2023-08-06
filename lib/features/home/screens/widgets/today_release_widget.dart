@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 import 'package:mytune/general/serveices/constants.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
+import 'package:mytune/general/serveices/time_converter.dart';
 import 'package:mytune/general/utils/theam/app_colors.dart';
 
 import '../../../product_details/screens/product_details_page.dart';
@@ -93,7 +94,7 @@ class TodayReleaseWidget extends StatelessWidget {
                         bottom: 3,
                         right: 5,
                         child: Text(
-                          '2 Hours ago',
+                          postedDateTime(product.timestamp.toDate()),
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall

@@ -24,7 +24,7 @@ class ArtistProfile extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: [
           Positioned(
-            bottom: size.width * 0.45,
+            bottom: size.width * 0.48,
             right: size.width * 0.4,
             child: Container(
               height: size.width * 0.65,

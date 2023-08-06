@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:mytune/features/app_root.dart';
 import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
 import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/authentication/provider/country_code_picker_provider.dart';
@@ -10,17 +8,15 @@ import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
-import 'package:mytune/features/home/repository/banner_reopsitory.dart';
-import 'package:mytune/features/home/repository/category_repository.dart';
-import 'package:mytune/features/home/repository/today_release_repository.dart';
+
 import 'package:mytune/features/product_details/provider/product_details_rovider.dart';
 import 'package:mytune/features/search/provider/saerch_provider.dart';
+import 'package:mytune/features/splash_screen/screens/screen_splash.dart';
+import 'package:mytune/features/trending/provider/trending_page_provider.dart';
 import 'package:mytune/features/user_details/provider/user_details_provider.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/utils/theam/app_theam.dart';
 import 'package:provider/provider.dart';
-
-import 'features/authentication/repository/firebase_login_serveices.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,43 +64,25 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       providers: [
         ChangeNotifierProvider(create: (context) => UserDetailsProvider()),
         ChangeNotifierProvider<HomeScreenProvider>(
-          create: (_) => HomeScreenProvider(
-            todayReleaseRepository: locater<TodayReleaseRepository>(),
-            bannerRepository: locater<BannerRepository>(),
-            categoryRepository: locater<CategoryRepository>(),
-          )..getDetails(),
+          create: (_) => HomeScreenProvider()..getDetails(),
         ),
-        ChangeNotifierProvider<LoginProvider>(
-          create: (context) => LoginProvider(
-            firebaseLoginServeices: locater<FirebaseLoginServeices>(),
-            firebaseAuth: locater<FirebaseAuth>(),
-          ),
-        ),
-        ChangeNotifierProvider<CountryCodePickerProvider>(
-          create: (context) => CountryCodePickerProvider(),
-        ),
-        ChangeNotifierProxyProvider<HomeScreenProvider, ArtistScreenProvider>(
-          create: (context) => ArtistScreenProvider(
-            [],
-            Provider.of<HomeScreenProvider>(
-              context,
-              listen: false,
-            ),
-          ),
-          update: (context, value, previous) => ArtistScreenProvider(
-            value.categories,
-            value,
-          ),
-        ),
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(
+            create: (context) => CountryCodePickerProvider()),
+        ChangeNotifierProvider(
+            create: (_) => ArtistScreenProvider()..getAllArtistsByLimit()),
         ChangeNotifierProvider(create: (context) => ArtistDetailsProvider()),
         ChangeNotifierProvider(create: (context) => ProductDetailsProvider()),
-        ChangeNotifierProvider(create: (context) => SearchProvider())
+        ChangeNotifierProvider(create: (context) => SearchProvider()),
+        ChangeNotifierProvider(
+          create: (context) => TrendingPageProvider()..getTrendingByLimite(),
+        ),
       ],
       child: MaterialApp(
-        title: 'My Tune',
+        title: 'WyTune',
         debugShowCheckedModeBanner: false,
         theme: AppTheam.lightTheam,
-        home: const AppRoot(),
+        home: const ScreenSplash(),
       ),
     );
   }

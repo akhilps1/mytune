@@ -1,8 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:lottie/lottie.dart';
-import 'package:mytune/features/authentication/screens/login_screen.dart';
-import 'package:mytune/features/authentication/screens/widgets/otp_widget.dart';
 import 'package:mytune/general/serveices/constants.dart';
 
 class AppRoot extends StatefulWidget {
@@ -16,6 +15,7 @@ class _AppRootState extends State<AppRoot> {
   int index = 0;
   @override
   Widget build(BuildContext context) {
+    // final size = MediaQuery.of(context).size;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -33,20 +33,23 @@ class _AppRootState extends State<AppRoot> {
           elevation: 20,
           // fixedColor: const Color.fromARGB(155, 50, 173, 234),
           // backgroundColor: Color.fromARGB(155, 236, 249, 255),
-          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: const Color.fromARGB(255, 119, 102, 179),
           showUnselectedLabels: true,
-          selectedItemColor: Colors.red,
+          selectedItemColor: const Color.fromARGB(255, 119, 102, 179),
           useLegacyColorScheme: false,
           currentIndex: index,
           selectedLabelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
                 fontSize: 14,
-                color: Colors.red,
+                color: const Color.fromARGB(255, 119, 102, 179),
               ),
-          unselectedLabelStyle:
-              Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontSize: 12,
-                  ),
+          unselectedLabelStyle: Theme.of(context)
+              .textTheme
+              .titleSmall!
+              .copyWith(
+                  fontSize: 12,
+                  color: const Color.fromARGB(255, 119, 102, 179)),
 
           onTap: (newIndex) {
             setState(() {
@@ -74,7 +77,7 @@ class _AppRootState extends State<AppRoot> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.favorite_outline,
+                Icons.bookmark_border_outlined,
                 // color: Colors.grey,
               ),
               label: 'Favorite',

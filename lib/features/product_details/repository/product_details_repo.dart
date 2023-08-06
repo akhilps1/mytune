@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mytune/features/home/models/category_model.dart';
 
 import '../../../general/failures/main_failure.dart';
 import '../../home/models/product_model.dart';
@@ -54,7 +53,11 @@ class ProductDetailsRepo {
               .limit(4)
               .get();
 
-      lastDoc = refreshedClass.docs.last;
+      if (refreshedClass.docs.isNotEmpty) {
+        lastDoc = refreshedClass.docs.last;
+      } else {
+        return left(const MainFailure.noElemet(errorMsg: ''));
+      }
 
       if (refreshedClass.docs.length <= 7) {}
       products.addAll(
@@ -72,6 +75,22 @@ class ProductDetailsRepo {
       );
     }
   }
+
+  Future<Either<MainFailure, Unit>> updateViews({required String id}) async {
+    try {
+      await firebaseFirestore.collection('products').doc(id).update({
+        'views': FieldValue.increment(1),
+      });
+
+      return right(unit);
+    } catch (e) {
+      return left(const MainFailure.serverFailure());
+    }
+  }
+
+  // Future<void> addLike() async{
+  //  firebaseFirestore.collection('users').
+  // }
 
   void clearDoc() {
     lastDoc = null;

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mytune/features/artist_details/repository/artist_details_repo.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/failures/main_failure.dart';
 

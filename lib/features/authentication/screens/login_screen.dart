@@ -31,13 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
     final appUser = Provider.of<LoginProvider>(context).appUser;
+    final isLoggedIn = Provider.of<LoginProvider>(context).isLoggdIn;
     if (appUser != null) {
       if (appUser.age.isEmpty ||
           appUser.email.isEmpty ||
           appUser.city.isEmpty ||
           appUser.userName.isEmpty) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Navigator.pushReplacement(
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => UserDetailsScreen(
@@ -48,9 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         controller.clear();
         phoneController.clear();
-
-        Navigator.pop(widget.ctx);
       } else {}
+    }
+
+    if (isLoggedIn == true) {
+      Navigator.pop(widget.ctx);
     }
 
     super.didChangeDependencies();

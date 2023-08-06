@@ -6,6 +6,8 @@ enum UserState {
 enum SearchState {
   artist,
   video,
+  textField,
+  voice,
 }
 
 enum LoginState {

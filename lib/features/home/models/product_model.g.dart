@@ -33,23 +33,25 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       keywords: (fields[12] as List).cast<dynamic>(),
       timestamp: fields[13] as Timestamp,
       isTrending: fields[9] as bool,
+      videoUrl: fields[16] as String,
+      trendingImage: fields[15] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.id)
+      ..writeByte(4)
+      ..write(obj.categoryId)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
       ..write(obj.imageUrl)
-      ..writeByte(4)
-      ..write(obj.categoryId)
       ..writeByte(5)
       ..write(obj.likes)
       ..writeByte(6)
@@ -69,7 +71,11 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(13)
       ..write(obj.timestamp)
       ..writeByte(14)
-      ..write(obj.isTodayRelease);
+      ..write(obj.isTodayRelease)
+      ..writeByte(15)
+      ..write(obj.trendingImage)
+      ..writeByte(16)
+      ..write(obj.videoUrl);
   }
 
   @override

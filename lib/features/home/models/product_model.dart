@@ -3,27 +3,29 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:mytune/general/serveices/get_object_id.dart';
 
 import 'category_model.dart';
+
 part 'product_model.g.dart';
 
 @HiveType(typeId: 1)
 class ProductModel implements ObjectWithId {
   @HiveField(0)
   final String? id;
+  @HiveField(4)
+  final String categoryId;
   @HiveField(1)
   String title;
   @HiveField(2)
   String description;
   @HiveField(3)
   String imageUrl;
-  @HiveField(4)
-  final String categoryId;
   @HiveField(5)
-  final int likes;
+  int likes;
   @HiveField(6)
-  final int views;
+  int views;
   @HiveField(7)
   bool isTopThree;
   @HiveField(8)
@@ -40,6 +42,11 @@ class ProductModel implements ObjectWithId {
   final Timestamp timestamp;
   @HiveField(14)
   bool isTodayRelease;
+  @HiveField(15)
+  String? trendingImage;
+  @HiveField(16)
+  String videoUrl;
+
   ProductModel({
     this.id,
     this.categories = const [],
@@ -56,6 +63,8 @@ class ProductModel implements ObjectWithId {
     required this.keywords,
     required this.timestamp,
     required this.isTrending,
+    required this.videoUrl,
+    this.trendingImage,
   });
 
   set setCategores(List<CategoryModel> list) {
@@ -80,6 +89,7 @@ class ProductModel implements ObjectWithId {
       'isTodayRelease': isTodayRelease,
       'isTopThree': isTopThree,
       'isTrending': isTrending,
+      'trendingImage': trendingImage,
     };
   }
 
@@ -114,6 +124,41 @@ class ProductModel implements ObjectWithId {
       isTodayRelease: data['isTodayRelease'] as bool,
       isTopThree: data['isTopThree'] as bool,
       isTrending: data['isTrending'] as bool,
+      trendingImage: data['trendingImage'] as String?,
+      videoUrl: data['videoUrl'] as String,
+    );
+  }
+
+  factory ProductModel.fromMap(Map<String, dynamic> data) {
+    final List<CategoryModel> list = [];
+    // convert map to category model
+    data['craftAndCrew'].forEach((key, value) {
+      list.add(
+        CategoryModel.fromMap(
+          value,
+        ).copyWith(id: key),
+      );
+    });
+
+    return ProductModel(
+      categoryId: data['categoryId'] as String,
+      title: data['title'] as String,
+      visibility: data['visibility'] as bool,
+      description: data['description'] as String,
+      imageUrl: data['imageUrl'] as String,
+      likes: data['likes'] as int,
+      views: data['views'] as int,
+      craftAndCrew: Map.from(
+        data['craftAndCrew'],
+      ),
+      keywords: data['keywords'] as List,
+      timestamp: data['timestamp'] as Timestamp,
+      categories: list,
+      isTodayRelease: data['isTodayRelease'] as bool,
+      isTopThree: data['isTopThree'] as bool,
+      isTrending: data['isTrending'] as bool,
+      trendingImage: data['trendingImage'] as String?,
+      videoUrl: data['videoUrl'] as String,
     );
   }
 
@@ -132,7 +177,6 @@ class ProductModel implements ObjectWithId {
     String? categoryId,
     int? likes,
     int? views,
-    bool? isTodayRelease,
     bool? isTopThree,
     bool? visibility,
     bool? isTrending,
@@ -140,6 +184,9 @@ class ProductModel implements ObjectWithId {
     List<CategoryModel>? categories,
     List? keywords,
     Timestamp? timestamp,
+    bool? isTodayRelease,
+    String? trendingImage,
+    String? videoUrl,
   }) {
     return ProductModel(
       id: id ?? this.id,
@@ -149,7 +196,6 @@ class ProductModel implements ObjectWithId {
       categoryId: categoryId ?? this.categoryId,
       likes: likes ?? this.likes,
       views: views ?? this.views,
-      isTodayRelease: isTodayRelease ?? this.isTodayRelease,
       isTopThree: isTopThree ?? this.isTopThree,
       visibility: visibility ?? this.visibility,
       isTrending: isTrending ?? this.isTrending,
@@ -157,6 +203,9 @@ class ProductModel implements ObjectWithId {
       categories: categories ?? this.categories,
       keywords: keywords ?? this.keywords,
       timestamp: timestamp ?? this.timestamp,
+      isTodayRelease: isTodayRelease ?? this.isTodayRelease,
+      trendingImage: trendingImage ?? this.trendingImage,
+      videoUrl: videoUrl ?? this.videoUrl,
     );
   }
 }

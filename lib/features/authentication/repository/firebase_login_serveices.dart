@@ -76,6 +76,9 @@ class FirebaseLoginServeices {
           .update(
         {'notificationToken': token},
       );
+
+      print(userCredential.toString());
+
       return AppUser.fromSnapshot(userdetails);
     } else {
       final user = AppUser(
@@ -134,5 +137,22 @@ class FirebaseLoginServeices {
       return left(const MainFailure.userNotSignedIn());
     }
     return right(user);
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserDetails(
+      {required String userId}) {
+    final data = firebaseFirestore.collection('users').doc(userId).snapshots();
+
+    return data;
+  }
+
+  Future<Either<MainFailure, Unit>> deleteAccount(
+      {required String userId}) async {
+    try {
+      await firebaseFirestore.collection('useers').doc(userId).delete();
+      return right(unit);
+    } catch (e) {
+      return left(const MainFailure.serverFailure());
+    }
   }
 }

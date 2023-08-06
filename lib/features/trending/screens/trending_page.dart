@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:mytune/features/sheared/custom_catched_network_image.dart';
+import 'package:mytune/features/product_details/screens/product_details_page.dart';
 
-class TrendingPage extends StatelessWidget {
+import 'package:mytune/features/sheared/custom_catched_network_image.dart';
+import 'package:mytune/features/trending/provider/trending_page_provider.dart';
+import 'package:provider/provider.dart';
+
+class TrendingPage extends StatefulWidget {
   const TrendingPage({super.key});
+
+  @override
+  State<TrendingPage> createState() => _TrendingPageState();
+}
+
+class _TrendingPageState extends State<TrendingPage> {
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          if (Provider.of<TrendingPageProvider>(context, listen: false)
+                      .isFirebaseLoading ==
+                  false &&
+              Provider.of<TrendingPageProvider>(context, listen: false)
+                      .noMoreData ==
+                  false) {
+            Provider.of<TrendingPageProvider>(context, listen: false)
+                .getTrendingByLimite();
+          }
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      // controller: scrollController,
       slivers: [
         SliverAppBar(
           pinned: true,
@@ -23,35 +55,49 @@ class TrendingPage extends StatelessWidget {
             ),
           ),
         ),
-        SliverFillRemaining(
-          child: MasonryGridView.builder(
-              itemCount: 10,
-              gridDelegate:
-                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (context, index) => Padding(
+        Consumer<TrendingPageProvider>(
+          builder: (context, state, _) => SliverFillRemaining(
+            child: MasonryGridView.builder(
+                controller: scrollController,
+                itemCount: state.trendingVieos.length,
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  final item = state.trendingVieos[index];
+                  return Padding(
                     padding: const EdgeInsets.all(5),
-                    child: Container(
-                      height: index % 2 == 1 ? 250 : 300,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: CustomCachedNetworkImage(
-                                url: index % 2 == 0
-                                    ? 'https://images.unsplash.com/photo-1628784230353-5bee16e2f005?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80'
-                                    : 'https://images.unsplash.com/photo-1633621412960-6df85eff8c85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGltYWdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60'),
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Icon(Icons.play_arrow),
-                          )
-                        ],
+                    child: Card(
+                      child: SizedBox(
+                        height: index % 2 == 1 ? 220 : 270,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailsPage(product: item),
+                                    ),
+                                  );
+                                },
+                                child: CustomCachedNetworkImage(
+                                  url: item.trendingImage ?? '',
+                                  boxFit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  )),
+                  );
+                }),
+          ),
         )
       ],
     );

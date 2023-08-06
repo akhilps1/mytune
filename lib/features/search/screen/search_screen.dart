@@ -12,29 +12,42 @@ import '../../artists/screens/widgets/artist_grid_item.dart';
 import '../../product_details/screens/product_details_page.dart';
 import '../../sheared/custom_catched_network_image.dart';
 
-class SearchScreen<T> extends StatefulWidget {
+BuildContext? ctx;
+
+class SearchScreen extends StatefulWidget {
   const SearchScreen({
     super.key,
     required this.hintText,
     required this.searchState,
+    required this.searchMode,
   });
   final String hintText;
   final SearchState searchState;
+  final SearchState searchMode;
 
   @override
-  State<SearchScreen<T>> createState() => _SearchScreenState<T>();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState<T> extends State<SearchScreen<T>> {
-  SpeechToText? speech;
-  bool isListen = false;
-
+class _SearchScreenState extends State<SearchScreen> {
   TextEditingController controller = TextEditingController();
+  SpeechToText? speech;
 
+  bool isListen = false;
   @override
   void initState() {
     speech = SpeechToText();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    controller.text = Provider.of<SearchProvider>(context).text;
+    if (controller.text.isNotEmpty) {
+      Navigator.pop(context);
+    }
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -84,9 +97,12 @@ class _SearchScreenState<T> extends State<SearchScreen<T>> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
-                          controller.clear();
-                          Provider.of<SearchProvider>(context, listen: false)
-                              .clear();
+                          if (controller.text.isNotEmpty) {
+                            controller.clear();
+
+                            Provider.of<SearchProvider>(context, listen: false)
+                                .clear();
+                          }
                         },
                         icon: const Icon(
                           Icons.close,
@@ -98,71 +114,20 @@ class _SearchScreenState<T> extends State<SearchScreen<T>> {
                         style: const ButtonStyle(
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () {
-                          showDialog(
+                        onPressed: () async {
+                          // ignore: use_build_context_synchronously
+                          await showDialog(
                             context: context,
-                            builder: (ctx) {
-                              listen(ctx);
-                              return Column(
-                                children: [
-                                  const Spacer(),
-                                  SizedBox(
-                                    height: size.height * 0.45,
-                                    width: size.width - 50,
-                                    child: Card(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Say Somthing',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall!
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 18,
-                                                    color: const Color.fromARGB(
-                                                      255,
-                                                      119,
-                                                      119,
-                                                      111,
-                                                    ),
-                                                  ),
-                                            ),
-                                            SizedBox(
-                                              width: 180,
-                                              height: 180,
-                                              child: Lottie.asset(
-                                                'assets/lottie/voice.json',
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                            OutlinedButton(
-                                                style: const ButtonStyle(
-                                                  shape:
-                                                      MaterialStatePropertyAll(
-                                                    RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                        Radius.circular(
-                                                          10,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  listen(ctx);
-                                                },
-                                                child: const Text('Try again'))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                ],
+                            builder: (context) {
+                              Provider.of<SearchProvider>(
+                                context,
+                                listen: false,
+                              ).listen(widget.searchState);
+
+                              ctx = context;
+                              return DialogItem(
+                                size: size,
+                                searchState: widget.searchState,
                               );
                             },
                           );
@@ -198,8 +163,18 @@ class _SearchScreenState<T> extends State<SearchScreen<T>> {
                           return Container(
                             height: 200,
                             color: Colors.grey[200],
-                            child:
-                                CustomCachedNetworkImage(url: product.imageUrl),
+                            child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailsPage(product: product),
+                                    ),
+                                  );
+                                },
+                                child: CustomCachedNetworkImage(
+                                    url: product.imageUrl)),
                           );
                         },
                         separatorBuilder: (context, index) => const SizedBox(
@@ -258,34 +233,114 @@ class _SearchScreenState<T> extends State<SearchScreen<T>> {
     );
   }
 
-  void listen(BuildContext ctx) async {
-    if (!isListen) {
-      bool avail = await speech!.initialize();
-      if (avail) {
-        setState(() {
-          isListen = true;
-        });
-        speech!.listen(onResult: (value) {
-          if (widget.searchState == SearchState.video) {
-            Provider.of<SearchProvider>(ctx, listen: false)
-                .searchProductsByLimit(productName: value.recognizedWords);
-          } else {
-            Provider.of<SearchProvider>(ctx, listen: false)
-                .searchCategoryByLimit(categoryName: value.recognizedWords);
-          }
+  // Future<void> listen(BuildContext context) async {
+  //   if (!isListen) {
+  //     bool avail = await speech!.initialize();
+  //     if (avail) {
+  //       setState(() {
+  //         isListen = true;
+  //       });
+  //       await speech!.listen(onResult: (value) async {
+  //         setState(() {
+  //           controller.text = value.recognizedWords;
+  //         });
+  //         if (widget.searchState == SearchState.video) {
+  //           Provider.of<SearchProvider>(context, listen: false)
+  //               .searchProductsByLimit(productName: value.recognizedWords);
+  //         } else {
+  //           Provider.of<SearchProvider>(context, listen: false)
+  //               .searchCategoryByLimit(categoryName: value.recognizedWords);
+  //         }
+  //       });
+  //     }
+  //   } else {
+  //     isListen = false;
 
-          setState(() {
-            controller.text = value.recognizedWords;
+  //     await speech!.stop();
+  //   }
+  // }
+}
 
-            Navigator.pop(ctx);
-          });
-        });
-      }
-    } else {
-      setState(() {
-        isListen = false;
-      });
-      speech!.stop();
-    }
+class DialogItem extends StatefulWidget {
+  const DialogItem({
+    super.key,
+    required this.size,
+    required this.searchState,
+  });
+
+  final Size size;
+  final SearchState searchState;
+
+  @override
+  State<DialogItem> createState() => _DialogItemState();
+}
+
+class _DialogItemState extends State<DialogItem> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Spacer(),
+        SizedBox(
+          height: widget.size.height * 0.45,
+          width: widget.size.width - 50,
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Text(
+                    'Say Somthing',
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: const Color.fromARGB(
+                            255,
+                            119,
+                            119,
+                            111,
+                          ),
+                        ),
+                  ),
+                  SizedBox(
+                    width: 180,
+                    height: 180,
+                    child: Lottie.asset(
+                      'assets/lottie/voice.json',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  OutlinedButton(
+                      style: const ButtonStyle(
+                        shape: MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                10,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        Provider.of<SearchProvider>(
+                          context,
+                          listen: false,
+                        ).listen(widget.searchState);
+                      },
+                      child: const Text('Try again'))
+                ],
+              ),
+            ),
+          ),
+        ),
+        const Spacer(),
+      ],
+    );
   }
 }

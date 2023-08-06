@@ -11,15 +11,13 @@ import 'package:mytune/features/authentication/repository/firebase_login_serveic
 import 'package:mytune/general/failures/main_failure.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
 
+import '../../../general/di/injection.dart';
+
 @injectable
 class LoginProvider with ChangeNotifier {
-  final FirebaseLoginServeices firebaseLoginServeices;
-  final FirebaseAuth firebaseAuth;
-
-  LoginProvider({
-    required this.firebaseLoginServeices,
-    required this.firebaseAuth,
-  });
+  final FirebaseLoginServeices firebaseLoginServeices =
+      locater<FirebaseLoginServeices>();
+  final FirebaseAuth firebaseAuth = locater<FirebaseAuth>();
 
   bool otpSent = false;
   bool isLoading = false;
@@ -96,9 +94,10 @@ class LoginProvider with ChangeNotifier {
                 userCredential: userCredential, phoneNo: phone!);
             isLoading = false;
             isLoggdIn = true;
+            checkLoginStatus();
+            await getUserDetails();
             notifyListeners();
             CustomToast.successToast('Login successful');
-
             log(appUser.toString());
           },
         );
@@ -132,7 +131,26 @@ class LoginProvider with ChangeNotifier {
     otpSent = false;
     phone = null;
     await firebaseLoginServeices.logout();
-    await checkLoginStatus();
+    checkLoginStatus();
     notifyListeners();
+  }
+
+  Future<void> getUserDetails() async {
+    final data = firebaseLoginServeices.getUserDetails(userId: user!.uid);
+
+    data.listen((event) {
+      appUser = AppUser.fromSnapshot(event);
+      notifyListeners();
+    });
+  }
+
+  Future<void> deleteAccount() async {
+    final String? userId = firebaseAuth.currentUser?.uid;
+
+    if (userId != null) {
+      await firebaseLoginServeices.deleteAccount(userId: userId);
+    } else {
+      CustomToast.errorToast('Please login first');
+    }
   }
 }

@@ -91,7 +91,7 @@ class CategoryWidget extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            category.categoryName,
+                            category.categoryName.split(' ')[0],
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

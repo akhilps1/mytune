@@ -20,13 +20,6 @@ class UserDetailsRepo {
     required this.firebaseStorage,
   });
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserDetails(
-      {required String userId}) {
-    final data = firebaseFirestore.collection('users').doc(userId).snapshots();
-
-    return data;
-  }
-
   Future<Either<MainFailure, Unit>> updateUserDetails(
       {required AppUser user}) async {
     try {

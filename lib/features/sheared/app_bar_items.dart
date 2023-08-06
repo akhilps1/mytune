@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
+import 'package:mytune/features/authentication/models/user_model.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/authentication/screens/login_screen.dart';
 
 import 'package:provider/provider.dart';
 
-import '../user_details/screen/user_details_screen.dart';
 import 'custom_catched_network_image.dart';
 
 class AppBarItems extends StatefulWidget {
@@ -26,6 +27,7 @@ class AppBarItems extends StatefulWidget {
 
 class _AppBarItemsState extends State<AppBarItems> {
   bool? isLoggdIn;
+  AppUser? appUser;
   @override
   void initState() {
     isLoggdIn = Provider.of<LoginProvider>(
@@ -40,6 +42,10 @@ class _AppBarItemsState extends State<AppBarItems> {
     isLoggdIn = Provider.of<LoginProvider>(
       context,
     ).isLoggdIn;
+
+    appUser = Provider.of<LoginProvider>(
+      context,
+    ).appUser;
 
     super.didChangeDependencies();
   }
@@ -97,17 +103,27 @@ class _AppBarItemsState extends State<AppBarItems> {
                   //   ),
                   // );
                 },
-                child: const SizedBox(
+                child: SizedBox(
                   height: 45,
                   width: 45,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
-                    child: CustomCachedNetworkImage(
-                      url:
-                          'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_1280.jpg',
-                    ),
+                    child: isLoggdIn == true &&
+                            appUser != null &&
+                            appUser!.imageUrl != null &&
+                            appUser!.imageUrl!.isNotEmpty
+                        ? CustomCachedNetworkImage(
+                            url: appUser!.imageUrl!,
+                          )
+                        : Container(
+                            color: Colors.black.withOpacity(0.2),
+                            child: const Icon(
+                              IconlyLight.profile,
+                              color: Color.fromARGB(255, 107, 122, 134),
+                            ),
+                          ),
                   ),
                 ),
               ),

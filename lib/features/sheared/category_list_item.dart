@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../general/serveices/number_converter.dart';
+import '../artist_details/screens/artist_details.dart';
 import '../home/models/category_model.dart';
 import 'custom_catched_network_image.dart';
 
@@ -31,8 +32,19 @@ class CategoryListItem extends StatelessWidget {
             child: SizedBox(
               height: size.width * 0.25,
               width: size.width * 0.255,
-              child: CustomCachedNetworkImage(
-                url: category.imageUrl,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ArtistDetails(
+                        category: category,
+                      ),
+                    ),
+                  );
+                },
+                child: CustomCachedNetworkImage(
+                  url: category.imageUrl,
+                ),
               ),
             ),
           ),
@@ -42,33 +54,44 @@ class CategoryListItem extends StatelessWidget {
         bottom: 0,
         left: 0,
         right: size.width * 0.06,
-        child: Column(
-          children: [
-            Text(
-              category.categoryName,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              softWrap: true,
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    color: const Color.fromARGB(255, 119, 119, 111),
-                  ),
-            ),
-            Text(
-              '${NumberFormatter.format(value: category.followers)} FOLLOWERS',
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              softWrap: true,
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                    color: const Color.fromARGB(255, 119, 119, 111),
-                  ),
-            ),
-          ],
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ArtistDetails(
+                  category: category,
+                ),
+              ),
+            );
+          },
+          child: Column(
+            children: [
+              Text(
+                category.categoryName,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      color: const Color.fromARGB(255, 119, 119, 111),
+                    ),
+              ),
+              Text(
+                '${NumberFormatter.format(value: category.followers)} FOLLOWERS',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: const Color.fromARGB(255, 119, 119, 111),
+                    ),
+              ),
+            ],
+          ),
         ),
       ),
       Positioned(

@@ -49,7 +49,9 @@ class TodayReleaseRepository {
               .limit(4)
               .get();
 
-      lastDoc = refreshedClass.docs.last;
+      if (refreshedClass.docs.isNotEmpty) {
+        lastDoc = refreshedClass.docs.last;
+      }
 
       if (refreshedClass.docs.length <= 7) {}
       products.addAll(

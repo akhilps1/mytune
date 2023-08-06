@@ -8,7 +8,8 @@ import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
 import 'package:mytune/features/product_details/screens/product_details_page.dart';
-import 'package:mytune/features/user_details/provider/user_details_provider.dart';
+
+import 'package:mytune/general/serveices/dynamic_link/dynamic_link.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
 
 import 'package:provider/provider.dart';
@@ -32,17 +33,20 @@ class _HomePageState extends State<HomePage> {
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
-    // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
-    final user = Provider.of<LoginProvider>(
-      context,
-      listen: false,
-    ).user;
-    if (user != null) {
-      Provider.of<UserDetailsProvider>(
-        context,
-        listen: false,
-      ).getUserDetails(userId: user.uid);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
+
+      final user =
+          Provider.of<LoginProvider>(context, listen: false).checkLoginStatus();
+      if (user != null) {
+        if (Provider.of<LoginProvider>(context, listen: false).isLoggdIn &&
+            Provider.of<LoginProvider>(context, listen: false).appUser ==
+                null) {
+          Provider.of<LoginProvider>(context, listen: false).getUserDetails();
+        }
+      }
+      checkDynamicLink();
+    });
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
@@ -62,11 +66,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeDependencies() {
+    // product = Provider.of<HomeScreenProvider>(context).video;
+
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      child: Consumer<HomeScreenProvider>(
-        builder: (context, state, _) => CustomScrollView(
+      child: Consumer2<HomeScreenProvider, LoginProvider>(
+        builder: (context, state, state2, _) => CustomScrollView(
           controller: scrollController,
           slivers: [
             SliverAppBar(
@@ -79,7 +90,8 @@ class _HomePageState extends State<HomePage> {
               flexibleSpace: AppBarItems(
                 size: size,
                 drowerButtonClicked: () {},
-                title: 'HI,IAMI',
+                title:
+                    ' HI,${state2.appUser?.userName?.toUpperCase() ?? 'USER'}',
               ),
 
               bottom: PreferredSize(
@@ -91,9 +103,10 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const SearchScreen<ProductModel>(
+                        builder: (context) => const SearchScreen(
                           hintText: 'Search songs',
                           searchState: SearchState.video,
+                          searchMode: SearchState.textField,
                         ),
                       ),
                     );
@@ -168,18 +181,21 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )
                 : const SliverToBoxAdapter(),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 14, bottom: 5),
-                child: Text(
-                  'All Songs',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.pink,
-                        fontWeight: FontWeight.w600,
+            state.allProducts.isNotEmpty
+                ? SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 14, bottom: 5),
+                      child: Text(
+                        'All Songs',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
-                ),
-              ),
-            ),
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
             state.allProducts.isNotEmpty
                 ? SliverPadding(
                     padding: const EdgeInsets.only(
@@ -195,15 +211,19 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing: 8,
                               childAspectRatio: 3 / 2),
                       itemBuilder: (context, index) {
-                        final product = state.allProducts[index];
+                        ProductModel videio = state.allProducts[index];
+
+                        // log(videio.views.toString());
                         return InkWell(
                           onTap: () {
+                            log("1");
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ProductDetailsPage(
-                                  product: product,
-                                  title: '',
+                                  product: videio,
+                                  title: null,
                                 ),
                               ),
                             );
@@ -218,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: CustomCachedNetworkImage(
-                                  url: product.imageUrl,
+                                  url: videio.imageUrl,
                                 ),
                               ),
                             ),
@@ -233,14 +253,40 @@ class _HomePageState extends State<HomePage> {
               sliver: SliverToBoxAdapter(
                 child: Center(
                   child: state.isLoading && state.isFirebaseLoading == true
-                      ? const CupertinoActivityIndicator()
+                      ? const CupertinoActivityIndicator(
+                          color: Colors.black,
+                        )
                       : const SizedBox(),
                 ),
               ),
             ),
+            // state.isFirebaseLoading == true && state.banner.isEmpty
+            //     ? const SliverFillRemaining(
+            //         child: Center(
+            //           child: CupertinoActivityIndicator(),
+            //         ),
+            //       )
+            //     : const SliverToBoxAdapter(),
           ],
         ),
       ),
     );
+  }
+
+  void checkDynamicLink() async {
+    final initialLink = await DynamicLink.getInitialLink();
+
+    if (initialLink == null) {
+      DynamicLink.onListen(
+          onListon: (value) async {
+            await Provider.of<HomeScreenProvider>(context, listen: false)
+                .getDynamicLinkProduct(data: value, context: context);
+          },
+          onError: (value) {});
+    } else {
+      // ignore: use_build_context_synchronously
+      await Provider.of<HomeScreenProvider>(context, listen: false)
+          .getDynamicLinkProduct(data: initialLink, context: context);
+    }
   }
 }

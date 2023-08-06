@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
-import 'package:mytune/general/serveices/custom_toast.dart';
-import 'package:mytune/general/serveices/imag_picker_serveice.dart';
-
 class ImagePickerWidet extends StatelessWidget {
   const ImagePickerWidet({
     Key? key,
@@ -17,7 +14,6 @@ class ImagePickerWidet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? selectedImagePath;
     return SizedBox(
       height: 180,
       child: Padding(

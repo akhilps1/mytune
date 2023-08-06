@@ -61,64 +61,64 @@ class _ArtistDetailsState extends State<ArtistDetails> {
 
     return Scaffold(
       // appBar: AppBar(),
-      body: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          SliverAppBar(
-            expandedHeight: size.height * 0.5,
-            surfaceTintColor: Colors.white,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            leading: IconButton(
-              onPressed: () {
-                Provider.of<ArtistDetailsProvider>(
-                  context,
-                  listen: false,
-                ).clear();
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.keyboard_backspace,
-                color: Color.fromARGB(255, 137, 156, 224),
-              ),
-            ),
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              centerTitle: true,
-              background: ArtistProfile(
-                category: widget.category,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(15),
-                  height: 40,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.blue,
-                  ),
-                  child: Center(
-                      child: Text(
-                    '126 Songs',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
-                  )),
+      body: Consumer<ArtistDetailsProvider>(
+        builder: (context, state, _) => CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            SliverAppBar(
+              expandedHeight: size.height * 0.5,
+              surfaceTintColor: Colors.white,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              leading: IconButton(
+                onPressed: () {
+                  Provider.of<ArtistDetailsProvider>(
+                    context,
+                    listen: false,
+                  ).clear();
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.keyboard_backspace,
+                  color: Color.fromARGB(255, 137, 156, 224),
                 ),
-              ],
+              ),
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.parallax,
+                centerTitle: true,
+                background: ArtistProfile(
+                  category: widget.category,
+                ),
+              ),
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(15),
-            sliver: Consumer<ArtistDetailsProvider>(
-              builder: (context, state, _) => SliverList.separated(
+            SliverToBoxAdapter(
+              child: Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(15),
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.blue,
+                    ),
+                    child: Center(
+                        child: Text(
+                      "${widget.category.totalVideos} Songs",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                    )),
+                  ),
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(15),
+              sliver: SliverList.separated(
                 itemCount: state.products.length,
                 itemBuilder: (context, index) {
                   final product = state.products[index];
@@ -145,9 +145,7 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                 ),
               ),
             ),
-          ),
-          Consumer<ArtistDetailsProvider>(
-            builder: (context, state, _) => SliverPadding(
+            SliverPadding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               sliver: SliverToBoxAdapter(
                 child: Center(
@@ -157,8 +155,8 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

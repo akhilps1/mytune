@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
@@ -7,6 +9,7 @@ import 'package:mytune/general/serveices/custom_toast.dart';
 
 import '../../../general/failures/main_failure.dart';
 import '../../home/models/product_model.dart';
+import '../../home/provider/home_screen_provider.dart';
 import '../repository/craft_details_repo.dart';
 import '../repository/crew_detail_repo.dart';
 import '../repository/product_details_repo.dart';
@@ -16,6 +19,7 @@ class ProductDetailsProvider with ChangeNotifier {
   final ProductDetailsRepo _detailsRepo = locater<ProductDetailsRepo>();
   final CraftDetailRepo _craftDetailRepo = locater<CraftDetailRepo>();
   final CrewDetailRepo _crewDetailRepo = locater<CrewDetailRepo>();
+  final HomeScreenProvider _homeScreenProvider = locater<HomeScreenProvider>();
 
   bool isLoading = false;
   bool isFirebaseLoading = false;
@@ -81,6 +85,18 @@ class ProductDetailsProvider with ChangeNotifier {
         );
       }
     }
+  }
+
+  Future<void> incrementView({required ProductModel product}) async {
+    await _detailsRepo.updateViews(id: product.id!).then((successOrFailure) {
+      successOrFailure.fold(
+        (l) => log(l.toString()),
+        (r) {
+          log('successOrFailure');
+          _homeScreenProvider.updateView(product: product);
+        },
+      );
+    });
   }
 
   Future<void> getCrew({required ProductModel product}) async {

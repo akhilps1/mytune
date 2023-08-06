@@ -7,8 +7,10 @@ import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/product_details/screens/widgets/custom_icon_button.dart';
 import 'package:mytune/features/sheared/category_list_item.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
+import 'package:mytune/general/serveices/dynamic_link/dynamic_link.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../provider/product_details_rovider.dart';
 
@@ -100,7 +102,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ? Positioned(
                             top: size.height * 0.12,
                             child: Text(
-                              widget.title ?? widget.product.title,
+                              widget.title ?? '',
                               style: Theme.of(
                                 context,
                               ).textTheme.titleMedium!.copyWith(
@@ -112,11 +114,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           )
                         : const SizedBox(),
                     Positioned(
-                      top: size.height * 0.165,
+                      top: widget.title != null
+                          ? size.height * 0.165
+                          : size.height * 0.12,
                       child: SizedBox(
                         width: size.width - 40,
                         child: Text(
-                          'Olam Up Video Song | Dabzee | Anarkali | Jahaan | Chemban Vinod Jose',
+                          widget.product.title,
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontWeight: FontWeight.w700,
@@ -130,18 +134,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                     ),
                     Positioned(
-                      top: size.height * 0.26,
+                      top: widget.title != null
+                          ? size.height * 0.26
+                          : size.height * 0.21,
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 0.2,
-                                  spreadRadius: 0.25),
-                            ]),
+                          SizedBox(
+                            // padding: const EdgeInsets.all(5),
+                            // decoration: BoxDecoration(boxShadow: [
+                            //   BoxShadow(
+                            //       color: Colors.black.withOpacity(0.2),
+                            //       blurRadius: 0.2,
+                            //       spreadRadius: 0.25),
+                            // ]),
                             height: size.height * 0.28,
                             width: size.width - 40,
                             child: CustomCachedNetworkImage(
@@ -156,7 +162,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                         MaterialTapTargetSize.shrinkWrap,
                                     backgroundColor:
                                         MaterialStatePropertyAll(Colors.white)),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await Provider.of<ProductDetailsProvider>(
+                                    context,
+                                    listen: false,
+                                  )
+                                      .incrementView(product: widget.product)
+                                      .then((value) => null);
+                                  launchUrl(Uri.parse(widget.product.videoUrl));
+                                },
                                 icon: const Icon(
                                   Icons.play_circle_fill,
                                   size: 40,
@@ -167,7 +181,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                     ),
                     Positioned(
-                      top: size.height * 0.55,
+                      top: widget.title != null
+                          ? size.height * 0.55
+                          : size.height * 0.53,
                       child: SizedBox(
                         width: size.width - 40,
                         child: Row(
@@ -176,7 +192,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             Column(
                               children: [
                                 Text(
-                                  widget.product.likes.toString(),
+                                  NumberFormatter.format(
+                                      value: widget.product.views),
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium!
@@ -262,11 +279,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               ],
                             ),
                             CustomIconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // launchUrl(
+                                //     Uri.https('https://youtu.be/0SyF0Py-NdI'));
+                              },
                               icon: const Icon(Icons.bookmark_border_outlined),
                             ),
                             CustomIconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                DynamicLink.createLink(
+                                  videoId: widget.product.id!,
+                                  imageUrl: widget.product.imageUrl,
+                                  title: widget.product.title,
+                                );
+                              },
                               icon: const ImageIcon(
                                 AssetImage(
                                   'assets/images/shear.png',
@@ -417,10 +443,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 itemCount: state.products.length,
                 itemBuilder: (context, index) {
                   final product = state.products[index];
-                  return Container(
-                    height: 200,
-                    color: Colors.grey[200],
-                    child: CustomCachedNetworkImage(url: product.imageUrl),
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailsPage(
+                            product: product,
+                            title: null,
+                          ),
+                        ),
+                      );
+
+                      Provider.of<ProductDetailsProvider>(
+                        context,
+                        listen: false,
+                      ).clear();
+                    },
+                    child: Container(
+                      height: 200,
+                      color: Colors.grey[200],
+                      child: CustomCachedNetworkImage(url: product.imageUrl),
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) => const SizedBox(

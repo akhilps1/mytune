@@ -48,7 +48,11 @@ class CategoryRepository {
               .limit(4)
               .get();
 
-      lastDoc = refreshedClass.docs.last;
+      if (refreshedClass.docs.isNotEmpty) {
+        lastDoc = refreshedClass.docs.last;
+      } else {
+        return left(const MainFailure.noElemet(errorMsg: ''));
+      }
 
       // log('getCategoriesByLimit: ${refreshedClass.docs.toString()}');
 
@@ -61,7 +65,7 @@ class CategoryRepository {
       return right(categories);
       // log(users.length.toString());
     } catch (e) {
-      log(e.toString());
+      print(e.toString());
       return left(const MainFailure.noElemet(errorMsg: ''));
     }
   }

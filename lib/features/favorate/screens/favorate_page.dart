@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 
 import '../../sheared/custom_catched_network_image.dart';
 
@@ -7,6 +8,7 @@ class FavoratePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -26,12 +28,18 @@ class FavoratePage extends StatelessWidget {
               return InkWell(
                 onTap: () {},
                 child: Container(
-                  height: 200,
-                  color: Colors.grey[200],
+                  height: 230,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey[200],
+                  ),
                   child: Stack(children: [
-                    const CustomCachedNetworkImage(
-                        url:
-                            'https://cdn.pixabay.com/photo/2016/11/14/04/45/elephant-1822636_1280.jpg'),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: const CustomCachedNetworkImage(
+                          url:
+                              'https://firebasestorage.googleapis.com/v0/b/my-tune-admin.appspot.com/o/categories%2F1690440709157000webp_image.jpeg?alt=media&token=174dde5b-ec0e-42fc-90cd-8a7c459a7a2b'),
+                    ),
                     Align(
                       alignment: Alignment.center,
                       child: IconButton(
@@ -47,6 +55,36 @@ class FavoratePage extends StatelessWidget {
                             color: Colors.black87,
                           )),
                     ),
+                    Positioned(
+                      bottom: 5,
+                      left: 5,
+                      right: 5,
+                      child: Container(
+                        height: 45,
+                        width: size.width - 30,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'Daily Daily Video Song | Dabzee | Anarkali | Jahaan | Chemban Vinod Jose | Lukman Avaran.',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                              maxLines: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ]),
                 ),
               );

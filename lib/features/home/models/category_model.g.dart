@@ -24,6 +24,7 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
       keywords: (fields[6] as List).cast<dynamic>(),
       followers: fields[4] as int,
       isTopTen: fields[8] as bool,
+      totalVideos: fields[9] as int?,
       id: fields[0] as String?,
       isCraft: fields[7] as bool,
     );
@@ -32,7 +33,7 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
   @override
   void write(BinaryWriter writer, CategoryModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
       ..writeByte(7)
       ..write(obj.isCraft)
       ..writeByte(8)
-      ..write(obj.isTopTen);
+      ..write(obj.isTopTen)
+      ..writeByte(9)
+      ..write(obj.totalVideos);
   }
 
   @override

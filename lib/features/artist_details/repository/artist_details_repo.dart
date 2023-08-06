@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+
 import 'package:mytune/general/failures/main_failure.dart';
 
 import '../../home/models/product_model.dart';
@@ -10,6 +11,7 @@ import '../../home/models/product_model.dart';
 @lazySingleton
 class ArtistDetailsRepo {
   final FirebaseFirestore firebaseFirestore;
+
   ArtistDetailsRepo({
     required this.firebaseFirestore,
   });
@@ -52,7 +54,9 @@ class ArtistDetailsRepo {
               .limit(4)
               .get();
 
-      lastDoc = refreshedClass.docs.last;
+      if (refreshedClass.docs.isNotEmpty) {
+        lastDoc = refreshedClass.docs.last;
+      }
 
       if (refreshedClass.docs.length <= 7) {}
       products.addAll(

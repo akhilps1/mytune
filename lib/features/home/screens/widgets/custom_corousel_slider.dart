@@ -4,6 +4,7 @@ import 'package:mytune/features/home/models/banner_model.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 import 'package:mytune/general/utils/theam/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomCorouselSlider extends StatefulWidget {
   const CustomCorouselSlider({
@@ -30,32 +31,37 @@ class _CustomCorouselSliderState extends State<CustomCorouselSlider> {
           itemCount: widget.banners.length,
           itemBuilder: (ctx, index, _) {
             final banner = widget.banners[index];
-            return Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-                    decoration: const BoxDecoration(
-                        // color: Colors.blue,
-                        // borderRadius: BorderRadius.all(
-                        //   Radius.circular(15),
-                        // ),
-                        ),
-                    // height: 100,
-                    width: double.infinity,
+            return InkWell(
+              onTap: () {
+                launchUrl(Uri.parse(banner.videoUrl));
+              },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 8),
+                      decoration: const BoxDecoration(
+                          // color: Colors.blue,
+                          // borderRadius: BorderRadius.all(
+                          //   Radius.circular(15),
+                          // ),
+                          ),
+                      // height: 100,
+                      width: double.infinity,
 
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      child: CustomCachedNetworkImage(
-                        url: banner.imageUrl,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        child: CustomCachedNetworkImage(
+                          url: banner.imageUrl,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },
           options: CarouselOptions(
