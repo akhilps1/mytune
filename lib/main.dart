@@ -8,8 +8,9 @@ import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
+import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 
-import 'package:mytune/features/product_details/provider/product_details_rovider.dart';
+import 'package:mytune/features/product_details/provider/product_details_provider.dart';
 import 'package:mytune/features/search/provider/saerch_provider.dart';
 import 'package:mytune/features/splash_screen/screens/screen_splash.dart';
 import 'package:mytune/features/trending/provider/trending_page_provider.dart';
@@ -77,6 +78,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(
           create: (context) => TrendingPageProvider()..getTrendingByLimite(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => LocalDbDataProvider()
+            ..getLikedVideos()
+            ..getFollowedArtist(),
+        )
       ],
       child: MaterialApp(
         title: 'WyTune',

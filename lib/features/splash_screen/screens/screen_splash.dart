@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../app_root.dart';
 // import 'package:mytune/features/authentication/provider/login_provider.dart';
@@ -17,7 +19,18 @@ class ScreenSplash extends StatefulWidget {
 class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
-    wait();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<LoginProvider>(context, listen: false).checkLoginStatus();
+      if (Provider.of<LoginProvider>(context, listen: false).user != null) {
+        if (Provider.of<LoginProvider>(context, listen: false).isLoggdIn &&
+            Provider.of<LoginProvider>(context, listen: false).appUser ==
+                null) {
+          Provider.of<LoginProvider>(context, listen: false).getUserDetails();
+        }
+      }
+
+      wait();
+    });
     super.initState();
   }
 

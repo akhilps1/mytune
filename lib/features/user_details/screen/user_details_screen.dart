@@ -42,6 +42,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   TextEditingController placeController = TextEditingController();
   TextEditingController hobbiesController = TextEditingController();
   TextEditingController favorateSingerController = TextEditingController();
+  TextEditingController skillsController = TextEditingController();
 
   String? selectedImagePath;
 
@@ -52,15 +53,20 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   @override
   void initState() {
     appUser = Provider.of<LoginProvider>(context, listen: false).appUser;
-    phoneController.text = widget.appUser.mobileNumber;
+    phoneController.text = widget.appUser.mobileNumber ?? '';
     nameController.text = appUser?.userName ?? '';
     ageController.text = appUser?.age ?? '';
     emailController.text = appUser?.email ?? '';
     placeController.text = appUser?.city ?? '';
-    hobbiesController.text =
-        appUser?.hobbies.toString().replaceAll('[', '').replaceAll(']', '') ??
-            '';
+    hobbiesController.text = appUser?.hobbies != null
+        ? appUser?.hobbies.toString().replaceAll('[', '').replaceAll(']', '') ??
+            ''
+        : '';
     favorateSingerController.text = appUser?.favorateSinger ?? '';
+    skillsController.text = appUser?.skills != null
+        ? appUser?.skills.toString().replaceAll('[', '').replaceAll(']', '') ??
+            ''
+        : '';
 
     super.initState();
   }
@@ -77,6 +83,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.keyboard_backspace,
+            )),
         title: const Text(
           'Profile',
           style: TextStyle(fontFamily: 'poppins'),
@@ -126,9 +139,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                               borderRadius: BorderRadius.circular(100),
                               child: selectedImagePath == null &&
                                       appUser != null &&
-                                      appUser!.imageUrl.isNotEmpty
+                                      appUser!.imageUrl != null &&
+                                      appUser!.imageUrl!.isNotEmpty
                                   ? CustomCachedNetworkImage(
-                                      url: appUser!.imageUrl)
+                                      url: appUser!.imageUrl!)
                                   : selectedImagePath == null
                                       ? Icon(
                                           IconlyBold.profile,
@@ -226,6 +240,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 textInputAction: TextInputAction.done,
               ),
               kSizedBoxH15,
+              CustomTextField(
+                iconData: Icons.sports_esports_outlined,
+                hint: 'Skills',
+                textEditingController: skillsController,
+                textInputAction: TextInputAction.done,
+              ),
+              kSizedBoxH15,
               SizedBox(
                 width: size.width - 50,
                 child: CustomButton(
@@ -251,10 +272,12 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       imgUrl = await state.uploadImage(bytesImage: image!);
                     }
 
+                    print(imgUrl);
+
                     if (state.isLoading == false) {
                       await state.updateUserDetails(
                         id: appUser?.id ?? widget.appUser.id!,
-                        mobileNumber: widget.appUser.mobileNumber,
+                        mobileNumber: widget.appUser.mobileNumber ?? '',
                         name: nameController.text,
                         email: emailController.text,
                         age: ageController.text,
@@ -262,6 +285,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         hobbies: hobbiesController.text,
                         favorateSinger: favorateSingerController.text,
                         imageUrl: appUser?.imageUrl ?? imgUrl,
+                        skills: skillsController.text,
                       );
                     }
                   },

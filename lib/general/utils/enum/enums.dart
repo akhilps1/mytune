@@ -14,3 +14,8 @@ enum LoginState {
   signedIn,
   signOut,
 }
+
+enum CountState {
+  increment,
+  decrement,
+}

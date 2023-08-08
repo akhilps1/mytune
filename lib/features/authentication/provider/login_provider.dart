@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mytune/features/authentication/models/user_model.dart';
 
@@ -12,6 +13,7 @@ import 'package:mytune/general/failures/main_failure.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
 
 import '../../../general/di/injection.dart';
+import '../../user_details/screen/user_details_screen.dart';
 
 @injectable
 class LoginProvider with ChangeNotifier {
@@ -64,7 +66,8 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  Future<void> veryfyOtpClicked({required String otp}) async {
+  Future<void> veryfyOtpClicked(
+      {required String otp, required BuildContext context}) async {
     isLoading = true;
     notifyListeners();
     final falureOrSuccess = await firebaseLoginServeices.verifyOtp(
@@ -95,9 +98,11 @@ class LoginProvider with ChangeNotifier {
             isLoading = false;
             isLoggdIn = true;
             checkLoginStatus();
+            // ignore: use_build_context_synchronously
             await getUserDetails();
             notifyListeners();
             CustomToast.successToast('Login successful');
+
             log(appUser.toString());
           },
         );
@@ -138,7 +143,7 @@ class LoginProvider with ChangeNotifier {
   Future<void> getUserDetails() async {
     final data = firebaseLoginServeices.getUserDetails(userId: user!.uid);
 
-    data.listen((event) {
+    data?.listen((event) {
       appUser = AppUser.fromSnapshot(event);
       notifyListeners();
     });
@@ -148,9 +153,17 @@ class LoginProvider with ChangeNotifier {
     final String? userId = firebaseAuth.currentUser?.uid;
 
     if (userId != null) {
-      await firebaseLoginServeices.deleteAccount(userId: userId);
+      final successorFailure =
+          await firebaseLoginServeices.deleteAccount(userId: userId);
+      successorFailure.fold(
+        (l) {},
+        (r) {
+          logOut();
+          CustomToast.successToast('Account deleted');
+        },
+      );
     } else {
-      CustomToast.errorToast('Please login first');
+      CustomToast.errorToast('Please Create a account first');
     }
   }
 }

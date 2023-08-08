@@ -46,6 +46,8 @@ class ProductModel implements ObjectWithId {
   String? trendingImage;
   @HiveField(16)
   String videoUrl;
+  @HiveField(17)
+  bool isLiked = false;
 
   ProductModel({
     this.id,
@@ -162,7 +164,11 @@ class ProductModel implements ObjectWithId {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  void checkLiked({
+    required List<String> videoIds,
+  }) {
+    isLiked = videoIds.contains(id);
+  }
 
   @override
   String toString() {

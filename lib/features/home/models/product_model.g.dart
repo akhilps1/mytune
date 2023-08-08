@@ -35,13 +35,13 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       isTrending: fields[9] as bool,
       videoUrl: fields[16] as String,
       trendingImage: fields[15] as String?,
-    );
+    )..isLiked = fields[17] as bool;
   }
 
   @override
   void write(BinaryWriter writer, ProductModel obj) {
     writer
-      ..writeByte(17)
+      ..writeByte(18)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(4)
@@ -75,7 +75,9 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(15)
       ..write(obj.trendingImage)
       ..writeByte(16)
-      ..write(obj.videoUrl);
+      ..write(obj.videoUrl)
+      ..writeByte(17)
+      ..write(obj.isLiked);
   }
 
   @override

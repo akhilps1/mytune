@@ -23,6 +23,7 @@ mixin _$MainFailure {
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
     required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +33,7 @@ mixin _$MainFailure {
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
     TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +43,7 @@ mixin _$MainFailure {
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
     TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +54,7 @@ mixin _$MainFailure {
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
     required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +64,7 @@ mixin _$MainFailure {
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
     TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +74,7 @@ mixin _$MainFailure {
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
     TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -162,6 +168,7 @@ class _$_NoElemet implements _NoElemet {
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
     required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
   }) {
     return noElemet(errorMsg);
   }
@@ -174,6 +181,7 @@ class _$_NoElemet implements _NoElemet {
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
     TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
   }) {
     return noElemet?.call(errorMsg);
   }
@@ -186,6 +194,7 @@ class _$_NoElemet implements _NoElemet {
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
     TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
     required TResult orElse(),
   }) {
     if (noElemet != null) {
@@ -202,6 +211,7 @@ class _$_NoElemet implements _NoElemet {
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
     required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
   }) {
     return noElemet(this);
   }
@@ -214,6 +224,7 @@ class _$_NoElemet implements _NoElemet {
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
     TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
   }) {
     return noElemet?.call(this);
   }
@@ -226,6 +237,7 @@ class _$_NoElemet implements _NoElemet {
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
     TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
     required TResult orElse(),
   }) {
     if (noElemet != null) {
@@ -287,6 +299,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
     required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
   }) {
     return userNotSignedIn();
   }
@@ -299,6 +312,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
     TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
   }) {
     return userNotSignedIn?.call();
   }
@@ -311,6 +325,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
     TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
     required TResult orElse(),
   }) {
     if (userNotSignedIn != null) {
@@ -327,6 +342,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
     required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
   }) {
     return userNotSignedIn(this);
   }
@@ -339,6 +355,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
     TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
   }) {
     return userNotSignedIn?.call(this);
   }
@@ -351,6 +368,7 @@ class _$_UserNotSignedIn implements _UserNotSignedIn {
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
     TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
     required TResult orElse(),
   }) {
     if (userNotSignedIn != null) {
@@ -407,6 +425,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
     required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
   }) {
     return otpVerificationFaild();
   }
@@ -419,6 +438,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
     TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
   }) {
     return otpVerificationFaild?.call();
   }
@@ -431,6 +451,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
     TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
     required TResult orElse(),
   }) {
     if (otpVerificationFaild != null) {
@@ -447,6 +468,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
     required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
   }) {
     return otpVerificationFaild(this);
   }
@@ -459,6 +481,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
     TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
   }) {
     return otpVerificationFaild?.call(this);
   }
@@ -471,6 +494,7 @@ class _$_OtpVerificationFaild implements _OtpVerificationFaild {
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
     TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
     required TResult orElse(),
   }) {
     if (otpVerificationFaild != null) {
@@ -527,6 +551,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
     required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
   }) {
     return logedInFailed();
   }
@@ -539,6 +564,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
     TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
   }) {
     return logedInFailed?.call();
   }
@@ -551,6 +577,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
     TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
     required TResult orElse(),
   }) {
     if (logedInFailed != null) {
@@ -567,6 +594,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
     required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
   }) {
     return logedInFailed(this);
   }
@@ -579,6 +607,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
     TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
   }) {
     return logedInFailed?.call(this);
   }
@@ -591,6 +620,7 @@ class _$_LogedInFailed implements _LogedInFailed {
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
     TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
     required TResult orElse(),
   }) {
     if (logedInFailed != null) {
@@ -647,6 +677,7 @@ class _$_ServerFailure implements _ServerFailure {
     required TResult Function() otpVerificationFaild,
     required TResult Function() logedInFailed,
     required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
   }) {
     return serverFailure();
   }
@@ -659,6 +690,7 @@ class _$_ServerFailure implements _ServerFailure {
     TResult? Function()? otpVerificationFaild,
     TResult? Function()? logedInFailed,
     TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
   }) {
     return serverFailure?.call();
   }
@@ -671,6 +703,7 @@ class _$_ServerFailure implements _ServerFailure {
     TResult Function()? otpVerificationFaild,
     TResult Function()? logedInFailed,
     TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
     required TResult orElse(),
   }) {
     if (serverFailure != null) {
@@ -687,6 +720,7 @@ class _$_ServerFailure implements _ServerFailure {
     required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
     required TResult Function(_LogedInFailed value) logedInFailed,
     required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
   }) {
     return serverFailure(this);
   }
@@ -699,6 +733,7 @@ class _$_ServerFailure implements _ServerFailure {
     TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult? Function(_LogedInFailed value)? logedInFailed,
     TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
   }) {
     return serverFailure?.call(this);
   }
@@ -711,6 +746,7 @@ class _$_ServerFailure implements _ServerFailure {
     TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
     TResult Function(_LogedInFailed value)? logedInFailed,
     TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
     required TResult orElse(),
   }) {
     if (serverFailure != null) {
@@ -722,4 +758,130 @@ class _$_ServerFailure implements _ServerFailure {
 
 abstract class _ServerFailure implements MainFailure {
   const factory _ServerFailure() = _$_ServerFailure;
+}
+
+/// @nodoc
+abstract class _$$_DocumentNotFountCopyWith<$Res> {
+  factory _$$_DocumentNotFountCopyWith(
+          _$_DocumentNotFount value, $Res Function(_$_DocumentNotFount) then) =
+      __$$_DocumentNotFountCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_DocumentNotFountCopyWithImpl<$Res>
+    extends _$MainFailureCopyWithImpl<$Res, _$_DocumentNotFount>
+    implements _$$_DocumentNotFountCopyWith<$Res> {
+  __$$_DocumentNotFountCopyWithImpl(
+      _$_DocumentNotFount _value, $Res Function(_$_DocumentNotFount) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_DocumentNotFount implements _DocumentNotFount {
+  const _$_DocumentNotFount();
+
+  @override
+  String toString() {
+    return 'MainFailure.documentNotFount()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_DocumentNotFount);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String errorMsg) noElemet,
+    required TResult Function() userNotSignedIn,
+    required TResult Function() otpVerificationFaild,
+    required TResult Function() logedInFailed,
+    required TResult Function() serverFailure,
+    required TResult Function() documentNotFount,
+  }) {
+    return documentNotFount();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String errorMsg)? noElemet,
+    TResult? Function()? userNotSignedIn,
+    TResult? Function()? otpVerificationFaild,
+    TResult? Function()? logedInFailed,
+    TResult? Function()? serverFailure,
+    TResult? Function()? documentNotFount,
+  }) {
+    return documentNotFount?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String errorMsg)? noElemet,
+    TResult Function()? userNotSignedIn,
+    TResult Function()? otpVerificationFaild,
+    TResult Function()? logedInFailed,
+    TResult Function()? serverFailure,
+    TResult Function()? documentNotFount,
+    required TResult orElse(),
+  }) {
+    if (documentNotFount != null) {
+      return documentNotFount();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_NoElemet value) noElemet,
+    required TResult Function(_UserNotSignedIn value) userNotSignedIn,
+    required TResult Function(_OtpVerificationFaild value) otpVerificationFaild,
+    required TResult Function(_LogedInFailed value) logedInFailed,
+    required TResult Function(_ServerFailure value) serverFailure,
+    required TResult Function(_DocumentNotFount value) documentNotFount,
+  }) {
+    return documentNotFount(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_NoElemet value)? noElemet,
+    TResult? Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult? Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult? Function(_LogedInFailed value)? logedInFailed,
+    TResult? Function(_ServerFailure value)? serverFailure,
+    TResult? Function(_DocumentNotFount value)? documentNotFount,
+  }) {
+    return documentNotFount?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_NoElemet value)? noElemet,
+    TResult Function(_UserNotSignedIn value)? userNotSignedIn,
+    TResult Function(_OtpVerificationFaild value)? otpVerificationFaild,
+    TResult Function(_LogedInFailed value)? logedInFailed,
+    TResult Function(_ServerFailure value)? serverFailure,
+    TResult Function(_DocumentNotFount value)? documentNotFount,
+    required TResult orElse(),
+  }) {
+    if (documentNotFount != null) {
+      return documentNotFount(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DocumentNotFount implements MainFailure {
+  const factory _DocumentNotFount() = _$_DocumentNotFount;
 }

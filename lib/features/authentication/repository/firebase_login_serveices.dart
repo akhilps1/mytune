@@ -82,23 +82,12 @@ class FirebaseLoginServeices {
       return AppUser.fromSnapshot(userdetails);
     } else {
       final user = AppUser(
-        userName: '',
         notificationToken: token!,
-        imageUrl: '',
         mobileNumber: phoneNo,
-        email: '',
-        age: '',
-        city: '',
-        skills: [],
-        hobbies: [],
-        favorateSinger: '',
         timestamp: Timestamp.now(),
         keywords: getKeywords(
           phoneNo.replaceAll('+', ''),
         ),
-        followedCategory: [],
-        likedVideos: [],
-        favoriteVideos: [],
       );
 
       await firebaseFirestore
@@ -139,9 +128,13 @@ class FirebaseLoginServeices {
     return right(user);
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserDetails(
+  Stream<DocumentSnapshot<Map<String, dynamic>>>? getUserDetails(
       {required String userId}) {
-    final data = firebaseFirestore.collection('users').doc(userId).snapshots();
+    Stream<DocumentSnapshot<Map<String, dynamic>>>? data;
+
+    if (firebaseAuth.currentUser?.uid != null) {
+      data = firebaseFirestore.collection('users').doc(userId).snapshots();
+    }
 
     return data;
   }
@@ -149,7 +142,7 @@ class FirebaseLoginServeices {
   Future<Either<MainFailure, Unit>> deleteAccount(
       {required String userId}) async {
     try {
-      await firebaseFirestore.collection('useers').doc(userId).delete();
+      await firebaseFirestore.collection('users').doc(userId).delete();
       return right(unit);
     } catch (e) {
       return left(const MainFailure.serverFailure());

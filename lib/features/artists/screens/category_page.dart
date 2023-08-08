@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
 import 'package:mytune/features/artist_details/screens/artist_details.dart';
 import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/artists/screens/widgets/artist_grid_item.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/search/screen/search_screen.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
@@ -49,8 +51,9 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Consumer<ArtistScreenProvider>(
-      builder: (context, state, _) => CustomScrollView(
+    return Consumer3<ArtistScreenProvider, ArtistDetailsProvider,
+        LoginProvider>(
+      builder: (context, state, state1, state2, _) => CustomScrollView(
         controller: scrollController,
         slivers: [
           SliverAppBar(
@@ -111,8 +114,16 @@ class _CategoryPageState extends State<CategoryPage> {
                             childAspectRatio: 2 / 2),
                     itemBuilder: (context, index) {
                       final artist = state.artists[index];
+                      if (state2.isLoggdIn == true) {
+                        state1.checkFollowed(
+                          artist: artist,
+                          userId: state2.appUser!.id!,
+                        );
+                      }
+
                       return InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            // ignore: use_build_context_synchronously
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ArtistDetails(

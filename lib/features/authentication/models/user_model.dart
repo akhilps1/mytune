@@ -5,38 +5,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
   final String? id;
-  final String userName;
-  String imageUrl;
-  final String mobileNumber;
-  final String email;
-  String age;
-  String city;
-  String favorateSinger;
-  List skills;
-  final String notificationToken;
-  List hobbies;
-  final List keywords;
-  List followedCategory;
-  List likedVideos;
-  List favoriteVideos;
+  final String? userName;
+  String? imageUrl;
+  final String? mobileNumber;
+  final String? email;
+  String? age;
+  String? city;
+  String? favorateSinger;
+  List? skills;
+  final String? notificationToken;
+  List? hobbies;
+  final List? keywords;
+  List? followedCategory;
+  List? likedVideos;
+  List? favoriteVideos;
 
-  Timestamp timestamp;
+  Timestamp? timestamp;
   AppUser({
-    required this.userName,
-    required this.imageUrl,
-    required this.mobileNumber,
-    required this.email,
-    required this.age,
-    required this.city,
-    required this.favorateSinger,
-    required this.skills,
-    required this.notificationToken,
-    required this.hobbies,
-    required this.keywords,
-    required this.followedCategory,
-    required this.likedVideos,
-    required this.timestamp,
-    required this.favoriteVideos,
+    this.userName,
+    this.imageUrl,
+    this.mobileNumber,
+    this.email,
+    this.age,
+    this.city,
+    this.favorateSinger,
+    this.skills,
+    this.notificationToken,
+    this.hobbies,
+    this.keywords,
+    this.followedCategory,
+    this.likedVideos,
+    this.timestamp,
+    this.favoriteVideos,
     this.id,
   });
 
@@ -61,25 +61,25 @@ class AppUser {
     };
   }
 
-  factory AppUser.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snap) {
-    final map = snap.data()!;
+  factory AppUser.fromSnapshot(DocumentSnapshot<Map<String, dynamic>>? snap) {
+    final map = snap?.data();
     return AppUser(
-      id: snap.id,
-      userName: map['userName'] as String,
-      imageUrl: map['imageUrl'] as String,
-      mobileNumber: map['mobileNumber'] as String,
-      email: map['email'] as String,
-      age: map['age'] as String,
-      city: map['city'] as String,
-      favorateSinger: map['favorateSinger'] as String,
-      skills: map['skills'] as List,
-      hobbies: map['hobbies'] as List,
-      timestamp: map['timestamp'] as Timestamp,
-      keywords: map['keywords'] as List,
-      notificationToken: map['notificationToken'] as String,
-      followedCategory: map['followedCategory'] as List,
-      likedVideos: map['likedVideos'] as List,
-      favoriteVideos: map['favoriteVideos'] as List,
+      id: snap?.id,
+      userName: map?['userName'],
+      imageUrl: map?['imageUrl'],
+      mobileNumber: map?['mobileNumber'],
+      email: map?['email'],
+      age: map?['age'],
+      city: map?['city'],
+      favorateSinger: map?['favorateSinger'],
+      skills: map?['skills'],
+      hobbies: map?['hobbies'],
+      timestamp: map?['timestamp'],
+      keywords: map?['keywords'],
+      notificationToken: map?['notificationToken'],
+      followedCategory: map?['followedCategory'],
+      likedVideos: map?['likedVideos'],
+      favoriteVideos: map?['favoriteVideos'],
     );
   }
 

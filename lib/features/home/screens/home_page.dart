@@ -2,11 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
+import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart';
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
+import 'package:mytune/features/product_details/provider/product_details_provider.dart';
 import 'package:mytune/features/product_details/screens/product_details_page.dart';
 
 import 'package:mytune/general/serveices/dynamic_link/dynamic_link.dart';
@@ -36,15 +39,6 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
 
-      final user =
-          Provider.of<LoginProvider>(context, listen: false).checkLoginStatus();
-      if (user != null) {
-        if (Provider.of<LoginProvider>(context, listen: false).isLoggdIn &&
-            Provider.of<LoginProvider>(context, listen: false).appUser ==
-                null) {
-          Provider.of<LoginProvider>(context, listen: false).getUserDetails();
-        }
-      }
       checkDynamicLink();
     });
     scrollController.addListener(() {
@@ -67,8 +61,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-    // product = Provider.of<HomeScreenProvider>(context).video;
-
     super.didChangeDependencies();
   }
 
@@ -76,8 +68,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      child: Consumer2<HomeScreenProvider, LoginProvider>(
-        builder: (context, state, state2, _) => CustomScrollView(
+      child:
+          Consumer3<HomeScreenProvider, LoginProvider, ProductDetailsProvider>(
+        builder: (context, state, state2, state3, _) => CustomScrollView(
           controller: scrollController,
           slivers: [
             SliverAppBar(
@@ -140,7 +133,7 @@ class _HomePageState extends State<HomePage> {
             state.categories.isNotEmpty
                 ? SliverToBoxAdapter(
                     child: SizedBox(
-                        height: size.height * 0.26,
+                        height: size.height * 0.28,
                         child: CategoryWidget(
                           size: size,
                           categories: state.categories.sublist(0, 3),
@@ -215,9 +208,15 @@ class _HomePageState extends State<HomePage> {
 
                         // log(videio.views.toString());
                         return InkWell(
-                          onTap: () {
-                            log("1");
+                          onTap: () async {
+                            if (state2.isLoggdIn) {
+                              await state3.checkLiked(
+                                product: videio,
+                                userId: state2.appUser!.id!,
+                              );
+                            }
 
+                            // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(

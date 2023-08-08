@@ -6,7 +6,6 @@ import 'package:filesize/filesize.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 Future<Uint8List> compressImage(File file) async {
-  log(filesize(file.lengthSync().toString()));
   final list = await file.readAsBytes();
   var result = await FlutterImageCompress.compressWithList(
     list,

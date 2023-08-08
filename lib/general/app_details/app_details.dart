@@ -1,5 +1,4 @@
 class AppDetails {
-  static const LOCAL_DB_NAME = 'mytune-local-db';
   static const appName = 'MyTune';
   static const isPhoneNumberVisible = false;
   static const phoneNumber = '';

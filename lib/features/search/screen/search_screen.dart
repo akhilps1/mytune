@@ -116,7 +116,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         onPressed: () async {
                           // ignore: use_build_context_synchronously
-                          await showDialog(
+                          showDialog(
                             context: context,
                             builder: (context) {
                               Provider.of<SearchProvider>(
@@ -328,7 +328,7 @@ class _DialogItemState extends State<DialogItem> {
                         ),
                       ),
                       onPressed: () async {
-                        Provider.of<SearchProvider>(
+                        await Provider.of<SearchProvider>(
                           context,
                           listen: false,
                         ).listen(widget.searchState);

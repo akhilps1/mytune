@@ -1,18 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
 
 import 'package:mytune/features/home/models/product_model.dart';
+import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/product_details/screens/widgets/custom_icon_button.dart';
 import 'package:mytune/features/sheared/category_list_item.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
+import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/serveices/dynamic_link/dynamic_link.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
+import 'package:mytune/general/utils/enum/enums.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../provider/product_details_rovider.dart';
+import '../../home/provider/local_db_data_provider.dart';
+import '../provider/product_details_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({
@@ -30,6 +37,7 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   bool expand = false;
+
   final ScrollController scrollController = ScrollController();
   @override
   void initState() {
@@ -73,7 +81,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         controller: scrollController,
         slivers: [
           SliverAppBar(
-            expandedHeight: size.height * 0.66,
+            expandedHeight: size.height * 0.8,
             surfaceTintColor: Colors.white,
             backgroundColor: Colors.white,
             elevation: 0,
@@ -155,27 +163,36 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: IconButton(
-                                padding: EdgeInsets.zero,
-                                style: const ButtonStyle(
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.white)),
-                                onPressed: () async {
-                                  await Provider.of<ProductDetailsProvider>(
-                                    context,
-                                    listen: false,
-                                  )
-                                      .incrementView(product: widget.product)
-                                      .then((value) => null);
-                                  launchUrl(Uri.parse(widget.product.videoUrl));
-                                },
-                                icon: const Icon(
-                                  Icons.play_circle_fill,
-                                  size: 40,
-                                  color: Colors.black87,
-                                )),
+                            child: Consumer2<HomeScreenProvider,
+                                ProductDetailsProvider>(
+                              builder: (context, state, state1, _) =>
+                                  IconButton(
+                                      padding: EdgeInsets.zero,
+                                      style: const ButtonStyle(
+                                          tapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          backgroundColor:
+                                              MaterialStatePropertyAll(
+                                                  Colors.white)),
+                                      onPressed: () async {
+                                        state.updateView(
+                                          product: widget.product,
+                                        );
+
+                                        setState(() {});
+                                        await state1
+                                            .incrementView(
+                                                product: widget.product)
+                                            .then((value) => null);
+                                        launchUrl(
+                                            Uri.parse(widget.product.videoUrl));
+                                      },
+                                      icon: const Icon(
+                                        Icons.play_circle_fill,
+                                        size: 40,
+                                        color: Colors.black87,
+                                      )),
+                            ),
                           ),
                         ],
                       ),
@@ -243,7 +260,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                       ),
                                 )
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -258,10 +275,59 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           children: [
                             Row(
                               children: [
-                                CustomIconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.favorite,
+                                Consumer3<LocalDbDataProvider,
+                                    ProductDetailsProvider, LoginProvider>(
+                                  builder:
+                                      (context, state, state2, state3, _) =>
+                                          CustomIconButton(
+                                    onPressed: () {
+                                      if (state3.isLoggdIn) {
+                                        if (state.likedVideos
+                                                .contains(widget.product.id) ==
+                                            true) {
+                                          state2.unLikeButtonClicked(
+                                            video: widget.product,
+                                          );
+                                          state.deleteLikedVideos(
+                                              id: widget.product.id!);
+                                          setState(() {});
+
+                                          Provider.of<HomeScreenProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateLikes(
+                                                  id: widget.product.id!,
+                                                  state: CountState.increment);
+                                        } else {
+                                          state2.likeButtonClicked(
+                                            video: widget.product,
+                                          );
+                                          setState(() {});
+
+                                          state.addeLikedVideos(
+                                              id: widget.product.id!);
+                                          Provider.of<HomeScreenProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .updateLikes(
+                                                  id: widget.product.id!,
+                                                  state: CountState.decrement);
+                                        }
+                                      } else {
+                                        CustomToast.errorToast(
+                                            'Please login first');
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: state3.isLoggdIn == true &&
+                                              state.likedVideos.contains(
+                                                      widget.product.id) ==
+                                                  true &&
+                                              state2.isLiked == true
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
                                   ),
                                 ),
                                 Text(
@@ -302,6 +368,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             )
                           ],
                         ),
+                      ),
+                    ),
+                    Positioned(
+                      top: size.height * 0.7,
+                      child: SizedBox(
+                        width: size.width - 30,
+                        height: 0.1,
+                        child: ListView(children: [
+                          Text(
+                            widget.product.description,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ]),
                       ),
                     ),
                   ],
@@ -355,24 +434,26 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           height: size.height * 0.3,
                           child: CustomScrollView(
                             slivers: [
-                              SliverToBoxAdapter(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20,
-                                  ),
-                                  child: Text(
-                                    'Cast',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black87,
-                                          fontSize: 16,
+                              state.craft.isNotEmpty
+                                  ? SliverToBoxAdapter(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 20,
                                         ),
-                                  ),
-                                ),
-                              ),
+                                        child: Text(
+                                          'Cast',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
+                                              .copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black87,
+                                                fontSize: 16,
+                                              ),
+                                        ),
+                                      ),
+                                    )
+                                  : const SliverToBoxAdapter(),
                               SliverToBoxAdapter(
                                 child: SizedBox(
                                   height: size.height * 0.22,
@@ -438,26 +519,31 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            sliver: Consumer<ProductDetailsProvider>(
-              builder: (context, state, _) => SliverList.separated(
+            sliver: Consumer2<ProductDetailsProvider, LoginProvider>(
+              builder: (context, state, state2, _) => SliverList.separated(
                 itemCount: state.products.length,
                 itemBuilder: (context, index) {
                   final product = state.products[index];
                   return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailsPage(
-                            product: product,
-                            title: null,
-                          ),
-                        ),
-                      );
+                    onTap: () async {
+                      log(product.categoryId);
+                      if (state2.isLoggdIn) {
+                        await state.checkLiked(
+                          product: product,
+                          userId: state2.appUser!.id!,
+                        );
 
-                      Provider.of<ProductDetailsProvider>(
-                        context,
-                        listen: false,
-                      ).clear();
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailsPage(
+                              product: product,
+                              title: null,
+                            ),
+                          ),
+                        );
+                      }
+                      state.clear();
                     },
                     child: Container(
                       height: 200,

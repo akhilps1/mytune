@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.1.12
   firebase_dynamic_links: ^5.3.4
   share_plus: ^7.1.0
+  expandable_text: ^2.3.0
 
 dev_dependencies:
   flutter_test:

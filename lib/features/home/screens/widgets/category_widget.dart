@@ -1,10 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:mytune/features/home/provider/home_screen_provider.dart';
+import 'package:mytune/general/serveices/custom_toast.dart';
+import 'package:provider/provider.dart';
+
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
-import '../../../artist_details/screens/artist_details.dart';
-import '../../../sheared/custom_catched_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 
-class CategoryWidget extends StatelessWidget {
+import '../../../../general/utils/enum/enums.dart';
+import '../../../artist_details/provider/artist_details_provider.dart';
+import '../../../artist_details/screens/artist_details.dart';
+import '../../../artists/provider/artists_screen_provider.dart';
+import '../../../authentication/provider/login_provider.dart';
+import '../../../sheared/custom_catched_network_image.dart';
+import '../../provider/local_db_data_provider.dart';
+
+class CategoryWidget extends StatefulWidget {
   const CategoryWidget({
     super.key,
     required this.size,
@@ -19,6 +31,27 @@ class CategoryWidget extends StatelessWidget {
   final Color color;
 
   @override
+  State<CategoryWidget> createState() => _CategoryWidgetState();
+}
+
+class _CategoryWidgetState extends State<CategoryWidget> {
+  @override
+  void initState() {
+    for (var category in widget.categories) {
+      if (Provider.of<LoginProvider>(context, listen: false).isLoggdIn ==
+          true) {
+        Provider.of<ArtistDetailsProvider>(context, listen: false)
+            .checkFollowed(
+          artist: category,
+          userId:
+              Provider.of<LoginProvider>(context, listen: false).appUser!.id!,
+        );
+      }
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -29,115 +62,125 @@ class CategoryWidget extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              name,
+              widget.name,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: color,
+                    color: widget.color,
                     fontWeight: FontWeight.w600,
                   ),
             ),
           ),
           SizedBox(
-            height: size.height * 0.22,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return Stack(alignment: Alignment.center, children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 25, top: 10),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                        child: SizedBox(
-                          height: size.width * 0.25,
-                          width: size.width * 0.255,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ArtistDetails(
-                                    category: category,
+            height: widget.size.height * 0.22,
+            child: Consumer2<LoginProvider, ArtistDetailsProvider>(
+              builder: (context, state, state1, _) => ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.categories.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final category = widget.categories[index];
+
+                  return Stack(alignment: Alignment.center, children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 25, top: 10),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: widget.size.width * 0.28,
+                                width: widget.size.width * 0.26,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ArtistDetails(
+                                          category: category,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: CustomCachedNetworkImage(
+                                    url: category.imageUrl,
                                   ),
                                 ),
-                              );
-                            },
-                            child: CustomCachedNetworkImage(
-                              url: category.imageUrl,
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: size.width * 0.06,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ArtistDetails(
-                              category: category,
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: widget.size.width * 0.06,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ArtistDetails(
+                                category: category,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            category.categoryName.split(' ')[0],
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 119, 119, 111),
-                                ),
-                          ),
-                          Text(
-                            '${NumberFormatter.format(value: category.followers)} FOLLOWERS',
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12,
-                                  color:
-                                      const Color.fromARGB(255, 119, 119, 111),
-                                ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              category.categoryName.split(' ')[0],
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    color: const Color.fromARGB(
+                                        255, 119, 119, 111),
+                                  ),
+                            ),
+                            Text(
+                              '${NumberFormatter.format(value: category.followers)} FOLLOWERS',
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11,
+                                    color: const Color.fromARGB(
+                                        255, 119, 119, 111),
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  index == 2
-                      ? const SizedBox()
-                      : Positioned(
-                          top: size.width * 0.03,
-                          right: size.width * 0.02,
-                          child: InkWell(
-                            onTap: () {},
-                            child: FollowButton(size: size),
+                    index == 2
+                        ? const SizedBox()
+                        : Positioned(
+                            top: widget.size.width * 0.03,
+                            right: widget.size.width * 0.02,
+                            child: InkWell(
+                              onTap: () {},
+                              child: FollowButton(
+                                size: widget.size,
+                                artist: category,
+                              ),
+                            ),
                           ),
-                        ),
-                ]);
-              },
+                  ]);
+                },
+              ),
             ),
           )
         ],
@@ -148,42 +191,85 @@ class CategoryWidget extends StatelessWidget {
 
 class FollowButton extends StatelessWidget {
   const FollowButton({
-    super.key,
+    Key? key,
+    required this.artist,
     required this.size,
-  });
+  }) : super(key: key);
+  final CategoryModel artist;
 
   final Size size;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: size.width * 0.25,
-      width: 15,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        gradient: const RadialGradient(
-            stops: [
-              -1,
-              2,
-            ],
-            focalRadius: 1,
-            radius: 25,
-            colors: [
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromARGB(255, 15, 59, 94),
-            ]),
-      ),
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            customText(context, 'F'),
-            customText(context, 'O'),
-            customText(context, 'L'),
-            customText(context, 'L'),
-            customText(context, 'O'),
-            customText(context, 'W'),
-          ],
+    return Consumer4<LoginProvider, ArtistDetailsProvider, ArtistScreenProvider,
+        LocalDbDataProvider>(
+      builder: (context, state, state1, state2, state3, _) => InkWell(
+        onTap: () async {
+          if (state.isLoggdIn == true) {
+            if (state3.followedArtist.contains(artist.id) == true) {
+              await state1.unFollowButtonClicked(artist: artist);
+              state3.deleteFollowedArtist(id: artist.id!);
+              state2.updateFollowers(
+                  id: artist.id!, state: CountState.decrement);
+            } else {
+              await state1.followButtonClicked(artist: artist);
+              state3.addFollowedArtist(id: artist.id!);
+              state2.updateFollowers(
+                  id: artist.id!, state: CountState.increment);
+            }
+          } else {
+            CustomToast.errorToast('Please login');
+          }
+        },
+        child: Container(
+          height: size.width * 0.28,
+          width: 15,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            gradient: const RadialGradient(
+                stops: [
+                  -1,
+                  2,
+                ],
+                focalRadius: 1,
+                radius: 25,
+                colors: [
+                  Color.fromARGB(255, 255, 255, 255),
+                  Color.fromARGB(255, 15, 59, 94),
+                ]),
+          ),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: state3.followedArtist.contains(artist.id) == true &&
+                    state1.isFollowed == true &&
+                    state.isLoggdIn == true
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      customText(context, 'F'),
+                      customText(context, 'O'),
+                      customText(context, 'L'),
+                      customText(context, 'L'),
+                      customText(context, 'O'),
+                      customText(context, 'W'),
+                      customText(context, 'E'),
+                      customText(context, 'D'),
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      customText(context, 'F'),
+                      customText(context, 'O'),
+                      customText(context, 'L'),
+                      customText(context, 'L'),
+                      customText(context, 'O'),
+                      customText(context, 'W'),
+                    ],
+                  ),
+          ),
         ),
       ),
     );
@@ -193,8 +279,8 @@ class FollowButton extends StatelessWidget {
     return Text(
       char,
       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-            fontWeight: FontWeight.w700,
-            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            fontSize: 9,
             color: const Color.fromARGB(
               255,
               119,

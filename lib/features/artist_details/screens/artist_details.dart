@@ -43,7 +43,6 @@ class _ArtistDetailsState extends State<ArtistDetails> {
               Provider.of<ArtistDetailsProvider>(context, listen: false)
                       .noMoreData ==
                   false) {
-            print('CALLED');
             Provider.of<ArtistDetailsProvider>(context, listen: false)
                 .getProductsByLimit(
               categoryId: widget.category.id!,

@@ -31,6 +31,7 @@ class UserDetailsRepo {
         'favorateSinger': user.favorateSinger,
         'hobbies': user.hobbies,
         'imageUrl': user.imageUrl,
+        'skills': user.skills,
       });
       return right(unit);
     } catch (e) {

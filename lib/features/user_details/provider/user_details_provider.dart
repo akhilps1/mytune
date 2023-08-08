@@ -45,10 +45,12 @@ class UserDetailsProvider with ChangeNotifier {
     String? hobbies,
     String? favorateSinger,
     String? imageUrl,
+    String? skills,
   }) async {
     isLoading = true;
     notifyListeners();
     final hobbie = hobbies?.split(',');
+    final skillList = skills?.split(',');
     final data = AppUser(
       id: id,
       userName: name,
@@ -58,7 +60,7 @@ class UserDetailsProvider with ChangeNotifier {
       age: age,
       city: city,
       favorateSinger: favorateSinger ?? '',
-      skills: [],
+      skills: skillList ?? [],
       notificationToken: '',
       hobbies: hobbie ?? [],
       keywords: [],

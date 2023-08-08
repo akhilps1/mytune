@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mytune/features/home/models/category_model.dart';
 
 import 'package:mytune/general/di/injection.dart';
+import 'package:mytune/general/utils/enum/enums.dart';
 
 import '../../../general/failures/main_failure.dart';
 import '../../../general/serveices/custom_toast.dart';
@@ -46,5 +47,21 @@ class ArtistScreenProvider with ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  void updateFollowers({required String id, required CountState state}) {
+    for (var element in artists) {
+      if (element.id == id) {
+        switch (state) {
+          case CountState.decrement:
+            element.followers = element.followers - 1;
+            break;
+          case CountState.increment:
+            element.followers = element.followers + 1;
+            break;
+        }
+        notifyListeners();
+      }
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,37 +29,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-
-  @override
-  void didChangeDependencies() {
-    final appUser = Provider.of<LoginProvider>(context).appUser;
-    final isLoggedIn = Provider.of<LoginProvider>(context).isLoggdIn;
-    if (appUser != null) {
-      if (appUser.age.isEmpty ||
-          appUser.email.isEmpty ||
-          appUser.city.isEmpty ||
-          appUser.userName.isEmpty) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UserDetailsScreen(
-                appUser: appUser,
-              ),
-            ),
-          );
-        });
-        controller.clear();
-        phoneController.clear();
-      } else {}
-    }
-
-    if (isLoggedIn == true) {
-      Navigator.pop(widget.ctx);
-    }
-
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,9 +188,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               CustomToast.errorToast('Enter a 6 digits otp');
                               return;
                             }
-                            await state.veryfyOtpClicked(
+                            await state
+                                .veryfyOtpClicked(
                               otp: controller.text,
-                            );
+                              context: context,
+                            )
+                                .then((value) {
+                              controller.clear();
+                              phoneController.clear();
+                              Timer(const Duration(seconds: 2), () {
+                                Navigator.pop(context);
+                                if (state.appUser != null &&
+                                    state.appUser!.userName == null) {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => UserDetailsScreen(
+                                        appUser: state.appUser!,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              });
+                            });
                           },
                           child: state.isLoading == false
                               ? Text(

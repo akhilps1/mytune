@@ -20,7 +20,7 @@ class CategoryModel implements ObjectWithId {
   @HiveField(3)
   String imageUrl;
   @HiveField(4)
-  final int followers;
+  int followers;
   @HiveField(5)
   final Timestamp timestamp;
   @HiveField(6)
@@ -31,6 +31,8 @@ class CategoryModel implements ObjectWithId {
   bool isTopTen;
   @HiveField(9)
   int? totalVideos;
+  @HiveField(10)
+  int? totalLikes;
   CategoryModel({
     required this.visibility,
     required this.categoryName,
@@ -42,6 +44,7 @@ class CategoryModel implements ObjectWithId {
     this.totalVideos,
     this.id,
     this.isCraft = true,
+    this.totalLikes,
   });
 
   void changeCraftOrCrew() {
@@ -60,6 +63,7 @@ class CategoryModel implements ObjectWithId {
       'isCraft': isCraft,
       'isTopTen': isTopTen,
       'totalVideos': totalVideos,
+      'totalLikes': totalLikes,
     };
   }
 
@@ -75,7 +79,8 @@ class CategoryModel implements ObjectWithId {
         timestamp: map['timestamp'] as Timestamp,
         keywords: map['keywords'] as List,
         isTopTen: map['isTopTen'] as bool,
-        totalVideos: map['totalVideos']);
+        totalVideos: map['totalVideos'],
+        totalLikes: map['totalLikes']);
   }
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
@@ -90,6 +95,7 @@ class CategoryModel implements ObjectWithId {
       isCraft: map['isCraft'] as bool,
       isTopTen: map['isTopTen'] as bool,
       totalVideos: map['totalVideos'],
+      totalLikes: map['totalLikes'],
     );
   }
   String toJson() => json.encode(toMap());

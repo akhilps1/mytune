@@ -47,7 +47,7 @@ class AllSongs extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: CustomCachedNetworkImage(
+                    child: const CustomCachedNetworkImage(
                         url:
                             'https://cdn.pixabay.com/photo/2015/11/16/16/28/bird-1045954_1280.jpg'),
                   ),

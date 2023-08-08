@@ -2,6 +2,6 @@ import 'package:numeral/numeral.dart';
 
 class NumberFormatter {
   static String format({required num value}) {
-    return Numeral(value).format();
+    return Numeral(value).format(fractionDigits: 00);
   }
 }

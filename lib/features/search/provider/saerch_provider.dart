@@ -89,21 +89,17 @@ class SearchProvider with ChangeNotifier {
     if (!isListen) {
       bool avail = await speech!.initialize();
       if (avail) {
-        isListen = true;
-        notifyListeners();
-
         await speech!.listen(onResult: (value) async {
-          print(value.recognizedWords);
           text = value.recognizedWords;
           if (searchState == SearchState.video) {
             await searchProductsByLimit(productName: value.recognizedWords);
           } else {
             await searchCategoryByLimit(categoryName: value.recognizedWords);
           }
-          isListen = false;
-          notifyListeners();
 
           await speech!.stop();
+          isListen = false;
+          notifyListeners();
         });
       }
     } else {}

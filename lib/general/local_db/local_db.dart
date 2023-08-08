@@ -1,18 +1,17 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mytune/features/home/models/category_model.dart';
-import 'package:mytune/features/home/models/product_model.dart';
-import 'package:mytune/general/app_details/app_details.dart';
+
 import 'package:mytune/general/serveices/get_object_id.dart';
 
 abstract class LocalDbServeice<T> {
-  Future<List<T>> get();
+  Future<List<T>> get({required String localDbName});
 
-  Future<void> insert(T model);
+  Future<void> insert(T model, {required String localDbName});
 
-  Future<void> onDelete(T model);
+  Future<void> onDelete(T model, {required String localDbName});
+  Future<void> clearAll({required String localDbName});
 }
 
-class LocalDb<T extends ObjectWithId> implements LocalDbServeice<T> {
+class LocalDb<T> implements LocalDbServeice<T> {
   // Private static instance variable to hold the singleton instance.
   static final Map<Type, dynamic> _instances = {};
 
@@ -32,23 +31,27 @@ class LocalDb<T extends ObjectWithId> implements LocalDbServeice<T> {
   }
 
   @override
-  Future<List<T>> get() async {
-    final data = await Hive.openBox<T>(AppDetails.LOCAL_DB_NAME);
+  Future<List<T>> get({required String localDbName}) async {
+    final data = await Hive.openBox<T>(localDbName);
     return data.values.toList();
   }
 
   @override
-  Future<void> insert(model) async {
-    final data = await Hive.openBox<T>(AppDetails.LOCAL_DB_NAME);
+  Future<void> insert(model, {required String localDbName}) async {
+    final data = await Hive.openBox<T>(localDbName);
 
-    data.put(model.getId(), model);
+    data.put(model, model);
   }
 
   @override
-  Future<void> onDelete(model) async {
-    final data = await Hive.openBox<T>(AppDetails.LOCAL_DB_NAME);
-    data.delete(model.getId());
+  Future<void> onDelete(model, {required String localDbName}) async {
+    final data = await Hive.openBox<T>(localDbName);
+    data.delete(model);
+  }
+
+  @override
+  Future<void> clearAll({required String localDbName}) async {
+    final data = await Hive.openBox<T>(localDbName);
+    data.clear();
   }
 }
-
-void main(List<String> args) {}

@@ -28,7 +28,7 @@ class FavoratePage extends StatelessWidget {
               return InkWell(
                 onTap: () {},
                 child: Container(
-                  height: 230,
+                  height: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.grey[200],

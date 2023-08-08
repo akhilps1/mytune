@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:mytune/features/authentication/models/user_model.dart';
+import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 import 'package:mytune/features/user_details/screen/user_details_screen.dart';
 import 'package:mytune/general/serveices/constants.dart';
@@ -22,14 +24,20 @@ class AccountsPage extends StatefulWidget {
 }
 
 class _AccountsPageState extends State<AccountsPage> {
+  AppUser? appuser;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         color: Colors.grey[200],
-        child: Consumer<LoginProvider>(
-          builder: (context, state, _) => CustomScrollView(
+        child: Consumer2<LoginProvider, LocalDbDataProvider>(
+          builder: (context, state, state2, _) => CustomScrollView(
             shrinkWrap: true,
             slivers: [
               SliverAppBar(
@@ -86,9 +94,10 @@ class _AccountsPageState extends State<AccountsPage> {
                                   borderRadius: BorderRadius.circular(100),
                                   child: state.isLoggdIn == true &&
                                           state.appUser != null &&
-                                          state.appUser!.imageUrl.isNotEmpty
+                                          state.appUser!.imageUrl != null &&
+                                          state.appUser!.imageUrl!.isNotEmpty
                                       ? CustomCachedNetworkImage(
-                                          url: state.appUser!.imageUrl,
+                                          url: state.appUser!.imageUrl!,
                                         )
                                       : Container(
                                           color: const Color.fromARGB(
@@ -116,95 +125,101 @@ class _AccountsPageState extends State<AccountsPage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Consumer<LoginProvider>(
-                            builder: (context, state, _) =>
-                                state.isLoggdIn == false
-                                    ? Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ElevatedButton(
-                                            style: ButtonStyle(
-                                              shape: MaterialStatePropertyAll(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                            builder: (context, state, _) => state.isLoggdIn ==
+                                    false
+                                ? Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          shape: MaterialStatePropertyAll(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          if (state.isLoggdIn == false) {
+                                            showModalBottomSheet(
+                                              // enableDrag: true,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              builder: (ctx) => Padding(
+                                                padding: MediaQuery.of(ctx)
+                                                    .viewInsets,
+                                                child: LoginScreen(
+                                                  ctx: ctx,
                                                 ),
                                               ),
-                                            ),
-                                            onPressed: () {
-                                              if (state.isLoggdIn == false) {
-                                                showModalBottomSheet(
-                                                  // enableDrag: true,
-                                                  isScrollControlled: true,
-                                                  context: context,
-                                                  builder: (ctx) => Padding(
-                                                    padding: MediaQuery.of(ctx)
-                                                        .viewInsets,
-                                                    child: LoginScreen(
-                                                      ctx: ctx,
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: Text(
-                                              'Sign up',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium!
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                  ),
-                                            ),
-                                          ),
-                                          kSizedBoxH5,
-                                          Text(
-                                            'View and update your profile details',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall!
-                                                .copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 10,
-                                                ),
-                                          )
-                                        ],
-                                      )
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            state.appUser?.userName ?? '',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .copyWith(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
-                                                ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      UserDetailsScreen(
-                                                    appUser: state.appUser!,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              size: 20,
-                                              color: Colors.white,
-                                              weight: 10,
-                                            ),
-                                          )
-                                        ],
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          'Sign up',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
                                       ),
+                                      kSizedBoxH5,
+                                      Text(
+                                        'View and update your profile details',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                            ),
+                                      )
+                                    ],
+                                  )
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        state.appUser != null &&
+                                                state.appUser!.userName !=
+                                                    null &&
+                                                state.appUser!.userName!
+                                                    .isNotEmpty
+                                            ? state.appUser!.userName!
+                                            : state.appUser!.mobileNumber ?? '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserDetailsScreen(
+                                                appUser: state.appUser!,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 20,
+                                          color: Colors.white,
+                                          weight: 10,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                           ),
                         ),
                       ],
@@ -297,7 +312,21 @@ class _AccountsPageState extends State<AccountsPage> {
                           color: AppColor.textColor,
                           size: 30,
                         ),
-                        onTap: () {}),
+                        onTap: () {
+                          CustomPopup.showPopup(
+                            context: context,
+                            title: 'Doyou want to delete your account',
+                            content: '',
+                            buttonText: 'yes',
+                            onPressed: (value) async {
+                              await state.deleteAccount();
+                              state2.deleteAllData();
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            },
+                            size: size,
+                          );
+                        }),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Container(
