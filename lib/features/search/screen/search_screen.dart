@@ -1,11 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+
+import 'package:mytune/features/product_details/provider/product_details_provider.dart';
 import 'package:mytune/features/search/provider/saerch_provider.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
-import 'package:provider/provider.dart';
-
-import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../artist_details/screens/artist_details.dart';
 import '../../artists/screens/widgets/artist_grid_item.dart';
@@ -31,24 +34,6 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController controller = TextEditingController();
-  SpeechToText? speech;
-
-  bool isListen = false;
-  @override
-  void initState() {
-    speech = SpeechToText();
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    controller.text = Provider.of<SearchProvider>(context).text;
-    if (controller.text.isNotEmpty) {
-      Navigator.pop(context);
-    }
-
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,15 +104,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              Provider.of<SearchProvider>(
-                                context,
-                                listen: false,
-                              ).listen(widget.searchState);
-
                               ctx = context;
                               return DialogItem(
                                 size: size,
                                 searchState: widget.searchState,
+                                controller: controller,
                               );
                             },
                           );
@@ -165,6 +146,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             color: Colors.grey[200],
                             child: InkWell(
                                 onTap: () {
+                                  Provider.of<ProductDetailsProvider>(
+                                    context,
+                                    listen: false,
+                                  ).clear();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -201,6 +186,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           final artist = state.categories[index];
                           return InkWell(
                               onTap: () {
+                                Provider.of<ProductDetailsProvider>(
+                                  context,
+                                  listen: false,
+                                ).clear();
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => ArtistDetails(
@@ -232,52 +221,32 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-
-  // Future<void> listen(BuildContext context) async {
-  //   if (!isListen) {
-  //     bool avail = await speech!.initialize();
-  //     if (avail) {
-  //       setState(() {
-  //         isListen = true;
-  //       });
-  //       await speech!.listen(onResult: (value) async {
-  //         setState(() {
-  //           controller.text = value.recognizedWords;
-  //         });
-  //         if (widget.searchState == SearchState.video) {
-  //           Provider.of<SearchProvider>(context, listen: false)
-  //               .searchProductsByLimit(productName: value.recognizedWords);
-  //         } else {
-  //           Provider.of<SearchProvider>(context, listen: false)
-  //               .searchCategoryByLimit(categoryName: value.recognizedWords);
-  //         }
-  //       });
-  //     }
-  //   } else {
-  //     isListen = false;
-
-  //     await speech!.stop();
-  //   }
-  // }
 }
 
 class DialogItem extends StatefulWidget {
   const DialogItem({
-    super.key,
+    Key? key,
     required this.size,
     required this.searchState,
-  });
+    required this.controller,
+  }) : super(key: key);
 
   final Size size;
   final SearchState searchState;
+  final TextEditingController controller;
 
   @override
   State<DialogItem> createState() => _DialogItemState();
 }
 
 class _DialogItemState extends State<DialogItem> {
+  SpeechToText? speech;
+
+  bool isListen = false;
   @override
   void initState() {
+    speech = SpeechToText();
+    listen(context);
     super.initState();
   }
 
@@ -342,5 +311,32 @@ class _DialogItemState extends State<DialogItem> {
         const Spacer(),
       ],
     );
+  }
+
+  Future<void> listen(BuildContext context) async {
+    if (!isListen) {
+      bool avail = await speech!.initialize();
+      if (avail) {
+        setState(() {
+          isListen = true;
+        });
+        await speech!.listen(onResult: (value) async {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            widget.controller.text = value.recognizedWords;
+          });
+          // if (widget.searchState == SearchState.video) {
+          //   Provider.of<SearchProvider>(context, listen: false)
+          //       .searchProductsByLimit(productName: value.recognizedWords);
+          // } else {
+          //   Provider.of<SearchProvider>(context, listen: false)
+          //       .searchCategoryByLimit(categoryName: value.recognizedWords);
+          // }
+        });
+      }
+    } else {
+      isListen = false;
+
+      await speech!.stop();
+    }
   }
 }

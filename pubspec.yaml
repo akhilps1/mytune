@@ -47,6 +47,9 @@ dependencies:
   firebase_dynamic_links: ^5.3.4
   share_plus: ^7.1.0
   expandable_text: ^2.3.0
+  uuid: ^3.0.7
+  shared_preferences: ^2.2.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

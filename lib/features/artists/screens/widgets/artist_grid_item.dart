@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
+
 import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
+import 'package:mytune/features/authentication/screens/login_screen.dart';
 import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../general/serveices/number_converter.dart';
 import '../../../home/models/category_model.dart';
@@ -99,15 +102,30 @@ class ArtistGridItem extends StatelessWidget {
                     await state1.unFollowButtonClicked(artist: artist);
                     state3.deleteFollowedArtist(id: artist.id!);
                     state2.updateFollowers(
-                        id: artist.id!, state: CountState.decrement);
+                      id: artist.id!,
+                      state: CountState.decrement,
+                    );
                   } else {
                     await state1.followButtonClicked(artist: artist);
                     state3.addFollowedArtist(id: artist.id!);
                     state2.updateFollowers(
-                        id: artist.id!, state: CountState.increment);
+                      id: artist.id!,
+                      state: CountState.increment,
+                    );
                   }
                 } else {
-                  CustomToast.errorToast('Please login');
+                  showModalBottomSheet(
+                    // enableDrag: true,
+
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (ctx) => Padding(
+                      padding: MediaQuery.of(ctx).viewInsets,
+                      child: LoginScreen(
+                        ctx: ctx,
+                      ),
+                    ),
+                  );
                 }
               },
               child: Container(
@@ -115,8 +133,7 @@ class ArtistGridItem extends StatelessWidget {
                 height: size.width * 0.052,
                 width: size.width * 0.3,
                 decoration: BoxDecoration(
-                    color: state3.followedArtist.contains(artist.id) == true &&
-                            state1.isFollowed == true &&
+                    color: state3.followedArtist.contains(artist.id) &&
                             state.isLoggdIn == true
                         ? const Color.fromARGB(255, 254, 181, 201)
                         : const Color.fromARGB(255, 197, 184, 254),
@@ -124,7 +141,6 @@ class ArtistGridItem extends StatelessWidget {
                 child: Center(
                     child: Text(
                   state3.followedArtist.contains(artist.id) == true &&
-                          state1.isFollowed == true &&
                           state.isLoggdIn == true
                       ? 'Followed'
                       : 'Follow',

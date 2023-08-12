@@ -84,6 +84,7 @@ class FirebaseLoginServeices {
       final user = AppUser(
         notificationToken: token!,
         mobileNumber: phoneNo,
+        favoriteVideos: [],
         timestamp: Timestamp.now(),
         keywords: getKeywords(
           phoneNo.replaceAll('+', ''),

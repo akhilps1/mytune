@@ -19,3 +19,8 @@ enum CountState {
   increment,
   decrement,
 }
+
+enum Favorate {
+  saved,
+  notSaved,
+}

@@ -130,10 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Please enter a 10 digits phone number');
                               return;
                             }
-                            await state.sendOtpClicked(
-                              phoneNumber:
-                                  '+${state1.country.phoneCode}${phoneController.text}',
-                            );
+                            if (state.isLoading == false) {
+                              await state.sendOtpClicked(
+                                phoneNumber:
+                                    '+${state1.country.phoneCode}${phoneController.text}',
+                              );
+                            }
                           },
                           child: state.isLoading == false
                               ? Text(
@@ -188,30 +190,24 @@ class _LoginScreenState extends State<LoginScreen> {
                               CustomToast.errorToast('Enter a 6 digits otp');
                               return;
                             }
-                            await state
-                                .veryfyOtpClicked(
-                              otp: controller.text,
-                              context: context,
-                            )
-                                .then((value) {
+
+                            if (state.isLoading == false) {
+                              await state
+                                  .veryfyOtpClicked(
+                                    otp: controller.text,
+                                    context: context,
+                                  )
+                                  .then((value) async {});
+
                               controller.clear();
                               phoneController.clear();
-                              Timer(const Duration(seconds: 2), () {
-                                Navigator.pop(context);
-                                if (state.appUser != null &&
-                                    state.appUser!.userName == null) {
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => UserDetailsScreen(
-                                        appUser: state.appUser!,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              });
-                            });
+
+                              // ignore: use_build_context_synchronously
+
+                              // ignore: use_build_context_synchronously
+
+                              // ignore: use_build_context_synchronously
+                            }
                           },
                           child: state.isLoading == false
                               ? Text(

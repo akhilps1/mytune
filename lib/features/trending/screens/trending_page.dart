@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:mytune/features/product_details/provider/product_details_provider.dart';
 import 'package:mytune/features/product_details/screens/product_details_page.dart';
 
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
@@ -78,6 +79,10 @@ class _TrendingPageState extends State<TrendingPage> {
                               borderRadius: BorderRadius.circular(12),
                               child: InkWell(
                                 onTap: () {
+                                  Provider.of<ProductDetailsProvider>(
+                                    context,
+                                    listen: false,
+                                  ).clear();
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>

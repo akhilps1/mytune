@@ -1,13 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
+
 import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
+import 'package:mytune/features/authentication/screens/login_screen.dart';
 
 import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/provider/local_db_data_provider.dart';
+import 'package:mytune/features/product_details/provider/product_details_provider.dart';
+import 'package:mytune/features/product_details/screens/product_details_page.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
-import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +32,10 @@ class _ArtistProfileState extends State<ArtistProfile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Consumer4<ArtistDetailsProvider, ArtistScreenProvider, LoginProvider,
-        LocalDbDataProvider>(
-      builder: (context, state, state2, state3, state4, _) => Container(
+    return Consumer6<ArtistDetailsProvider, ArtistScreenProvider, LoginProvider,
+        LocalDbDataProvider, HomeScreenProvider, ProductDetailsProvider>(
+      builder: (context, state, state2, state3, state4, state5, state6, _) =>
+          Container(
         // height: size.height * 0.47,
         color: const Color.fromARGB(255, 247, 252, 255),
         padding: const EdgeInsets.only(bottom: 15),
@@ -38,11 +43,11 @@ class _ArtistProfileState extends State<ArtistProfile> {
           alignment: Alignment.bottomCenter,
           children: [
             Positioned(
-              bottom: size.width * 0.48,
-              right: size.width * 0.4,
+              bottom: size.width * 0.58,
+              right: size.width * 0.38,
               child: Container(
-                height: size.width * 0.65,
-                width: size.width * 0.65,
+                height: size.width * 0.7,
+                width: size.width * 0.7,
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 137, 156, 224),
                     borderRadius: BorderRadius.all(Radius.circular(100))),
@@ -171,6 +176,13 @@ class _ArtistProfileState extends State<ArtistProfile> {
                               state2.updateFollowers(
                                   id: widget.category.id!,
                                   state: CountState.decrement);
+                              state5.updateFollowers(
+                                  id: widget.category.id!,
+                                  state: CountState.decrement);
+
+                              state6.updateFollowers(
+                                  id: widget.category.id!,
+                                  state: CountState.decrement);
                             } else {
                               await state.followButtonClicked(
                                   artist: widget.category);
@@ -178,16 +190,33 @@ class _ArtistProfileState extends State<ArtistProfile> {
                               state2.updateFollowers(
                                   id: widget.category.id!,
                                   state: CountState.increment);
+                              state5.updateFollowers(
+                                  id: widget.category.id!,
+                                  state: CountState.increment);
+
+                              state6.updateFollowers(
+                                  id: widget.category.id!,
+                                  state: CountState.increment);
                             }
                             setState(() {});
                           } else {
-                            CustomToast.errorToast('Please login');
+                            showModalBottomSheet(
+                              // enableDrag: true,
+
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (ctx) => Padding(
+                                padding: MediaQuery.of(ctx).viewInsets,
+                                child: LoginScreen(
+                                  ctx: ctx,
+                                ),
+                              ),
+                            );
                           }
                         },
                         child: Text(
                           state4.followedArtist.contains(widget.category.id) ==
                                       true &&
-                                  state.isFollowed == true &&
                                   state3.isLoggdIn == true
                               ? 'Followed'
                               : 'Follow',

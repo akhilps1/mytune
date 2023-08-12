@@ -110,7 +110,8 @@ class ProductDetailsRepo {
           .collection('users')
           .doc(firebaseAuth.currentUser!.uid)
           .collection('likedVideos')
-          .add({
+          .doc(video.id)
+          .set({
         'videoId': video.id,
       });
 
@@ -136,9 +137,8 @@ class ProductDetailsRepo {
           .collection('users')
           .doc(firebaseAuth.currentUser!.uid)
           .collection('likedVideos')
-          .add({
-        'videoId': video.id,
-      });
+          .doc(video.id)
+          .delete();
 
       return right(unit);
     } catch (e) {
@@ -148,21 +148,21 @@ class ProductDetailsRepo {
 
   Future<Either<MainFailure, String>> checkIsLiked(
       {required ProductModel product, required String userId}) async {
-    QuerySnapshot<Map<String, dynamic>> data;
+    DocumentSnapshot<Map<String, dynamic>> data;
 
     try {
       data = await firebaseFirestore
           .collection('users')
           .doc(userId)
           .collection('likedVideos')
-          .where('videoId', isEqualTo: product.id)
+          .doc(product.id)
           .get();
 
       // print(data.docs.toString());
-      if (data.docs.isNotEmpty) {
+      if (data.exists) {
         print('checkIsLiked worked');
 
-        return right(data.docs.first.data()['videoId']);
+        return right(data.id);
       } else {
         log('worked else');
         return left(const MainFailure.documentNotFount());

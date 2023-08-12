@@ -6,6 +6,7 @@ import 'package:mytune/features/artist_details/provider/artist_details_provider.
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
+import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/features/home/screens/widgets/custom_corousel_slider.dart';
 import 'package:mytune/features/home/screens/widgets/today_release_widget.dart';
 import 'package:mytune/features/home/screens/widgets/top_three_this_week.dart';
@@ -60,213 +61,220 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      child:
-          Consumer3<HomeScreenProvider, LoginProvider, ProductDetailsProvider>(
-        builder: (context, state, state2, state3, _) => CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            SliverAppBar(
-              elevation: 0,
-              snap: false,
-              pinned: true,
-              floating: false,
-              surfaceTintColor: Colors.white,
+    return Scaffold(
+      body: SizedBox(
+        child: Consumer4<HomeScreenProvider, LoginProvider,
+            ProductDetailsProvider, LocalDbDataProvider>(
+          builder: (context, state, state2, state3, state4, _) =>
+              CustomScrollView(
+            controller: scrollController,
+            slivers: [
+              SliverAppBar(
+                elevation: 0,
+                snap: false,
+                pinned: true,
+                floating: false,
+                surfaceTintColor: Colors.white,
 
-              flexibleSpace: AppBarItems(
-                size: size,
-                drowerButtonClicked: () {},
-                title:
-                    ' HI,${state2.appUser?.userName?.toUpperCase() ?? 'USER'}',
+                flexibleSpace: AppBarItems(
+                  size: size,
+                  drowerButtonClicked: () {},
+                  title:
+                      ' HI,${state2.appUser?.userName?.toUpperCase() ?? 'USER'}',
+                ),
+
+                bottom: PreferredSize(
+                  preferredSize: Size(double.infinity, size.height * 0.017),
+                  child: InkWell(
+                    splashFactory: NoSplash.splashFactory,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SearchScreen(
+                            hintText: 'Search songs',
+                            searchState: SearchState.video,
+                            searchMode: SearchState.textField,
+                          ),
+                        ),
+                      );
+                    },
+                    child: SearchBox(
+                      size: size,
+                      hint: 'Search songs',
+                      enabled: false,
+                    ),
+                  ),
+                ),
+
+                // flexibleSpace: AppBarItems(size: size), //FlexibleSpaceBar
+                expandedHeight: size.height * 0.24,
+                backgroundColor: Colors.white,
+                shadowColor: Colors.transparent,
+
+                //<Widget>[]
               ),
-
-              bottom: PreferredSize(
-                preferredSize: Size(double.infinity, size.height * 0.017),
-                child: InkWell(
-                  splashFactory: NoSplash.splashFactory,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SearchScreen(
-                          hintText: 'Search songs',
-                          searchState: SearchState.video,
-                          searchMode: SearchState.textField,
+              state.banner.isNotEmpty
+                  ? SliverToBoxAdapter(
+                      child: SizedBox(
+                        // height: size.height * 0.08,
+                        child: CustomCorouselSlider(
+                          size: size,
+                          banners: state.banner,
                         ),
                       ),
-                    );
-                  },
-                  child: SearchBox(
-                    size: size,
-                    hint: 'Search songs',
-                    enabled: false,
+                    )
+                  : const SliverToBoxAdapter(),
+              state.categories.isNotEmpty
+                  ? SliverToBoxAdapter(
+                      child: SizedBox(
+                          height: size.height * 0.28,
+                          child: CategoryWidget(
+                            size: size,
+                            categories: state.categories.sublist(0, 3),
+                            name: 'Singers',
+                            color: Colors.pink,
+                          )),
+                    )
+                  : const SliverToBoxAdapter(),
+              state.todayRelease.isNotEmpty
+                  ? SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
+                      sliver: SliverList.separated(
+                        itemCount: 1,
+                        itemBuilder: (context, index) => SizedBox(
+                          // color: Colors.blue,
+                          height: size.height * 0.28,
+                          // width: size.width - 20,
+                          child: TodayReleaseWidget(
+                            size: size,
+                            todayRelease: state.todayRelease,
+                          ),
+                        ),
+                        separatorBuilder: (context, inddex) => const SizedBox(),
+                      ),
+                    )
+                  : const SliverToBoxAdapter(),
+              state.topThreeRelease.isNotEmpty
+                  ? SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: size.height * 0.26,
+                        child: TopThreeThisWeek(
+                          size: size,
+                          topThreeRelease: state.topThreeRelease,
+                        ),
+                      ),
+                    )
+                  : const SliverToBoxAdapter(),
+              state.allProducts.isNotEmpty
+                  ? SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 14, bottom: 5),
+                        child: Text(
+                          'All Songs',
+                          style:
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: Colors.pink,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                      ),
+                    )
+                  : const SliverToBoxAdapter(),
+              state.allProducts.isNotEmpty
+                  ? SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
+                      sliver: SliverGrid.builder(
+                        itemCount: state.allProducts.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 3 / 2),
+                        itemBuilder: (context, index) {
+                          ProductModel video = state.allProducts[index];
+
+                          // log(videio.views.toString());
+                          return InkWell(
+                            onTap: () async {
+                              state3.clear();
+                              if (state2.isLoggdIn) {
+                                if (state4.likedVideos.contains(video.id) ==
+                                    true) {
+                                  print('111');
+                                } else {
+                                  await state4.checkLiked(
+                                    product: video,
+                                    userId: state2.appUser!.id!,
+                                  );
+                                  print('222');
+                                }
+                              }
+                              navigate(video);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              height: size.width * 0.35,
+                              width: size.width * 0.6,
+                              child: SizedBox(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CustomCachedNetworkImage(
+                                    url: video.imageUrl,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : const SliverToBoxAdapter(),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                sliver: SliverToBoxAdapter(
+                  child: Center(
+                    child: state.isLoading && state.isFirebaseLoading == true
+                        ? const CupertinoActivityIndicator(
+                            color: Colors.black,
+                          )
+                        : const SizedBox(),
                   ),
                 ),
               ),
-
-              // flexibleSpace: AppBarItems(size: size), //FlexibleSpaceBar
-              expandedHeight: size.height * 0.24,
-              backgroundColor: Colors.white,
-              shadowColor: Colors.transparent,
-
-              //<Widget>[]
-            ),
-            state.banner.isNotEmpty
-                ? SliverToBoxAdapter(
-                    child: SizedBox(
-                      // height: size.height * 0.08,
-                      child: CustomCorouselSlider(
-                        size: size,
-                        banners: state.banner,
+              state.isLoading == true && state.allProducts.isEmpty
+                  ? const SliverFillRemaining(
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
                       ),
-                    ),
-                  )
-                : const SliverToBoxAdapter(),
-            state.categories.isNotEmpty
-                ? SliverToBoxAdapter(
-                    child: SizedBox(
-                        height: size.height * 0.28,
-                        child: CategoryWidget(
-                          size: size,
-                          categories: state.categories.sublist(0, 3),
-                          name: 'Singers',
-                          color: Colors.pink,
-                        )),
-                  )
-                : const SliverToBoxAdapter(),
-            state.todayRelease.isNotEmpty
-                ? SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                    ),
-                    sliver: SliverList.separated(
-                      itemCount: 1,
-                      itemBuilder: (context, index) => SizedBox(
-                        // color: Colors.blue,
-                        height: size.height * 0.28,
-                        // width: size.width - 20,
-                        child: TodayReleaseWidget(
-                          size: size,
-                          todayRelease: state.todayRelease,
-                        ),
-                      ),
-                      separatorBuilder: (context, inddex) => const SizedBox(),
-                    ),
-                  )
-                : const SliverToBoxAdapter(),
-            state.topThreeRelease.isNotEmpty
-                ? SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: size.height * 0.26,
-                      child: TopThreeThisWeek(
-                        size: size,
-                        topThreeRelease: state.topThreeRelease,
-                      ),
-                    ),
-                  )
-                : const SliverToBoxAdapter(),
-            state.allProducts.isNotEmpty
-                ? SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 14, bottom: 5),
-                      child: Text(
-                        'All Songs',
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: Colors.pink,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                      ),
-                    ),
-                  )
-                : const SliverToBoxAdapter(),
-            state.allProducts.isNotEmpty
-                ? SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                    ),
-                    sliver: SliverGrid.builder(
-                      itemCount: state.allProducts.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: 3 / 2),
-                      itemBuilder: (context, index) {
-                        ProductModel videio = state.allProducts[index];
+                    )
+                  : const SliverToBoxAdapter(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                        // log(videio.views.toString());
-                        return InkWell(
-                          onTap: () async {
-                            if (state2.isLoggdIn) {
-                              await state3.checkLiked(
-                                product: videio,
-                                userId: state2.appUser!.id!,
-                              );
-                            }
-
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductDetailsPage(
-                                  product: videio,
-                                  title: null,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            height: size.width * 0.35,
-                            width: size.width * 0.6,
-                            child: SizedBox(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: CustomCachedNetworkImage(
-                                  url: videio.imageUrl,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                : const SliverToBoxAdapter(),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              sliver: SliverToBoxAdapter(
-                child: Center(
-                  child: state.isLoading && state.isFirebaseLoading == true
-                      ? const CupertinoActivityIndicator(
-                          color: Colors.black,
-                        )
-                      : const SizedBox(),
-                ),
-              ),
-            ),
-            // state.isFirebaseLoading == true && state.banner.isEmpty
-            //     ? const SliverFillRemaining(
-            //         child: Center(
-            //           child: CupertinoActivityIndicator(),
-            //         ),
-            //       )
-            //     : const SliverToBoxAdapter(),
-          ],
+  void navigate(ProductModel video) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailsPage(
+          product: video,
+          title: null,
         ),
       ),
     );

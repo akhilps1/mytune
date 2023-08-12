@@ -80,6 +80,9 @@ class _AppBarItemsState extends State<AppBarItems> {
               top: widget.size.height * 0.08,
               right: 0,
               child: InkWell(
+                splashFactory: NoSplash.splashFactory,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 onTap: () {
                   if (isLoggdIn == false) {
                     showModalBottomSheet(

@@ -49,28 +49,28 @@ class AppTheam {
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: AppColor.textColor,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w400,
           ),
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: AppColor.textColor,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w400,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: AppColor.textColor,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w400,
           ),
-          errorStyle: TextStyle(
+          errorStyle: const TextStyle(
             color: AppColor.textColor,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w400,
           ),
           contentPadding: EdgeInsets.zero,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             gapPadding: 0,
           ),
           errorBorder: OutlineInputBorder(
@@ -79,6 +79,10 @@ class AppTheam {
               color: AppColor.redColor,
             ),
           ),
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          modalBackgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
         ),
         useMaterial3: true,
       );

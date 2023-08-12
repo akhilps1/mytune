@@ -13,13 +13,12 @@ import '../../home/models/product_model.dart';
 
 @lazySingleton
 class ArtistDetailsRepo {
-  final FirebaseFirestore firebaseFirestore;
-  final FirebaseAuth firebaseAuth;
-
   ArtistDetailsRepo({
     required this.firebaseFirestore,
     required this.firebaseAuth,
   });
+  final FirebaseFirestore firebaseFirestore;
+  final FirebaseAuth firebaseAuth;
 
   DocumentSnapshot<Map<String, dynamic>>? lastDoc;
 
@@ -91,7 +90,8 @@ class ArtistDetailsRepo {
           .collection('users')
           .doc(firebaseAuth.currentUser!.uid)
           .collection('follwedArtist')
-          .add({
+          .doc(artist.id)
+          .set({
         'artistId': artist.id,
       });
 
@@ -111,9 +111,10 @@ class ArtistDetailsRepo {
           .collection('users')
           .doc(firebaseAuth.currentUser!.uid)
           .collection('follwedArtist')
-          .add({
-        'artistId': artist.id,
-      });
+          .doc(
+            artist.id,
+          )
+          .delete();
 
       return right(unit);
     } catch (e) {
@@ -123,23 +124,22 @@ class ArtistDetailsRepo {
 
   Future<Either<MainFailure, String>> checkIsFollowed(
       {required CategoryModel artist, required String userId}) async {
-    QuerySnapshot<Map<String, dynamic>> data;
+    DocumentSnapshot<Map<String, dynamic>> data;
 
     try {
       data = await firebaseFirestore
           .collection('users')
           .doc(userId)
           .collection('follwedArtist')
-          .where('artistId', isEqualTo: artist.id)
+          .doc(artist.id)
           .get();
 
-      // print(data.docs.toString());
-      if (data.docs.isNotEmpty) {
-        print('checkIsFollowed worked');
+      if (data.exists) {
+        // print('checkIsFollowed worked');
 
-        return right(data.docs.first.data()['artistId']);
+        return right(data.id);
       } else {
-        log('worked else');
+        // log('worked else');
         return left(const MainFailure.documentNotFount());
       }
     } catch (e) {

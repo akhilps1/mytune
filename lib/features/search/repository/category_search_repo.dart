@@ -43,8 +43,11 @@ class CategorySearchRepo {
               .startAfterDocument(lastDoc!)
               .limit(4)
               .get();
-
-      lastDoc = refreshedClass.docs.last;
+      if (refreshedClass.docs.isNotEmpty) {
+        lastDoc = refreshedClass.docs.last;
+      } else {
+        return left(const MainFailure.noElemet(errorMsg: ''));
+      }
 
       // if (refreshedClass.docs.length <= 7) {
       //   log('category doc lrnth lessthan 7');

@@ -1,9 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
+import 'package:mytune/features/artist_details/screens/artist_details.dart';
+import 'package:mytune/features/authentication/provider/login_provider.dart';
 
 import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
@@ -15,12 +20,14 @@ import '../repository/category_repository.dart';
 @injectable
 class ArtistScreenProvider with ChangeNotifier {
   final CategoryRepository _categoryRepository = locater<CategoryRepository>();
+  final LoginProvider _loginProvider = locater<LoginProvider>();
 
   bool isLoading = false;
   bool isFirebaseLoading = false;
   bool noMoreData = false;
 
   List<CategoryModel> artists = [];
+  List<CategoryModel> temp = [];
 
   Future<void> getAllArtistsByLimit() async {
     isLoading = false;
@@ -41,6 +48,7 @@ class ArtistScreenProvider with ChangeNotifier {
       },
       (success) {
         artists.addAll(success);
+        temp = success;
 
         isLoading = false;
         isFirebaseLoading = false;

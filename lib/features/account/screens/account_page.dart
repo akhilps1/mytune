@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:mytune/features/authentication/models/user_model.dart';
+
 import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 import 'package:mytune/features/user_details/screen/user_details_screen.dart';
@@ -24,11 +23,16 @@ class AccountsPage extends StatefulWidget {
 }
 
 class _AccountsPageState extends State<AccountsPage> {
-  AppUser? appuser;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() async {
+  //   if (Provider.of<LoginProvider>(context).isLoading == true &&
+  //       Provider.of<LoginProvider>(context).appUser != null &&
+  //       Provider.of<LoginProvider>(context).appUser!.userName == null) {
+  //     // ignore: use_build_context_synchronously
+
+  //   }
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +149,7 @@ class _AccountsPageState extends State<AccountsPage> {
                                           if (state.isLoggdIn == false) {
                                             showModalBottomSheet(
                                               // enableDrag: true,
+
                                               isScrollControlled: true,
                                               context: context,
                                               builder: (ctx) => Padding(

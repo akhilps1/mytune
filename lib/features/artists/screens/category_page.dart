@@ -6,6 +6,7 @@ import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/artists/screens/widgets/artist_grid_item.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/features/search/screen/search_screen.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
 
@@ -26,8 +27,6 @@ class _CategoryPageState extends State<CategoryPage> {
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
-    // Provider.of<HomeScreenProvider>(context, listen: false).getDetails();
-
     scrollController.addListener(
       () {
         if (scrollController.position.atEdge) {
@@ -46,6 +45,29 @@ class _CategoryPageState extends State<CategoryPage> {
       },
     );
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    List<CategoryModel> categories =
+        Provider.of<ArtistScreenProvider>(context).temp;
+    if (Provider.of<LoginProvider>(context).isLoggdIn == true) {
+      for (var e in categories) {
+        if (Provider.of<LocalDbDataProvider>(context, listen: false)
+                .followedArtist
+                .contains(e.id) ==
+            false) {
+          await Provider.of<LocalDbDataProvider>(context, listen: false)
+              .checkFollowed(
+            artist: e,
+            userId:
+                Provider.of<LoginProvider>(context, listen: false).appUser!.id!,
+          );
+        }
+      }
+    }
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -114,12 +136,12 @@ class _CategoryPageState extends State<CategoryPage> {
                             childAspectRatio: 2 / 2),
                     itemBuilder: (context, index) {
                       final artist = state.artists[index];
-                      if (state2.isLoggdIn == true) {
-                        state1.checkFollowed(
-                          artist: artist,
-                          userId: state2.appUser!.id!,
-                        );
-                      }
+                      // if (state2.isLoggdIn == true) {
+                      //   state1.checkFollowed(
+                      //     artist: artist,
+                      //     userId: state2.appUser!.id!,
+                      //   );
+                      // }
 
                       return InkWell(
                           onTap: () async {

@@ -1,12 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:mytune/features/authentication/screens/login_screen.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
+
 import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../../general/utils/enum/enums.dart';
 import '../../../artist_details/provider/artist_details_provider.dart';
@@ -37,17 +38,17 @@ class CategoryWidget extends StatefulWidget {
 class _CategoryWidgetState extends State<CategoryWidget> {
   @override
   void initState() {
-    for (var category in widget.categories) {
-      if (Provider.of<LoginProvider>(context, listen: false).isLoggdIn ==
-          true) {
-        Provider.of<ArtistDetailsProvider>(context, listen: false)
-            .checkFollowed(
-          artist: category,
-          userId:
-              Provider.of<LoginProvider>(context, listen: false).appUser!.id!,
-        );
-      }
-    }
+    // for (var category in widget.categories) {
+    //   if (Provider.of<LoginProvider>(context, listen: false).isLoggdIn ==
+    //       true) {
+    //     Provider.of<LocalDbDataProvider>(context, listen: false).checkFollowed(
+    //       artist: category,
+    //       userId:
+    //           Provider.of<LoginProvider>(context, listen: false).appUser!.id!,
+    //     );
+    //   }
+    // }
+
     super.initState();
   }
 
@@ -70,7 +71,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             ),
           ),
           SizedBox(
-            height: widget.size.height * 0.22,
+            height: widget.size.height * 0.23,
             child: Consumer2<LoginProvider, ArtistDetailsProvider>(
               builder: (context, state, state1, _) => ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -91,7 +92,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                           child: Row(
                             children: [
                               SizedBox(
-                                height: widget.size.width * 0.28,
+                                height: widget.size.width * 0.29,
                                 width: widget.size.width * 0.26,
                                 child: InkWell(
                                   onTap: () {
@@ -201,9 +202,9 @@ class FollowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer4<LoginProvider, ArtistDetailsProvider, ArtistScreenProvider,
-        LocalDbDataProvider>(
-      builder: (context, state, state1, state2, state3, _) => InkWell(
+    return Consumer5<LoginProvider, ArtistDetailsProvider, ArtistScreenProvider,
+        LocalDbDataProvider, HomeScreenProvider>(
+      builder: (context, state, state1, state2, state3, state4, _) => InkWell(
         onTap: () async {
           if (state.isLoggdIn == true) {
             if (state3.followedArtist.contains(artist.id) == true) {
@@ -211,18 +212,33 @@ class FollowButton extends StatelessWidget {
               state3.deleteFollowedArtist(id: artist.id!);
               state2.updateFollowers(
                   id: artist.id!, state: CountState.decrement);
+              state4.updateFollowers(
+                  id: artist.id!, state: CountState.decrement);
             } else {
               await state1.followButtonClicked(artist: artist);
               state3.addFollowedArtist(id: artist.id!);
               state2.updateFollowers(
                   id: artist.id!, state: CountState.increment);
+              state4.updateFollowers(
+                  id: artist.id!, state: CountState.increment);
             }
           } else {
-            CustomToast.errorToast('Please login');
+            showModalBottomSheet(
+              // enableDrag: true,
+
+              isScrollControlled: true,
+              context: context,
+              builder: (ctx) => Padding(
+                padding: MediaQuery.of(ctx).viewInsets,
+                child: LoginScreen(
+                  ctx: ctx,
+                ),
+              ),
+            );
           }
         },
         child: Container(
-          height: size.width * 0.28,
+          height: size.width * 0.29,
           width: 15,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
@@ -241,7 +257,6 @@ class FollowButton extends StatelessWidget {
           child: Align(
             alignment: Alignment.topCenter,
             child: state3.followedArtist.contains(artist.id) == true &&
-                    state1.isFollowed == true &&
                     state.isLoggdIn == true
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

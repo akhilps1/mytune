@@ -7,31 +7,27 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:mytune/general/serveices/get_object_id.dart';
 
-part 'category_model.g.dart';
-
-@HiveType(typeId: 0)
 class CategoryModel implements ObjectWithId {
-  @HiveField(0)
   final String? id;
-  @HiveField(1)
+
   bool visibility;
-  @HiveField(2)
+
   String categoryName;
-  @HiveField(3)
+
   String imageUrl;
-  @HiveField(4)
+
   int followers;
-  @HiveField(5)
+
   final Timestamp timestamp;
-  @HiveField(6)
+
   final List keywords;
-  @HiveField(7)
+
   bool isCraft;
-  @HiveField(8)
+
   bool isTopTen;
-  @HiveField(9)
+
   int? totalVideos;
-  @HiveField(10)
+
   int? totalLikes;
   CategoryModel({
     required this.visibility,

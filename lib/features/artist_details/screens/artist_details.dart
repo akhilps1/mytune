@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
 import 'package:mytune/features/artist_details/screens/widgets/artist_profile.dart';
-import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/home/models/category_model.dart';
+import 'package:mytune/features/product_details/provider/product_details_provider.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 
 import 'package:provider/provider.dart';
@@ -126,6 +126,10 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                     color: Colors.grey[200],
                     child: InkWell(
                         onTap: () {
+                          Provider.of<ProductDetailsProvider>(
+                            context,
+                            listen: false,
+                          ).clear();
                           Navigator.push(
                             context,
                             MaterialPageRoute(

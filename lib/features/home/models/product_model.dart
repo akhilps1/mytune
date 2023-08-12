@@ -8,45 +8,41 @@ import 'package:mytune/general/serveices/get_object_id.dart';
 
 import 'category_model.dart';
 
-part 'product_model.g.dart';
-
-@HiveType(typeId: 1)
 class ProductModel implements ObjectWithId {
-  @HiveField(0)
   final String? id;
-  @HiveField(4)
+
   final String categoryId;
-  @HiveField(1)
+
   String title;
-  @HiveField(2)
+
   String description;
-  @HiveField(3)
+
   String imageUrl;
-  @HiveField(5)
+
   int likes;
-  @HiveField(6)
+
   int views;
-  @HiveField(7)
+
   bool isTopThree;
-  @HiveField(8)
+
   bool visibility;
-  @HiveField(9)
+
   bool isTrending;
-  @HiveField(10)
+
   Map<String, Map<String, dynamic>> craftAndCrew;
-  @HiveField(11)
+
   List<CategoryModel> categories;
-  @HiveField(12)
+
   List keywords;
-  @HiveField(13)
+
   final Timestamp timestamp;
-  @HiveField(14)
+
   bool isTodayRelease;
-  @HiveField(15)
+
   String? trendingImage;
-  @HiveField(16)
+
   String videoUrl;
-  @HiveField(17)
+
   bool isLiked = false;
 
   ProductModel({

@@ -90,11 +90,13 @@ class SearchProvider with ChangeNotifier {
       bool avail = await speech!.initialize();
       if (avail) {
         await speech!.listen(onResult: (value) async {
-          text = value.recognizedWords;
-          if (searchState == SearchState.video) {
-            await searchProductsByLimit(productName: value.recognizedWords);
-          } else {
-            await searchCategoryByLimit(categoryName: value.recognizedWords);
+          if (value.recognizedWords.isNotEmpty) {
+            text = value.recognizedWords;
+            if (searchState == SearchState.video) {
+              await searchProductsByLimit(productName: value.recognizedWords);
+            } else {
+              await searchCategoryByLimit(categoryName: value.recognizedWords);
+            }
           }
 
           await speech!.stop();

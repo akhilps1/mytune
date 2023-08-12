@@ -33,14 +33,12 @@ class HomeScreenProvider with ChangeNotifier {
       locater<TodayReleaseRepository>();
   final TopThreeReleaseRepo topThreeReleaseRepo =
       locater<TopThreeReleaseRepo>();
-
   final AllProductsRepo allProductsRepo = locater<AllProductsRepo>();
-
   final DynamicLinkRepo _dynamicLinkRepo = locater<DynamicLinkRepo>();
   final ArtistDetailsProvider _artistDetailsProvider =
       locater<ArtistDetailsProvider>();
 
-  final LoginProvider loginProvider = locater<LoginProvider>();
+  final LoginProvider _loginProvider = locater<LoginProvider>();
 
   List<BannerModel> banner = [];
   List<CategoryModel> categories = [];
@@ -151,6 +149,22 @@ class HomeScreenProvider with ChangeNotifier {
             break;
           case CountState.increment:
             element.likes = element.likes - 1;
+            break;
+        }
+        notifyListeners();
+      }
+    }
+  }
+
+  void updateFollowers({required String id, required CountState state}) {
+    for (var element in categories) {
+      if (element.id == id) {
+        switch (state) {
+          case CountState.decrement:
+            element.followers = element.followers - 1;
+            break;
+          case CountState.increment:
+            element.followers = element.followers + 1;
             break;
         }
         notifyListeners();
