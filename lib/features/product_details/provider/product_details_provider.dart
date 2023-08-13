@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mytune/features/home/models/category_model.dart';
-import 'package:mytune/features/home/provider/local_db_data_provider.dart';
+// import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
@@ -35,6 +35,10 @@ class ProductDetailsProvider with ChangeNotifier {
     required String categoryId,
     required String productId,
   }) async {
+    // isFirebaseLoading = true;
+    isLoading = true;
+    notifyListeners();
+
     Either<MainFailure, List<ProductModel>> failureOrSuccess;
 
     failureOrSuccess =
@@ -49,13 +53,12 @@ class ProductDetailsProvider with ChangeNotifier {
         notifyListeners();
       },
       (success) {
-        print(success.length);
         products.addAll(
           success.where(
             (e) => e.id != productId,
           ),
         );
-        isLoading = true;
+        isLoading = false;
         isFirebaseLoading = false;
         notifyListeners();
       },
@@ -77,7 +80,7 @@ class ProductDetailsProvider with ChangeNotifier {
           (value) => value.first.fold(
             (faleure) {},
             (success) {
-              craft.add(success);
+              craft.add(success.copyWith(proffession: category.proffession));
               notifyListeners();
             },
           ),
@@ -114,7 +117,7 @@ class ProductDetailsProvider with ChangeNotifier {
           (value) => value.first.fold(
             (faleure) {},
             (success) {
-              crew.add(success);
+              crew.add(success.copyWith(proffession: category.proffession));
               notifyListeners();
             },
           ),

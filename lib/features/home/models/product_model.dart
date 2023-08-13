@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
+
+// import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:mytune/general/serveices/get_object_id.dart';
 
@@ -32,6 +32,7 @@ class ProductModel implements ObjectWithId {
   Map<String, Map<String, dynamic>> craftAndCrew;
 
   List<CategoryModel> categories;
+  List<CategoryModel>? castOrCrew;
 
   List keywords;
 
@@ -63,6 +64,7 @@ class ProductModel implements ObjectWithId {
     required this.isTrending,
     required this.videoUrl,
     this.trendingImage,
+    this.castOrCrew,
   });
 
   set setCategores(List<CategoryModel> list) {
@@ -134,7 +136,9 @@ class ProductModel implements ObjectWithId {
       list.add(
         CategoryModel.fromMap(
           value,
-        ).copyWith(id: key),
+        ).copyWith(
+          id: key,
+        ),
       );
     });
 

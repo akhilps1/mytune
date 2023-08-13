@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:mytune/general/serveices/get_object_id.dart';
 
@@ -27,6 +26,7 @@ class CategoryModel implements ObjectWithId {
   bool isTopTen;
 
   int? totalVideos;
+  String? proffession;
 
   int? totalLikes;
   CategoryModel({
@@ -37,6 +37,7 @@ class CategoryModel implements ObjectWithId {
     required this.keywords,
     required this.followers,
     required this.isTopTen,
+    this.proffession,
     this.totalVideos,
     this.id,
     this.isCraft = true,
@@ -60,6 +61,7 @@ class CategoryModel implements ObjectWithId {
       'isTopTen': isTopTen,
       'totalVideos': totalVideos,
       'totalLikes': totalLikes,
+      'proffession': proffession,
     };
   }
 
@@ -67,21 +69,23 @@ class CategoryModel implements ObjectWithId {
       QueryDocumentSnapshot<Map<String, dynamic>> data) {
     Map<String, dynamic> map = data.data();
     return CategoryModel(
-        id: data.id,
-        followers: map['followers'] as int,
-        visibility: map['visibility'] as bool,
-        categoryName: map['categoryName'] as String,
-        imageUrl: map['imageUrl'] as String,
-        timestamp: map['timestamp'] as Timestamp,
-        keywords: map['keywords'] as List,
-        isTopTen: map['isTopTen'] as bool,
-        totalVideos: map['totalVideos'],
-        totalLikes: map['totalLikes']);
+      id: data.id,
+      followers: map['followers'] as int,
+      visibility: map['visibility'] as bool,
+      categoryName: map['categoryName'] as String,
+      imageUrl: map['imageUrl'] as String,
+      timestamp: map['timestamp'] as Timestamp,
+      keywords: map['keywords'] as List,
+      isTopTen: map['isTopTen'] as bool,
+      totalVideos: map['totalVideos'],
+      totalLikes: map['totalLikes'],
+      proffession: map['proffession'],
+    );
   }
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-      id: map['id'] as String,
+      id: map['id'],
       followers: map['followers'] as int,
       visibility: map['visibility'] as bool,
       categoryName: map['categoryName'] as String,
@@ -92,6 +96,7 @@ class CategoryModel implements ObjectWithId {
       isTopTen: map['isTopTen'] as bool,
       totalVideos: map['totalVideos'],
       totalLikes: map['totalLikes'],
+      proffession: map['proffession'],
     );
   }
   String toJson() => json.encode(toMap());
@@ -131,6 +136,8 @@ class CategoryModel implements ObjectWithId {
     bool? isCraft,
     bool? isTopTen,
     int? totalVideos,
+    String? proffession,
+    int? totalLikes,
   }) {
     return CategoryModel(
       id: id ?? this.id,
@@ -143,12 +150,14 @@ class CategoryModel implements ObjectWithId {
       isCraft: isCraft ?? this.isCraft,
       isTopTen: isTopTen ?? this.isTopTen,
       totalVideos: totalVideos ?? this.totalVideos,
+      proffession: proffession ?? this.proffession,
+      totalLikes: totalLikes ?? this.totalLikes,
     );
   }
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, visibility: $visibility, categoryName: $categoryName, imageUrl: $imageUrl, followers: $followers, timestamp: $timestamp, keywords: $keywords, isCraft: $isCraft, isTopTen: $isTopTen)';
+    return 'CategoryModel(id: $id, visibility: $visibility, categoryName: $categoryName, imageUrl: $imageUrl, followers: $followers, timestamp: $timestamp, keywords: $keywords, isCraft: $isCraft, isTopTen: $isTopTen, totalVideos: $totalVideos, proffession: $proffession, totalLikes: $totalLikes)';
   }
 
   @override

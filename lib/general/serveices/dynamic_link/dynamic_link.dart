@@ -1,8 +1,8 @@
-import 'dart:developer';
+// import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:mytune/general/app_details/app_details.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -35,7 +35,7 @@ class DynamicLink {
   }
 
   static Future<PendingDynamicLinkData?> getInitialLink() async {
-    print('Dynamic link getInitialLink');
+    // print('Dynamic link getInitialLink');
     final PendingDynamicLinkData? initialLink =
         await dynamicLinks.getInitialLink();
 
@@ -45,7 +45,7 @@ class DynamicLink {
   static Future<void> onListen(
       {required Function(PendingDynamicLinkData) onListon,
       Function? onError}) async {
-    print('Dynamic link onListen');
+    // print('Dynamic link onListen');
     dynamicLinks.onLink.listen(onListon).onError(onError);
   }
 }

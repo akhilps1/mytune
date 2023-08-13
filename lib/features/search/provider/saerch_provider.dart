@@ -29,6 +29,8 @@ class SearchProvider with ChangeNotifier {
 
   Future<void> searchProductsByLimit({required String productName}) async {
     Either<MainFailure, List<ProductModel>> failureOrSuccess;
+    isLoading = true;
+    notifyListeners();
 
     failureOrSuccess = await _productSearchRepo.searhProduct(
         productName: productName.replaceAll(' ', ''));
@@ -43,7 +45,7 @@ class SearchProvider with ChangeNotifier {
       },
       (success) {
         products.addAll(success);
-        isLoading = true;
+        isLoading = false;
         isFirebaseLoading = false;
         notifyListeners();
       },

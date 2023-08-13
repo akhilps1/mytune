@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import 'package:iconly/iconly.dart';
-import 'package:mytune/features/app_root.dart';
+// import 'package:mytune/features/app_root.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
-import 'package:mytune/features/home/screens/home_page.dart';
+// import 'package:mytune/features/home/screens/home_page.dart';
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 
 import 'package:mytune/features/user_details/screen/widgets/custom_button.dart';
@@ -283,7 +283,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         imgUrl = await state.uploadImage(bytesImage: image!);
                       }
 
-                      print(imgUrl);
+                      // print(imgUrl);
 
                       if (state.isLoading == false) {
                         await state.updateUserDetails(

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,7 +64,7 @@ class CategoryRepository {
       return right(categories);
       // log(users.length.toString());
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return left(const MainFailure.noElemet(errorMsg: ''));
     }
   }
@@ -78,6 +77,7 @@ class CategoryRepository {
 
     if (userId != null) {
       ref = await firebaseFirestore.collection('users').doc(userId).get();
+      log(ref.toString());
     }
 
     return right(unit);

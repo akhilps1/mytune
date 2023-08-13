@@ -1,9 +1,9 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
-import 'package:mytune/features/home/models/category_model.dart';
+// import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
+// import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/provider/local_db_data_provider.dart';
@@ -211,13 +211,13 @@ class _HomePageState extends State<HomePage> {
                               if (state2.isLoggdIn) {
                                 if (state4.likedVideos.contains(video.id) ==
                                     true) {
-                                  print('111');
+                                  // print('111');
                                 } else {
                                   await state4.checkLiked(
                                     product: video,
                                     userId: state2.appUser!.id!,
                                   );
-                                  print('222');
+                                  // print('222');
                                 }
                               }
                               navigate(video);

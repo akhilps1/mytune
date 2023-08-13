@@ -1,4 +1,4 @@
-import 'dart:async';
+// import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:mytune/features/authentication/provider/country_code_picker_prov
 import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/authentication/screens/widgets/contry_picker.dart';
 import 'package:mytune/features/sheared/app_privacy_policy.dart';
-import 'package:mytune/features/user_details/screen/user_details_screen.dart';
+// import 'package:mytune/features/user_details/screen/user_details_screen.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/serveices/constants.dart';
 

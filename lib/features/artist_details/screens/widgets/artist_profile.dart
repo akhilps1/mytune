@@ -10,7 +10,7 @@ import 'package:mytune/features/home/models/category_model.dart';
 import 'package:mytune/features/home/provider/home_screen_provider.dart';
 import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 import 'package:mytune/features/product_details/provider/product_details_provider.dart';
-import 'package:mytune/features/product_details/screens/product_details_page.dart';
+
 import 'package:mytune/features/sheared/custom_catched_network_image.dart';
 import 'package:mytune/general/serveices/number_converter.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
@@ -93,6 +93,15 @@ class _ArtistProfileState extends State<ArtistProfile> {
                             fontWeight: FontWeight.w700,
                             color: const Color.fromARGB(255, 69, 68, 65),
                             fontSize: 20,
+                            letterSpacing: 1.1,
+                          ),
+                    ),
+                    Text(
+                      widget.category.proffession?.replaceAll(',', ' |') ?? '',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: const Color.fromARGB(255, 69, 68, 65),
+                            fontSize: 12,
                             letterSpacing: 1.1,
                           ),
                     ),

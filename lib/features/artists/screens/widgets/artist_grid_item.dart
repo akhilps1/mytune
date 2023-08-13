@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
 
@@ -6,10 +6,9 @@ import 'package:mytune/features/artists/provider/artists_screen_provider.dart';
 import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/authentication/screens/login_screen.dart';
 import 'package:mytune/features/home/provider/local_db_data_provider.dart';
-import 'package:mytune/general/serveices/custom_toast.dart';
+
 import 'package:mytune/general/utils/enum/enums.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../general/serveices/number_converter.dart';
 import '../../../home/models/category_model.dart';

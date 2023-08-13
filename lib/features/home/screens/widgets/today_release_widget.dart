@@ -59,14 +59,14 @@ class TodayReleaseWidget extends StatelessWidget {
                       if (state2.isLoggdIn) {
                         state3.clear();
                         if (state4.likedVideos.contains(product.id) == true) {
-                          print('worked if today release');
+                          // print('worked if today release');
                         } else {
                           await state4.checkLiked(
                             product: product,
                             userId: state2.appUser!.id!,
                           );
 
-                          print('worked else today release');
+                          // print('worked else today release');
                         }
                       }
 

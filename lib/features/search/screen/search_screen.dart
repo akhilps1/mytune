@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -128,95 +128,106 @@ class _SearchScreenState extends State<SearchScreen> {
         surfaceTintColor: Colors.white,
         shadowColor: Colors.black.withOpacity(0.5),
       ),
-      body: Container(
-        color: Colors.grey[100],
-        child: CustomScrollView(
-          slivers: [
-            widget.searchState == SearchState.video
-                ? SliverPadding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    sliver: Consumer<SearchProvider>(
-                      builder: (context, state, _) => SliverList.separated(
-                        itemCount: state.products.length,
-                        itemBuilder: (context, index) {
-                          final product = state.products[index];
-                          return Container(
-                            height: 200,
-                            color: Colors.grey[200],
-                            child: InkWell(
+      body: Consumer<SearchProvider>(
+        builder: (context, value, _) => Container(
+          color: Colors.grey[100],
+          child: CustomScrollView(
+            slivers: [
+              widget.searchState == SearchState.video
+                  ? SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      sliver: Consumer<SearchProvider>(
+                        builder: (context, state, _) => SliverList.separated(
+                          itemCount: state.products.length,
+                          itemBuilder: (context, index) {
+                            final product = state.products[index];
+                            return Container(
+                              height: 200,
+                              color: Colors.grey[200],
+                              child: InkWell(
+                                  onTap: () {
+                                    Provider.of<ProductDetailsProvider>(
+                                      context,
+                                      listen: false,
+                                    ).clear();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductDetailsPage(
+                                                product: product),
+                                      ),
+                                    );
+                                  },
+                                  child: CustomCachedNetworkImage(
+                                      url: product.imageUrl)),
+                            );
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 5,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Consumer<SearchProvider>(
+                      builder: (context, state, _) => SliverPadding(
+                        padding: EdgeInsets.only(
+                            left: size.width * 0.07,
+                            right: size.width * 0.07,
+                            top: 15),
+                        sliver: SliverGrid.builder(
+                          itemCount: state.categories.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 15,
+                                  mainAxisSpacing: 15,
+                                  childAspectRatio: 2 / 2),
+                          itemBuilder: (context, index) {
+                            final artist = state.categories[index];
+                            return InkWell(
                                 onTap: () {
                                   Provider.of<ProductDetailsProvider>(
                                     context,
                                     listen: false,
                                   ).clear();
-                                  Navigator.push(
-                                    context,
+                                  Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProductDetailsPage(product: product),
+                                      builder: (context) => ArtistDetails(
+                                        category: artist,
+                                      ),
                                     ),
                                   );
                                 },
-                                child: CustomCachedNetworkImage(
-                                    url: product.imageUrl)),
-                          );
-                        },
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 5,
+                                child:
+                                    ArtistGridItem(size: size, artist: artist));
+                          },
                         ),
                       ),
                     ),
-                  )
-                : Consumer<SearchProvider>(
-                    builder: (context, state, _) => SliverPadding(
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.07,
-                          right: size.width * 0.07,
-                          top: 15),
-                      sliver: SliverGrid.builder(
-                        itemCount: state.categories.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 15,
-                                mainAxisSpacing: 15,
-                                childAspectRatio: 2 / 2),
-                        itemBuilder: (context, index) {
-                          final artist = state.categories[index];
-                          return InkWell(
-                              onTap: () {
-                                Provider.of<ProductDetailsProvider>(
-                                  context,
-                                  listen: false,
-                                ).clear();
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => ArtistDetails(
-                                      category: artist,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child:
-                                  ArtistGridItem(size: size, artist: artist));
-                        },
-                      ),
-                    ),
-                  ),
-            Consumer<SearchProvider>(
-              builder: (context, state, _) => SliverPadding(
+              SliverPadding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 sliver: SliverToBoxAdapter(
                   child: Center(
-                    child: state.isLoading && state.isFirebaseLoading == true
-                        ? const CupertinoActivityIndicator()
+                    child: value.isLoading && value.products.length > 7 ||
+                            value.categories.length > 7
+                        ? const CupertinoActivityIndicator(
+                            color: Colors.black,
+                          )
                         : const SizedBox(),
                   ),
                 ),
               ),
-            ),
-          ],
+              value.isLoading == true
+                  ? const SliverFillRemaining(
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    )
+                  : const SliverToBoxAdapter(),
+            ],
+          ),
         ),
       ),
     );

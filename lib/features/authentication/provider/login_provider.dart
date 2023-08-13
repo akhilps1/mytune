@@ -1,18 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
-import 'package:dartz/dartz.dart';
+// import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mytune/features/authentication/models/user_model.dart';
 
 import 'package:mytune/features/authentication/repository/firebase_login_serveices.dart';
-import 'package:mytune/general/failures/main_failure.dart';
+// import 'package:mytune/general/failures/main_failure.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../general/di/injection.dart';
 import '../../user_details/screen/user_details_screen.dart';

@@ -77,7 +77,7 @@ class FirebaseLoginServeices {
         {'notificationToken': token},
       );
 
-      print(userCredential.toString());
+      // print(userCredential.toString());
 
       return AppUser.fromSnapshot(userdetails);
     } else {

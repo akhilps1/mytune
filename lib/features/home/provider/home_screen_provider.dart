@@ -5,9 +5,9 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
-import 'package:mytune/features/authentication/provider/login_provider.dart';
-import 'package:mytune/features/home/provider/local_db_data_provider.dart';
+// import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
+// import 'package:mytune/features/authentication/provider/login_provider.dart';
+// import 'package:mytune/features/home/provider/local_db_data_provider.dart';
 
 import 'package:mytune/general/serveices/custom_toast.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
@@ -35,10 +35,10 @@ class HomeScreenProvider with ChangeNotifier {
       locater<TopThreeReleaseRepo>();
   final AllProductsRepo allProductsRepo = locater<AllProductsRepo>();
   final DynamicLinkRepo _dynamicLinkRepo = locater<DynamicLinkRepo>();
-  final ArtistDetailsProvider _artistDetailsProvider =
-      locater<ArtistDetailsProvider>();
+  // final ArtistDetailsProvider _artistDetailsProvider =
+  //     locater<ArtistDetailsProvider>();
 
-  final LoginProvider _loginProvider = locater<LoginProvider>();
+  // final LoginProvider _loginProvider = locater<LoginProvider>();
 
   List<BannerModel> banner = [];
   List<CategoryModel> categories = [];

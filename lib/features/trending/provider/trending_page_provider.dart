@@ -18,6 +18,9 @@ class TrendingPageProvider with ChangeNotifier {
   final TrendingPageRepo _trendingPageRepo = locater<TrendingPageRepo>();
 
   Future<void> getTrendingByLimite() async {
+    isLoading = true;
+    notifyListeners();
+
     final failureOrSuccess =
         await _trendingPageRepo.getTrendingReleaseByLimit();
 
@@ -33,7 +36,7 @@ class TrendingPageProvider with ChangeNotifier {
         trendingVieos.addAll(success);
         isLoading = true;
         isFirebaseLoading = false;
-        print(success);
+        // print(success);
         notifyListeners();
       },
     );

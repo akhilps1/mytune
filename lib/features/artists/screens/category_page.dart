@@ -123,52 +123,62 @@ class _CategoryPageState extends State<CategoryPage> {
 
             //<Widget>[]
           ),
-          state.artists.isNotEmpty
-              ? SliverPadding(
-                  padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-                  sliver: SliverGrid.builder(
-                    itemCount: state.artists.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            childAspectRatio: 2 / 2),
-                    itemBuilder: (context, index) {
-                      final artist = state.artists[index];
-                      // if (state2.isLoggdIn == true) {
-                      //   state1.checkFollowed(
-                      //     artist: artist,
-                      //     userId: state2.appUser!.id!,
-                      //   );
-                      // }
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
+            sliver: SliverGrid.builder(
+              itemCount: state.artists.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 2 / 2),
+              itemBuilder: (context, index) {
+                final artist = state.artists[index];
+                // if (state2.isLoggdIn == true) {
+                //   state1.checkFollowed(
+                //     artist: artist,
+                //     userId: state2.appUser!.id!,
+                //   );
+                // }
 
-                      return InkWell(
-                          onTap: () async {
-                            // ignore: use_build_context_synchronously
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ArtistDetails(
-                                  category: artist,
-                                ),
-                              ),
-                            );
-                          },
-                          child: ArtistGridItem(size: size, artist: artist));
+                return InkWell(
+                    onTap: () async {
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ArtistDetails(
+                            category: artist,
+                          ),
+                        ),
+                      );
                     },
+                    child: ArtistGridItem(size: size, artist: artist));
+              },
+            ),
+          ),
+          state.isLoading == true && state.artists.length > 7
+              ? SliverPadding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  sliver: SliverToBoxAdapter(
+                    child: Center(
+                      child: state.isLoading == true
+                          ? const CupertinoActivityIndicator(
+                              color: Colors.black,
+                            )
+                          : const SizedBox(),
+                    ),
                   ),
                 )
               : const SliverToBoxAdapter(),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            sliver: SliverToBoxAdapter(
-              child: Center(
-                child: state.isLoading == true
-                    ? const CupertinoActivityIndicator()
-                    : const SizedBox(),
-              ),
-            ),
-          ),
+          state.isLoading == true && state.artists.isEmpty
+              ? const SliverFillRemaining(
+                  child: Center(
+                    child: CupertinoActivityIndicator(
+                      color: Colors.black,
+                    ),
+                  ),
+                )
+              : const SliverToBoxAdapter(),
         ],
       ),
     );

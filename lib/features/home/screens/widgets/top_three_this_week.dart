@@ -57,9 +57,9 @@ class TopThreeThisWeek extends StatelessWidget {
                       state3.clear();
                       if (state2.isLoggdIn) {
                         if (state4.likedVideos.contains(product.id)) {
-                          print('worked if top 3');
+                          // print('worked if top 3');
                         } else {
-                          print('worked else top 3');
+                          // print('worked else top 3');
                           await state4.checkLiked(
                             product: product,
                             userId: state2.appUser!.id!,

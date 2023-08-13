@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mytune/features/authentication/models/user_model.dart';
-import 'package:mytune/features/authentication/provider/login_provider.dart';
+// import 'package:mytune/features/authentication/provider/login_provider.dart';
 import 'package:mytune/features/user_details/repository/user_details_repo.dart';
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/serveices/custom_toast.dart';
@@ -70,7 +70,7 @@ class UserDetailsProvider with ChangeNotifier {
       favoriteVideos: [],
     );
 
-    print(id);
+    // print(id);
 
     final failureOrSuccess =
         await _userDetailsRepo.updateUserDetails(user: data);

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mytune/features/artist_details/provider/artist_details_provider.dart';
@@ -135,7 +133,7 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                             MaterialPageRoute(
                               builder: (context) => ProductDetailsPage(
                                 product: product,
-                                title: '',
+                                title: null,
                               ),
                             ),
                           );
@@ -148,16 +146,27 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                 ),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              sliver: SliverToBoxAdapter(
-                child: Center(
-                  child: state.isLoading && state.isFirebaseLoading == true
-                      ? const CupertinoActivityIndicator()
-                      : const SizedBox(),
-                ),
-              ),
-            ),
+            state.isLoading == true && state.products.length > 7
+                ? SliverPadding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    sliver: SliverToBoxAdapter(
+                      child: Center(
+                        child: state.isLoading == true
+                            ? const CupertinoActivityIndicator(
+                                color: Colors.black,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
+            state.isLoading == true && state.products.isEmpty
+                ? const SliverFillRemaining(
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  )
+                : const SliverToBoxAdapter(),
           ],
         ),
       ),

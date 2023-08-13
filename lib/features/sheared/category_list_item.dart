@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/features/product_details/provider/product_details_provider.dart';
 
 import '../../general/serveices/number_converter.dart';
@@ -19,14 +20,15 @@ import 'custom_catched_network_image.dart';
 
 class CategoryListItem extends StatelessWidget {
   const CategoryListItem({
-    super.key,
+    Key? key,
     required this.size,
     required this.category,
-    // required this.categories,
-  });
+    required this.role,
+  }) : super(key: key);
 
   final Size size;
   final CategoryModel category;
+  final String role;
   // final List<CategoryModel> categories;
 
   @override
@@ -98,6 +100,18 @@ class CategoryListItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 12,
+                      color: const Color.fromARGB(255, 119, 119, 111),
+                    ),
+              ),
+              Text(
+                category.proffession ?? '',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
                       color: const Color.fromARGB(255, 119, 119, 111),
                     ),
               ),

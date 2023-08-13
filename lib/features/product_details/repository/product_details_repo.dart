@@ -160,7 +160,7 @@ class ProductDetailsRepo {
 
       // print(data.docs.toString());
       if (data.exists) {
-        print('checkIsLiked worked');
+        // print('checkIsLiked worked');
 
         return right(data.id);
       } else {

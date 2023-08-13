@@ -5,9 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mytune/features/comment/model/comments_model.dart';
-import 'package:mytune/features/home/models/product_model.dart';
+// import 'package:mytune/features/home/models/product_model.dart';
 import 'package:mytune/general/failures/main_failure.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:uuid/uuid.dart';
 
 @lazySingleton
 class CommentRepo {

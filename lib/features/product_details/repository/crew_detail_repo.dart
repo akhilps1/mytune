@@ -27,7 +27,7 @@ class CrewDetailRepo {
         id: refreshedClass.id,
       ));
     } catch (e) {
-      print(e);
+      // print(e);
       return left(const MainFailure.noElemet(errorMsg: ''));
     }
   }

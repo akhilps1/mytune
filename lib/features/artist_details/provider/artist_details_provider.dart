@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import 'package:mytune/features/artist_details/repository/artist_details_repo.dart';
 import 'package:mytune/features/home/models/category_model.dart';
-import 'package:mytune/features/home/provider/local_db_data_provider.dart';
+
 import 'package:mytune/general/di/injection.dart';
 import 'package:mytune/general/failures/main_failure.dart';
 import 'package:mytune/general/utils/enum/enums.dart';
@@ -26,6 +26,8 @@ class ArtistDetailsProvider with ChangeNotifier {
   List<ProductModel> products = [];
 
   Future<void> getProductsByLimit({required String categoryId}) async {
+    isLoading = true;
+    notifyListeners();
     Either<MainFailure, List<ProductModel>> failureOrSuccess;
 
     failureOrSuccess =
@@ -42,7 +44,7 @@ class ArtistDetailsProvider with ChangeNotifier {
       (success) {
         products.addAll(success);
 
-        isLoading = true;
+        isLoading = false;
         isFirebaseLoading = false;
         notifyListeners();
       },
